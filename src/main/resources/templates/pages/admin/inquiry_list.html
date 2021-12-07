@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>문의하기 | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="notice.html">고객지원</a>
+                <span class="current">이용 문의</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">이용 문의</h2>
+
+                <div class="board_search layout_clearfix">
+                    <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">43</strong>개의 게시물이 있습니다.</p>
+                    <div class="board_search_option">
+                        <div class="select_wrap">
+                            <select name="">
+                                <option value="">전체</option>
+                                <option value="">미완료</option>
+                                <option value="">완료</option>
+                            </select>
+                        </div>
+                        <div class="board_search_box"><input type="search" name="" placeholder="검색어를 입력해 주세요.">
+                            <button type="submit" class="btn_board_search"><span>Search</span></button>
+                        </div>
+                    </div><!-- //board_search_option -->
+                </div><!-- //board_search -->
+
+                <table class="tb_login_list tb_calculator_list">
+                    <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>제목</th>
+                        <th>회사명</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${list}" >
+                        <td>서비스 신청</td>
+                        <td><a th:href="@{/admin/inquiry_write(id=${item.id})}" href="inquiry_write.html" th:text="${item.question}">서비스 문의 드립니다.</a></td>
+                        <td th:text="${item.companyName}">㈜홍길동닷컴</td>
+                        <td th:text="${item.managerName}">홍길동</td>
+                        <td th:text="${#temporals.format(item.createdAt,'yyyy. MM. dd')}">2021. 8. 8.</td>
+                        <td th:if="${item.completed}" th:text="완료">미완료</td>
+                        <td th:unless="${item.completed}" th:text="미완료">미완료</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="cont_pagination">
+                    <div class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/admin/inquiry_list(page=${list.number})}">Prev</a>
+                        <a href="#1" th:href="@{/admin/inquiry_list(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/admin/inquiry_list(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    </div>
+
+                </div><!-- //cont_pagination -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+</body>
+</html>

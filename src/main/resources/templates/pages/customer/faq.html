@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>FAQ | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="notice.html">고객지원</a>
+                <span class="current">FAQ</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">FAQ</h2>
+
+                <div class="board_search layout_clearfix">
+                    <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">19</strong>개의 게시물이 있습니다.</p>
+                    <!--
+                    <div class="board_search_option">
+                        <div class="board_search_box"><input type="search" name="" placeholder="검색어를 입력해 주세요.">
+                            <button type="submit" class="btn_board_search"><span>Search</span></button>
+                        </div>
+                    </div>
+                    --><!-- //board_search_option -->
+                </div><!-- //board_search -->
+
+                <ul class="faq_list">
+                    <li th:each="item : ${list}" class="faq_item">
+                        <div class="faq_tit"><span class="faq_tit_category" th:text="${item.type}"></span><a href="#this" th:text="${item.question}"></a></div>
+                        <div class="faq_cont" th:text="${item.answer}">
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="cont_pagination">
+                    <div class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/customer/faq(page=${list.number})}">Prev</a>
+                        <a href="#1" th:href="@{/customer/faq(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/customer/faq(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    </div>
+                    <div class="cont_btns">
+                        <button type="button" sec:authorize="hasRole('SUPER')" class="btn_btm submit" th:onclick="'location.href=\''+ @{/admin/faq_write} + '\''" onclick="location.href='/src/admin/faq_write.html'">글쓰기</button>
+                    </div>
+                </div><!-- //cont_pagination -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $(function(){
+        $('[data-name=customer]').addClass('on');
+        $('[data-name=customer-faq]').addClass('on');
+
+        $('.faq_tit a').on('click', function(){
+            $(this).parent().parent().find('.faq_cont').slideToggle(100);
+            $(this).parent().parent('.faq_item').toggleClass('selected');
+            return false;
+        });
+    });
+</script>
+</th:block>
+</body>
+</html>

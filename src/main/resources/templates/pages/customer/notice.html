@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>공지 및 뉴스 | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="notice.html">고객지원</a>
+                <span class="current">공지 및 뉴스</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">공지 및 뉴스</h2>
+
+                <form method="get" th:action="@{/customer/notice}" id="form">
+                    <input type="hidden" name="page" id="page" value="1"/>
+                <div class="board_search layout_clearfix">
+                    <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">43</strong>개의 게시물이 있습니다.</p>
+                    <div class="board_search_option">
+                        <div class="select_wrap">
+                            <select name="type">
+                                <option value="all" th:selected="${type == 'all'}">전체</option>
+                                <option value="notice" th:selected="${type == 'notice'}">공지</option>
+                                <option value="news" th:selected="${type == 'news'}">뉴스</option>
+                            </select>
+                        </div>
+                        <div class="board_search_box"><input type="search" name="search" placeholder="검색어를 입력해 주세요." th:value="${search}">
+                            <button type="submit" class="btn_board_search"><span>Search</span></button>
+                        </div>
+                    </div><!-- //board_search_option -->
+                </div><!-- //board_search -->
+                </form>
+                <table class="board_list">
+                    <colgroup>
+                        <col class="board_list_num">
+                        <col class="board_list_category">
+                        <col>
+                        <col class="board_list_date">
+                    </colgroup>
+                    <tr th:if="${list.totalElements} == 0">
+                        <td colspan="5" align="center">등록된 게시물이 없습니다.</td>
+                    </tr>
+                    <th:block>
+                    <tr th:each="item,index : ${list}" th:with="number=${list.totalElements}" th:unless="${#lists.isEmpty(list.content)}">
+                        <td class="td_board_num"  th:text="${list.totalElements - (page - 1) * list.size - index.index}"></td>
+                        <td  th:if="${item.type == 'notice'}" th:text="'공지'" th:classappend="${item.type == 'notice'}?'td_board_notice':''">공지</td>
+                        <td  th:if="${item.type == 'news'}" th:text="'뉴스'" th:classappend="${item.type == 'news'}?'td_board_news':''">뉴스</td>
+                        <td   class="td_board_tit"><a th:href="@{/customer/notice_read(id=${item.id},page=${page},searchType=${type},search=${search})}" href="notice_read.html" th:text="${item.title}">2021년 11월 MAPS-3D 교육 안내</a></td>
+                        <td class="td_board_date" th:text="${#temporals.format(item.createdAt,'yyyy. MM .dd')}">2021. 08. 09</td>
+
+                    </tr>
+                    </th:block>
+                </table>
+                <div class="cont_pagination">
+                    <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/customer/notice(page=${list.number},searchType=${type},search=${search})}">Prev</a>
+                        <a href="#1" th:href="@{/customer/notice(page=${page},searchType=${type},search=${search})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/customer/notice(page=${list.number+2},searchType=${type},search=${search})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    </div>
+                    <div class="cont_btns">
+                        <button type="button" sec:authorize="hasRole('SUPER')" class="btn_btm submit" th:onclick="'location.href=\''+ @{/admin/notice_write} + '\''" onclick="location.href='/src/admin/faq_write.html'">글쓰기</button>
+                    </div>
+                </div><!-- //cont_pagination -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $(function(){
+        $('[data-name=customer]').addClass('on');
+        $('[data-name=customer-notice]').addClass('on');
+    });
+</script>
+</th:block>
+</body>
+</html>

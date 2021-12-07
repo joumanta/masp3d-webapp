@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="sideUtil" class="side_util">
+    <div class="layout_inner">
+        <h2 class="layout_screen-out">Side Menu</h2>
+        <a href="#top" class="side_top_btn">Top</a>
+        <div class="side_menu">
+            <div class="side_menu_btn">
+                <div class="ele_outer"></div>
+                <button type="button" class="ele_btn"><span></span></button>
+                <div class="ele_inner"></div>
+            </div>
+            <div class="side_menu_link">
+                <a class="ico_inquiry" href="/src/customer/inquiry.html" th:href="@{/customer/inquiry}"><span>문의하기</span></a>
+                <a class="ico_guide" href="#" target="_blank" title="새창으로 이동"><span>사용설명서</span></a>
+                <a class="ico_faq" href="/src/customer/faq.html" th:href="@{/customer/faq}"><span>FAQ</span></a>
+            </div>
+        </div><!-- //side_menu -->
+    </div>
+</aside>
+</html>

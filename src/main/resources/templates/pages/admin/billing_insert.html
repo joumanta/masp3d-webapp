@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>문의하기 | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">빌링</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">빌링 등록</h2>
+                <div class="cont_wrap">
+                    <div class="cont_tit st2">
+                        <div class="payment_month" th:text="${#dates.month(searchDate)} + '월 빌링내역 등록'">9월 빌링내역 등록</div>
+                        <!--<div class="select_wrap payment_month_select">
+                            <select name="">
+                                <option value="">2021. 09</option>
+                                <option value="">2021. 07</option>
+                                <option value="">2021. 06</option>
+                                <option value="">2021. 05</option>
+                                <option value="">2021. 04</option>
+                                <option value="">2021. 03</option>
+                            </select>
+                        </div>-->
+                    </div>
+                    <div class="payment_total">
+                        <div class="payment_total_date"><span>이용기간</span><span th:text="${#dates.format(firstDate, 'yyyy. MM. dd')} + ' ~ ' + ${#dates.format(lastDate, 'yyyy. MM. dd')}"></span></div>
+                        <!--
+                        <div class="payment_total_price">
+                            <div><span class="calculator_txt_label">9월 이용금액 금액</span>
+                                <span class="calculator_txt_total"><strong>899,800</strong>원</span>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+
+                    <h3 class="cont_tit_sub2 st2">이용시간 등록</h3>
+                    <form th:action="@{/admin/billing_insert}" method="post">
+                    <div class="cont_table_wrap">
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>계정 아이디</th>
+                                <th>관리자명</th>
+                                <th>이용 서비스</th>
+                                <th>이용 서버</th>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                                <th>시간당 단가</th>
+                                <th>월 이용시간</th>
+                                <th>이용 상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <input type="hidden" name="searchDate" th:value="${#dates.format(searchDate,'yyyyMM')}">
+                                <tr th:each="item : ${list}">
+                                    <input type="hidden" name="id[]" th:value="${item.id}">
+                                    <td th:text="${item.company.adminUser.email}"></td>
+                                    <td th:text="${item.company.adminUser.name}" ></td>
+                                    <td th:text="${item.name}"></td>
+                                    <td th:text="${item.type}" ></td>
+                                    <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}"></td>
+                                    <td th:text="${#dates.format(item.endDate,'yyyy. MM. dd')}"></td>
+                                    <td th:if="${item.name == 'Basic'}" th:text="'8,000원'"></td>
+                                    <td th:if="${item.name == 'Professional'}" th:text="'8,000원'"></td>
+                                    <td th:if="${item.name == 'Special'}" th:text="'15,000원'"></td>
+                                    <td th:if="${item.name == '쾌속 금형설 검증 S/W'}" th:text="'30,000원'"></td>
+                                    <td><input type="text" name="time[]" class="input_login"></td>
+                                    <td th:text="${item.status == 'ACTIVE' ? '이용중' : '정지'}"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="cont_btns">
+                            <button type="submit" class="btn_btm submit">빌링 등록하기</button>
+                        </div>
+                    </div><!-- //cont_table_wrap -->
+                    </form>
+                </div><!-- //cont_wrap -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+
+</script>
+</th:block>
+</body>
+</html>

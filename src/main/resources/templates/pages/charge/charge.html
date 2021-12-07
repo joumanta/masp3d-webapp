@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>요금 소개 | 요금 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="charge.html">요금</a>
+                <span class="current">요금 소개</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">요금 소개</h2>
+                <div class="cont_wrap">
+                    <section class="cont_section">
+                        <div class="cont_tit">
+                            <p>합리적인 가격으로 MAPS-3D 서비스를 이용해보세요.</p>
+                            <p class="subtxt">비싼 소프트웨어 구매 대신 사용한 시간만큼만 납부하는 합리적인 서비스를 경험해보세요.</p>
+                        </div>
+                        <ul class="cont_charge_point">
+                            <li class="cont_charge_point_01"><div><div><span class="ele_txt">초기비용 없음</span></div></div></li>
+                            <li class="cont_charge_point_02"><div><div><span class="ele_txt">사용시간만큼 청구</span></div></div></li>
+                            <li class="cont_charge_point_03"><div><div><span class="ele_txt">해지수수료 없음</span></div></div></li>
+                        </ul>
+                    </section>
+
+                    <section class="cont_section">
+                        <h3 class="cont_tit st2">서비스 가격</h3>
+                        <table class="tb_charge">
+                            <thead>
+                            <tr>
+                                <th scope="col" colspan="2"></th>
+                                <th scope="col"><p><strong>Basic</strong></p><br>시간당 5,000원</th>
+                                <th scope="col"><p><strong>Professional</strong></p><br>시간당 8,000원</th>
+                                <th scope="col"><p><strong>Special</strong></p><br>시간당 15,000원</th>
+                                <th scope="col"><p><strong>MAPS-3D ez</strong></p><br>시간당 30,000원</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td rowspan="2">Pre/Post Processor</td>
+                                <td>Studio</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td rowspan="2">
+                                    전용 Pre/Post 구성에 따라 Basic/Professional/Special과 무관하게 CAD Import / Automatic Remeshing / Boundary condition / Result Display만 제공
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Modeler</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="13">Solver</td>
+                                <td>Flow</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td rowspan="13">전용 Solver 적용</td>
+                            </tr>
+                            <tr>
+                                <td>Insert</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Cool</td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Pack</td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Warp</td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Overmolding</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Gate Optimization</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Overmolding</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Hot Runner Heat Balancing</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Nozzle Pressure</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>LIM/MCM</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>RIM</td>
+                                <td><strong>X</strong></td>
+                                <td><strong>X</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="7">DataBase</td>
+                                <td>Thermoplastics Materials</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td rowspan="7">해당 사항 없음</td>
+                            </tr>
+                            <tr>
+                                <td>Thermoset Materials</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Mold Materials</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Coolant Materials</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Injection Machines</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Insert Materials</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Gas Materials</td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                                <td class="td_notice"><strong>O</strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </section>
+                </div><!-- //cont_wrap -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<script>
+    $(function(){
+        $('[data-name=charge]').addClass('on');
+        $('[data-name=charge-charge]').addClass('on');
+    });
+</script>
+</body>
+</html>

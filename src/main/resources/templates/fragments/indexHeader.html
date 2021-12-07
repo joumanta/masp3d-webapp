@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header th:fragment="indexHeader" class="header_common header_index">
+    <a class="layout_skip" href="#nav">메뉴 바로가기</a>
+    <a class="layout_skip" href="#content">본문 바로가기</a>
+    <div class="layout_inner">
+        <h1 class="header_logo"><a href="/">MAPS-3D SaaS</a></h1>
+        <button type="button" class="header_gnb_btn"><span>Menu</span></button>
+        <nav>
+            <h2 class="layout_screen-out">GNB Menu</h2>
+            <section class="header_util">
+                <h3 class="layout_screen-out">Util Menu</h3>
+                <th:block sec:authorize="isAnonymous()">
+                <div class="header_util_menu">
+                    <a th:href="@{/member/login}" href="/src/membership/login.html">로그인</a>
+                    <a th:href="@{/member/signup}" href="/src/membership/signup.html">회원가입</a>
+                </div>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')" >
+                <div class="header_util_user js_dropdown">
+                    <button type="button" class="header_util_btn_user js_dropdown_btn"><span th:text="${#authentication.getPrincipal().getName()}">홍길동</span></button>
+                    <ul class="header_util_dropdown js_dropdown_list">
+                        <li><a th:href="@{/member/member_info}" href="/src/membership/member.html">회원정보</a></li>
+                        <li><a th:href="@{/member/member_list}" href="/src/membership/member_list.html">멤버관리</a></li>
+                        <li><a th:href="@{/member/servicelist}" href="/src/membership/servicelist.html">서비스 이용</a></li>
+                        <li><a th:href="@{/member/payment}" href="/src/membership/payment.html">요금 및 사용내역</a></li>
+                        <li class="header_util_dropdown_btn">
+                            <form method="post" th:action="@{/member/logout}">
+                                <button type="submit" class="header_util_btn_logout">LOGOUT</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_USER')" >
+                    <div class="header_util_user js_dropdown">
+                        <button type="button" class="header_util_btn_user js_dropdown_btn"><span th:text="${#authentication.getPrincipal().getName()}">홍길동</span></button>
+                        <ul class="header_util_dropdown js_dropdown_list">
+                            <li><a th:href="@{/member/member_info}" href="/src/membership/member.html">회원정보</a></li>
+                            <li><a th:href="@{/member/servicelist}" href="/src/membership/servicelist.html">서비스 이용</a></li>
+                            <li class="header_util_dropdown_btn">
+                                <form method="post" th:action="@{/member/logout}">
+                                    <button type="submit" class="header_util_btn_logout">LOGOUT</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_SUPER')" >
+                    <div class="header_util_user js_dropdown">
+                        <button type="button" class="header_util_btn_user js_dropdown_btn"><span th:text="${#authentication.getPrincipal().getName()}">관리자</span></button>
+                        <ul class="header_util_dropdown js_dropdown_list">
+                            <li><a th:href="@{/admin/servicelist}" href="/src/admin/servicelist.html">이용자 관리</a></li>
+                            <li><a th:href="@{/admin/usage_history}" href="/src/admin/usage_history.html">이용현황</a></li>
+                            <li><a th:href="@{/admin/billing}" href="/src/admin/billing.html">빌링</a></li>
+<!--                            <li><a th:href="@{/admin/resource_monitoring}" href="/src/admin/resource_monitoring.html">자원현황</a></li>-->
+                            <li><a th:href="@{/admin/notice_write}" href="/src/admin/notice_write.html">공지사항 관리</a></li>
+                            <li><a th:href="@{/admin/inquiry_list}" href="/src/admin/inquiry_write.html">이용문의 관리</a></li>
+                            <li><a th:href="@{/admin/faq_write}" href="/src/admin/faq_write.html">FAQ관리</a></li>
+                            <li class="header_util_dropdown_btn">
+                                <form method="post" th:action="@{/member/logout}">
+                                    <button type="submit" class="header_util_btn_logout">LOGOUT</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </th:block>
+
+
+                <a href="/src/membership/subscription.html" class="header_util_btn_console" style="display: none">서비스 신청하기</a>
+            </section>
+
+            <section>
+                <h3 class="layout_screen-out">Navigation</h3>
+                <ul class="header_gnb" id="nav">
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" th:href="@{/vmtech/vmtech}" href="/src/vmtech/vmtech.html" data-name="public"><span>소개</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">소개</strong>
+                                <ul class="header_gnb_sub_menu header_gnb_scroll">
+                                    <li><a th:href="@{/vmtech/vmtech}" href="/src/vmtech/vmtech.html">소개</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" th:href="@{/service/basic}" href="/src/service/basic.html" data-name="service"><span>서비스</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">서비스</strong>
+                                <ul class="header_gnb_sub_menu">
+                                    <li><a th:href="@{/service/basic}" href="/src/service/basic.html">Basic</a></li>
+                                    <li><a th:href="@{/service/professional}" href="/src/service/professional.html">Professional</a></li>
+                                    <li><a th:href="@{/service/special}" href="/src/service/special.html">Special</a></li>
+                                    <li><a th:href="@{/service/maps3dez}" href="/src/service/maps3dez.html">쾌속 금형설계 검증 S/W</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" th:href="@{/charge/charge}" href="/src/charge/charge.html" data-name="charge"><span>요금</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">요금</strong>
+                                <ul class="header_gnb_sub_menu">
+                                    <li><a th:href="@{/charge/charge}" href="/src/charge/charge.html" data-name="charge-charge">요금 소개</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" th:href="@{/customer/notice}" href="/src/customer/notice.html" data-name="customer"><span>고객지원</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">고객지원</strong>
+                                <ul class="header_gnb_sub_menu">
+                                    <li><a th:href="@{/customer/notice}" href="/src/customer/notice.html" data-name="customer-notice">공지 및 뉴스</a></li>
+                                    <li><a th:href="@{/customer/faq}" href="/src/customer/faq.html" data-name="customer-faq">FAQ</a></li>
+                                    <li><a th:href="@{/customer/inquiry}" href="/src/customer/inquiry.html" data-name="customer-inquiry">문의하기</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul><!-- //header_gnb -->
+            </section>
+        </nav>
+    </div>
+    <div class="header_bg"></div>
+</header>
+</html>

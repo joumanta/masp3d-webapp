@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/indexLayout">
+<head>
+    <title>MAPS-3D SaaS</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_index">
+        <section id="content">
+            <h2 class="layout_screen-out">Main Content</h2>
+            <section class="index_banner">
+                <h3 class="layout_screen-out">Main Visual Image</h3>
+                <div class="layout_inner">
+                    <div class="slide_cont">
+                        <p class="slide_txt"><img th:src="@{/images/main/visual_tit.png}" src="/lib/image/main/visual_tit.png" alt="공공기관에 구축해왔던 Private Cloud 솔루션으로 공공기관에 최적화된 Public Cloud Service를 제공합니다."></p>
+                        <p class="slide_subtxt">제품 및 금형 설계자를 위한 3차원 사출성형 해석 S/W사출성형 기술 고도화를 통한 기업 경쟁력 강화<br>설계 및 제품 품질을 사전에 분석하는 최상의 기업 혁신 Solution!The Solution Provides for 8 Advantages</p>
+                        <a th:href="@{/customer/inquiry}" href="src/customer/inquiry.html" class="slide_link">서비스 문의</a>
+                    </div>
+                </div>
+            </section><!-- //index_banner -->
+            <section class="index_shortcut">
+                <div class="layout_inner layout_vertical">
+                    <div class="layout_tit">
+                        <h3 class="index_tit">서비스 소개</h3>
+                        <ul class="index_shortcut_cont">
+                            <li class="index_shortcut_studio"><div><a href="/src/customer/inquiry.html">Studio</a></div></li>
+                            <li class="index_shortcut_guide"><div><a href="#" target="_blank" title="새창으로 이동">Modeler</a></div></li>
+                            <li class="index_shortcut_charge"><div><a href="/src/charge/charge.html">Project</a></div></li>
+                            <li class="index_shortcut_service"><div><a href="/src/cloudit/cloudit.html">Flow</a></div></li>
+                            <li class="index_shortcut_service"><div><a href="/src/cloudit/cloudit.html">Insert</a></div></li>
+                            <li class="index_shortcut_inquiry"><div><a href="/src/customer/inquiry.html">Cool</a></div></li>
+                            <li class="index_shortcut_guide"><div><a href="#" target="_blank" title="새창으로 이동">Pack</a></div></li>
+                            <li class="index_shortcut_charge"><div><a href="/src/charge/charge.html">Warp</a></div></li>
+                            <li class="index_shortcut_service"><div><a href="/src/cloudit/cloudit.html">Fiber</a></div></li>
+                            <li class="index_shortcut_service"><div><a href="/src/cloudit/cloudit.html">Overmolding</a></div></li>
+                            <li class="index_shortcut_inquiry"><div><a href="/src/customer/inquiry.html">Gate Optimization</a></div></li>
+                            <li class="index_shortcut_guide"><div><a href="#" target="_blank" title="새창으로 이동">RIM</a></div></li>
+                            <li class="index_shortcut_charge"><div><a href="/src/charge/charge.html">LIM / MCM</a></div></li>
+                            <li class="index_shortcut_service"><div><a href="/src/cloudit/cloudit.html">Hot Runner Heat Balancing</a></div></li>
+                            <li class="index_shortcut_service"><div><a href="/src/cloudit/cloudit.html">Nozzle Pressure</a></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </section><!-- //index_shortcut -->
+
+            <section class="index_news">
+                <div class="layout_inner layout_vertical">
+                    <div class="layout_tit">
+                        <h3 class="index_tit">MAPS-3D<span>&nbsp;&amp;&nbsp;</span>활용분야</h3>
+                        <div class="index_news_cont">
+                            <ul class="public_service_feature">
+                                <li class="ico_private">
+                                    <div class="tit">제품설계</div>
+                                    <ul class="txt">
+                                        <li>설계 사양 검토</li>
+                                        <li>구조적 문제</li>
+                                        <li>치수 및 공차 관리</li>
+                                        <li>외관 품질 관리</li>
+                                        <li>설계 표준화</li>
+                                    </ul>
+                                </li>
+                                <li class="ico_consult">
+                                    <div class="tit">금형설계</div>
+                                    <ul class="txt">
+                                        <li>Gate 위치 및 사양 결정</li>
+                                        <li>Runner / Cooling channel의 Layout과 사양 결정</li>
+                                        <li>Air vent/Eject pin의 위치 결정</li>
+                                        <li>금형 재질 선정</li>
+                                        <li>P/L 설정 및 금형 전반</li>
+                                    </ul>
+                                </li>
+                                <li class="ico_customer">
+                                    <div class="tit">사출성형</div>
+                                    <ul class="txt">
+                                        <li>최적 사출 조건 결정</li>
+                                        <li>사출기 선정 및 대체</li>
+                                        <li>다단 사출 방안 결정</li>
+                                        <li>Cycle time 단출</li>
+                                        <li>성형 불량에 따른 대응 방안 수립</li>
+                                    </ul>
+                                </li>
+                                <li class="ico_security">
+                                    <div class="tit">주변기기</div>
+                                    <ul class="txt">
+                                        <li>사출 자동화 관련 표준안 결정</li>
+                                        <li>금형 온도 조절기의 최적사양 결정</li>
+                                        <li>냉매 선정</li>
+                                        <li>센서의 위치 및 자동제어 방안 결정</li>
+                                        <li>정밀 사출 및 특수 공정 방안 결정</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="index_news_cont_bg"></div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- //index_news -->
+
+            <section class="index_service">
+                <div class="layout_inner layout_vertical">
+                    <div class="layout_tit">
+                        <h3 class="index_tit">MAPS-3D <span>Reference</span></h3>
+
+                        <ul class="public_service_target">
+                            <li class="ico_alluser"><div class="tit">전기/전자 업체</div><br>
+                                <ul class="txt">
+                                    <li>삼성전자 / 삼성전기 / 노비타 / 서울통신기술 / 대덕MTI / NAMAE / ASPIC / 신흥정밀 / 일진델타 / 신성델타테크 / 동진테크원 / Elentec / UJ / 트랫닛 / 영성티아이에스 / KJ Pretech / 나라엠앤디 / 영성정밀 / 표준금형 / 현보정밀 / 양정 / 신천기업 / 엠앤드엠 / 일해</li>
+                                </ul>
+                            </li>
+                            <li class="ico_edu"><div class="tit">자동차 업체</div><br>
+                                <ul class="txt">
+                                    <li>세진 / 세동 / DLP / 한국파워드레인 / DONG HWA / 창용금형 / 신성델타데크 / 삼신화학공업 / SabriScan / ANT / SEJT / TECH AUTOMOTIVE / SPL / CONTROLS / 한독기술 / 경남엔지니어링 / 우림화학 / 몰드피아 / KUM / 신원정공 / 예성정밀</li>
+                                </ul>
+                            </li>
+                            <li class="ico_bigdata"><div class="tit">국내외대학</div><br>
+                                <ul class="txt">
+                                    <li>아주대학교 / 한국교통대학교 / 유한대학교 / 금오공과대학교 / 전북대학교 / 연세대학교 / 부경대학교 / 선문대학교 / 창신대학교 / 인하대학교 / 대림대학교 / 용인송담대학교 / 경희대학교 / 영진전문대학교 / 한국기술교육대학교 / 동양미래대학교 / 영산대학교 / 수원과학대학교 / 경상대학교 / 한양대학교 / 서울과학기술대학교 / 순천향대학교 / 경남정보대학교 / 한국산업기술대학교 / 한국폴리텍대학 / University of Indonesia / Institut Teknologi Bandung / Institute of Technologists</li>
+                                </ul>
+                            </li>
+                            <li class="ico_bigdata"><div class="tit">기타업체</div><br>
+                                <ul class="txt">
+                                    <li>효성 / 삼성종합화학 / 제일모직 / desco / HYUNDAI / 한국과학기숧정보연구원 / 한국재료연구원 / TTA / HPC이노베이션허브 / 한국신발피혁연구원 / 대산몰드 / 펌텍코리아 / QNES / DAEDONG / 아폴로산업 / CAE Tech / MoldCAETech / e-가공공정팀 / 제주지역본부 / 보람정밀</li>
+                                </ul>
+                            </li>
+                            <li class="ico_bigdata"><div class="tit">해외업체</div><br>
+                                <ul class="txt">
+                                    <li>OAO Zavod Progress(러시아) / Mondia(브라질) / Institute of Technologists(일본) / ImamuraElechtric Co., Ltd(일본) / Fuji Electric F Tech Co., Ltd(일본) / PT. PYJOON MOLD(일본) / PT. KNT INDONESIA(인도네시아)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </section><!-- //index_service -->
+        </section>
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script th:src="@{/js/jquery.script.main.js}" src="/lib/js/jquery.script.main.js"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/adminLayout">
+<head>
+    <title>로그인 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">관리자 로그인</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <h2 class="layout_screen-out" id="content">로그인</h2>
+            <div class="login_progress_wrap on">
+                <div class="cont_login">
+                    <div class="login_progress"></div>
+                    <div class="find_wrap">
+                        <form method="post" th:action="@{/admin/login}">
+                            <input type="text" name="email" id="email" tabindex="1" placeholder="관리자 아이디를 입력해 주세요." class="input_login">
+                            <input type="password" name="password" id="password" tabindex="2" placeholder="비밀번호를 입력해 주세요." class="input_login">
+                            <div class="login_option">
+                                <label class="label_style label_check"><input type="checkbox" id="" name="">아이디 저장</label>
+                                <div class="login_error" style="display: none"><span class="ico_notice">로그인에 실패하였습니다. 남은 로그인 시도 횟수 (1/10)</span></div>
+                            </div>
+                            <div class="find_btns">
+                                <button type="submit" class="btn_btm submit">LOGIN</button>
+                            </div>
+                        </form>
+                    </div><!-- //login_form_wrap -->
+                    <!--
+                    <div class="login_link">
+                        <div class="login_inner">
+                            <div class="login_link_item">
+                                <a href="/src/membership/findid.html">
+                                    <p class="ele_txt">아이디를 잊으셨나요?</p>
+                                    <p class="ele_tit">아이디 찾기</p>
+                                </a>
+                            </div>
+                            <div class="login_link_item">
+                                <a href="/src/membership/findpw.html">
+                                    <p class="ele_txt">비밀번호를 잊으셨나요?</p>
+                                    <p class="ele_tit">비밀번호 찾기</p>
+                                </a>
+                            </div>
+                            <div class="login_link_item">
+                                <a href="/src/membership/signup.html">
+                                    <p class="ele_txt">아직 회원이 아니신가요?</p>
+                                    <p class="ele_tit">회원 가입하기</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- //login_link -->
+                </div><!-- //cont_login -->
+            </div>
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<script>
+    $(function(){
+        $('[data-name=charge]').addClass('on');
+        $('[data-name=charge-charge]').addClass('on');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE">test</title>
+    <th:block th:replace="fragments/commonHead"></th:block>
+</head>
+<body class="body_error">
+<header class="header_common" id="header">
+    <div class="layout_inner">
+        <h1 class="header_logo"><a th:href="@{/}">G Cloudit</a></h1>
+    </div>
+    <div class="header_bg"></div>
+</header>
+<th:block layout:fragment="content"></th:block>
+<footer th:replace="fragments/commonFooter :: commonFooter"></footer>
+<th:block th:replace="fragments/commonScript"></th:block>
+</body>
+</html>

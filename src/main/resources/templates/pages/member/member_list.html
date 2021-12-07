@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>서비스 이용 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">멤버 관리</span>
+            </div>
+        </section><!-- //section_location -->
+
+
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">멤버관리</h2>
+                <div class="cont_wrap">
+                    <div class="cont_tit st2">
+                        <div class="payment_month">멤버 관리</div>
+                    </div>
+                    <h3 class="cont_tit_sub2 st2">이용자 목록</h3>
+                    <div class="cont_table_wrap">
+
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>이용자명</th>
+                                <th>이용계정</th>
+                                <th>연락처</th>
+                                <th>Basic</th>
+                                <th>Professional</th>
+                                <th>Special</th>
+                                <th>MAPS-3Dez</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${list.totalElements == 0}">
+                                <td colspan="7">등록된 이용자가 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${list.totalElements == 0}" th:each="item : ${list}">
+                                <td th:text="${item.name}">홍길동</td>
+                                <td th:text="${item.email}">hong@hong.co.kr</td>
+                                <td th:text="${item.mobile}">010-XXXX-XXXX</td>
+                                <td th:text="${item.basicEnabled ? 'O':'X'}"></td>
+                                <td th:text="${item.profEnabled ? 'O':'X'}"></td>
+                                <td th:text="${item.specialEnabled ? 'O':'X'}"></td>
+                                <td th:text="${item.dezEnabled ? 'O':'X'}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- //cont_table_wrap -->
+
+                </div><!-- //cont_wrap -->
+                <div class="cont_pagination">
+                    <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/member/member_list(page=${list.number})}">Prev</a>
+                        <a href="#1" th:href="@{/member/member_list(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/member/member_list(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    </div>
+                    <div class="cont_btns">
+                        <button type="button" class="btn_btm submit" onclick="goAdd()">이용자 추가</button>
+                    </div>
+                </div><!-- //cont_pagination -->
+
+            </div><!-- //layout_tit -->
+
+
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        function goDetail(id) {
+            location.href = '[[@{/member/member_detail}]]?id='+id;
+        }
+        function goAdd() {
+            location.href='[[@{/member/member_add}]]'
+        }
+    </script>
+</th:block>
+</body>
+</html>

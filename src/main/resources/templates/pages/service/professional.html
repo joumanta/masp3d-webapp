@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>professional | 서비스 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="server.html">서비스</a>
+                <span class="current">professional</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">개요</h2>
+                <section class="cont_section cont_tit service_tit">
+                    <h3><span class="service_tit_ico ico_service">professional</span></h3>
+                    <div class="cont_service_txt">금형 및 제품 설계시 일반적인 열가소성 수지의 사출성형 공정을 해석하여 금형 및 제품의 품질, 성형성 및 불량을 예측</div>
+                </section>
+            </div><!-- //layout_tit -->
+
+            <section class="cont_section">
+                <div class="layout_tit">
+                    <h3 class="sub_tit">상세기능</h3>
+                    <div class="cont_border">
+                        <ul class="service_features">
+                            <li class="service_features_ico01">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Studio</div>
+                                    <p>MAPS-3D Studio는 사출성형 해석에 필요한 재질 및 성형 조건을 설정하여 작업 할 수 있도록 도와주며, 다양하고 편리한 방법으로 쉽게 결과 분석 작업을 수행 할 수 있는 GUI환경을 제공합니다.
+                                        해석 결과를 Contour, Shading, XY Plot 타입으로 보여주며, Animation 및 Section Display등 다양한 해석 결과 구현이 가능합니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico02">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Modeler</div>
+                                    <p>MAPS-3D Modeler는 3D CAD/CAE 시스템과의 완벽한 Interface를 제공하며, 초보자도 어려움 없이 사용할 수 있도록 쉬운 GUI환경을 제공합니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico03">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Flow</div>
+                                    <p>사용한 시간만큼만 요금이 과금되며 서비스 운영에 따라 서버를 투입/반납 및 사양 변경할 수 있어 탄력적으로 비용을 관리할 수 있습니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico04">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Insert</div>
+                                    <p>양질의 성형품을 얻기 위하여 제품 및 금형 설계/사출 성형 공정을 최적화하는 가장 기본적인 해석 모듈이며, 사출 성형 과정 중 용융된 수지가 금형 내로 충전되는 과정을 해석하는 모듈입니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico05">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Cool</div>
+                                    <p>사출 성형 공정 중 냉각 채널이 금형 및 제품에 미치는 영향을 해석하는 모듈입니다. 최적 냉각 시스템의 설계 방안을 제시하여 빠르고 균일한 금형 냉각을 통해 사이클 타임 감소와 제품 품질 향상의 목적으로 사용됩니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico06">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Pack</div>
+                                    <p>용융된 수지가 충전된 후, 고화되면서 수지 특성에 따른 부피 수축이 발생하게 됩니다. 그러므로 제품의 수축을 최소화하기 위해 보압 공정을 거치게 되며 그 과정에서의 유동 및 열전달을 해석하는 모듈입니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico07">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Warp</div>
+                                    <p>용융된 수지가 냉각에 의해 고화되면서 수축하는 동안 수지 내에 잔류 응력이 발생하게 됩니다. 이에 따라 취출 후 성형품에 발생되는 뒤틀림 및 수축 현상을 해석하는 모듈입니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico08">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Fiber</div>
+                                    <p>성형품의 기계적 강도를 보강하기 위하여 유리섬유 또는 탄소섬유가 첨가된 수지에 대하여 용융 수지가 충전 후 보압 공정을 거쳐 고화되는 과정 동안의 섬유 배향 정도, 이방성, 기계적/열적 물성을 해석하는 모듈입니다.</p>
+                                </div>
+                            </li>
+                            <li class="service_features_ico15">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">Material D/B</div>
+                                    <ul>
+                                        <li>- Thermoplastics Materials</li>
+                                        <li>- Thermoset Materials</li>
+                                        <li>- Mold Materials</li>
+                                        <li>- Coolant Materials</li>
+                                        <li>- Injection Machines</li>
+                                        <li>- Insert Materials</li>
+                                        <li>- Gas Materials</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Studio</h4><br>
+                                <ul>
+                                    <li>- MAPS-3D Viewer : 라이센스 없이도 해석 결과를 확인 할 수 있도록 Viewer 무상 제공</li>
+                                    <li>- Project Wizard : 해석용 프로젝트 생성 및 성형 조건 입력 등을 초보자도 사용할 수 있도록 도와주는 편의기능</li>
+                                    <li>- Analysis Manager : Batch Job을 통한 해석 작업 효율을 높여주는 기능</li>
+                                    <li>- Edit Project contents : 신규 및 기존 Project들의 조건을 쉽게 변경 할 수 있는 편의 기능</li>
+                                    <li>- Detail Chart : 해석 결과의 세부 정보를 한눈에 확인 할 수 있는 편의 기능</li>
+                                    <li>- Bookmark : 사용자가 원하는 화면 정보를 저장하여 언제든 사용 할 수 있는 기능</li>
+                                    <li>- Report Wizard : HTML / PPT 형태로 보고서 자동 생성하는 기능</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533084124.png}" src="/lib/image/content/W_1533084124.png" alt="Studio"></div>
+
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Modeler</h4><br>
+                                <ul>
+                                    <li>- CAD interface : IGES, STEP, CATIA V4, CATIA V5, Pro-E Inventor, VDA, ACIS, STL</li>
+                                    <li>- FEA interface : Nastran, Universal file, LS-DYNA</li>
+                                    <li>- Geometry의 수정 및 편집 기능</li>
+                                    <li>- Runner, Cooling channel system 생성 기능</li>
+                                    <li>- 요소(Mesh)의 수정과 편집을 쉽고 빠르게 구현할 수 있는 다양한 기능</li>
+                                    <li>- Surface meshing기능 및 요소(Mesh) 품질을 자동으로 향상 해주는 Remeshing기능</li>
+                                    <li>- Key nodes, Local mesh 등 복잡한 제품 형상에서 발생되는 요소 품질 저하 현상을 쉽게 예방할 수 있는 편의 기능</li>
+                                    <li>- Gradient Offset(자동으로 빼기 구배 부여 기능) 등과 같이 요소(Mesh) 상태에서 형상 변경이 가능한 기능</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533084281.jpg}" src="/lib/image/content/W_1533084281.jpg" alt="Modeler"></div>
+
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Flow</h4><br>
+                                <ul>
+                                    <li>- 시간에 따른 유동 선단의 진행 모습 가시화</li>
+                                    <li>- 제품 성형에 필요한 사출압 및 형체력 계산</li>
+                                    <li>- 제품의 살 두께에 따른 영향과 게이트, 런너 시스템의 치수 및 위치 최적화</li>
+                                    <li>- 미성형(Short shot), 웰드라인(Weld line), 에어트랩(Air trap) 예측</li>
+                                    <li>- 충전시간, 사출온도, 금형 온도 등의 사출 조건 최적화</li>
+                                    <li>- Balanced Flow에 의한 과보압(Over-packing) 및 아보압(Under-packing) 예방</li>
+                                    <li>- 다단 사출을 통한 제품 외관의 균일화</li>
+                                    <li>- 핫 런너(Hot runner) 시스템의 유효성 분석 및 방안 제시</li>
+                                    <li>- Hot Runner Temperature Control 기능을 이용하여 핫 런너 각각의 온도 설정 가능</li>
+                                    <li>- Mold Temperature Profile 기능을 이용하여 제품의 영역별 금형 온도 및 시간에 따른 온도 설정 가능(급속가열 / 급속냉각 등에 응용)</li>
+                                    <li>- MAPS-3D Flow는 Fast Filling, Filling, Compressible Filling 등으로 세분화 되어 사용자의 목적에 맞는 솔루션을 제공함으로써 현업에서 발생되는 변화에 신속하게 대응할 수 있음</li>
+                                    <li>- 해석용 컴퓨터의 발전에 따라 병렬연산(Parallel computing) 기법을 기본 제공(Hexa-core)</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533084423.jpg}" src="/lib/image/content/W_1533084423.jpg" alt="Flow"></div>
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Insert</h4><br>
+                                <ul>
+                                    <li>- 금속, 유리, 열가소성 수지 및 열경화성 수지와 같이 사출 성형 중에 사용되는 모든 인서트를 고려할 수 있음</li>
+                                    <li>- 변형 해석시 Constraint node를 설정함으로써, 사용자가 원하는 변형의 기준을 설정할 수 있음</li>
+                                    <li>- 인서트의 초기온도(Pre-heating)를 부여함으로써, 인서트의 온도 조건에 따른 제품의 물리적 변화 예측</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533088147.jpg}" src="/lib/image/content/W_1533088147.jpg" alt="Insert"></div>
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Cool</h4><br>
+                                <ul>
+                                    <li>- 세계 최초/업계 유일의 FMM(Fast Multipole Method) 사용에 따른 계산 시간 최소화</li>
+                                    <li>- 최적 냉각 시스템의 설계를 통해서 빠르고 균일한 금형 냉각 달성</li>
+                                    <li>- 냉각 소요 시간의 감소에 따른 사이클 타임 감소와 제품 품질 향상 도모</li>
+                                    <li>- 불균일 냉각에 의한 제품의 뒤틀림 감소 및 제품의 치수 정밀도 향상</li>
+                                    <li>- Cooling Channel efficiency, Manifold overview 등의 결과는 복잡한 냉각채널의 효율성 및 여러 결과값을 다양한 형태로 가시화하여 사용자가 쉽고 편하게 분석할 수 있는 기능 제공</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533081775.jpg}" src="/lib/image/content/W_1533081775.jpg" alt="Cool"></div>
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Pack</h4><br>
+                                <ul>
+                                    <li>- 체적 수축률과 밀도 분포 및 수지의 고화율 파악</li>
+                                    <li>- 제품의 휨을 유발하는 불균일한 수축을 최소화</li>
+                                    <li>- 제품 전체의 총 무게를 예측</li>
+                                    <li>- 게이트 고화 시간의 예측 및 최적 보압 조건 설정상</li>
+                                    <li>- 균일한 부피 수축률 유지로 변형 방지</li>
+                                    <li>- 플래시(Flash) 및 싱크마크(Sink mark) 방지</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533084929.jpg}" src="/lib/image/content/W_1533084929.jpg" alt="Pack"></div>
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Warp</h4><br>
+                                <ul>
+                                    <li>- 성형품의 특성 및 기능에 따른 재료별 치수 안정성 검토</li>
+                                    <li>- 최적화된 금형 수축률 적용 가능</li>
+                                    <li>- 양산시 뒤틀림 예측 및 제품 설계 변경이나 금형 냉각 구조의 최적화</li>
+                                    <li>- 리브, 보스 등의 보강에 의한 조립성 향상</li>
+                                    <li>- 사용자 정의에 의한 위치별 변형량 그래프 및 시트 형태의 가시화 및 출력 가능</li>
+                                    <li>- 사용자 정의에 의한 변형량 배율 조절 기능</li>
+                                    <li>- 제품의 변형을 유발하는 요소 예측</li>
+                                    <li>- 변형 및 수축이 일어난 제품의 형상을 STL File로 저장 가능(구조해석 등과의 연계)</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533084757.jpg}" src="/lib/image/content/W_1533084757.jpg" alt="Warp"></div>
+                        </div><!-- //service_features_section -->
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">Fiber</h4><br>
+                                <ul>
+                                    <li>- 섬유 배향 주방향과 부방향 사이의 수축률 편차에 의한 제품의 기계적 강도 예측토</li>
+                                    <li>- 선팽창 계수의 예측</li>
+                                    <li>- 유동의 주방향, 부방향, 두께 방향으로의 섬유 배향을 예측</li>
+                                    <li>- 구조 해석 모듈과 연계하여 사출품의 구조적 강도 검토</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1533087996.jpg}" src="/lib/image/content/W_1533087996.jpg" alt="Fiber"></div>
+                        </div><!-- //service_features_section -->
+
+                    </div><!-- //cont_border -->
+                </div><!-- //layout_tit -->
+            </section>
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+</body>
+</html>

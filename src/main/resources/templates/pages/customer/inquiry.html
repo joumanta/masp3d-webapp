@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>문의하기 | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="notice.html">고객지원</a>
+                <span class="current">문의하기</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">문의하기</h2>
+
+                <div class="cont_wrap">
+                    <div class="cont_section">
+                        <form method="post" id="form" name="form" target="iframe" th:action="@{/customer/inquiry_write}" >
+                            <div class="board_search board_top_txt">
+                                <p class="board_search_txt">아래 서식을 통해 문의 주시기 바랍니다.</p>
+                            </div>
+
+                            <table class="tb_row tb_board_write">
+                                <tr>
+                                    <th scope="row" class="tb_row_tit">제목</th>
+                                    <td colspan="3"><input type="text" name="title" class="input_login"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="tb_row_tit">회사명</span></th>
+                                    <td><input type="text" name="companyName" class="input_login"></td>
+                                    <th scope="row" class="tb_row_tit">담당자 이름</th>
+                                    <td><input type="text" name="managerName" class="input_login"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="tb_row_tit">담당자 이메일</span></th>
+                                    <td><input type="email" name="managerEmail" class="input_login"></td>
+                                    <th scope="row" class="tb_row_tit">담당자 연락처</th>
+                                    <td>
+                                        <div class="input_wrap_mobile">
+                                            <input type="text" name="managerPhone1" pattern="[0-9]*" maxlength="3" class="input_login js-number">
+                                            <span class="txt_mobile">-</span>
+                                            <input type="text" name="managerPhone2" maxlength="4" pattern="[0-9]*" class="input_login js-number">
+                                            <span class="txt_mobile">-</span>
+                                            <input type="text" name="managerPhone3" maxlength="4" pattern="[0-9]*" class="input_login js-number">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="tb_row_tit">사이트 방문 경로</th>
+                                    <td colspan="3">
+                                        <div class="radio_group">
+                                            <label class="label_style label_radio"><input type="radio" name="visitPath" value="service" checked="checked">서비스 신청문의</label>
+                                            <label class="label_style label_radio"><input type="radio" name="visitPath" value="consulting">컨설팅 문의</label>
+                                            <label class="label_style label_radio"><input type="radio" name="visitPath" value="etc">기타</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="tb_row_tit">문의내용</th>
+                                    <td colspan="3"><div class="textarea_wrap"><textarea name="question"></textarea></div></td>
+                                </tr>
+                            </table>
+<!--                            <div class="signup_error" style="display: block"><span class="ico_notice">이메일을 입력해 주세요.</span></div>-->
+                            <div class="cont_btns">
+                                <button type="submit" class="btn_btm submit">작성하기</button>
+                                <button type="button" class="btn_btm">취소</button>
+                            </div>
+                        </form>
+                    </div><!-- //cont_section -->
+                </div><!-- //cont_wrap -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $(function(){
+        $('[data-name=customer]').addClass('on');
+        $('[data-name=customer-inquiry]').addClass('on');
+    });
+
+    $("#form").validate({
+        rules: {
+            title: {
+                required: true
+            },
+            companyName:{
+                required: true
+            },
+            managerName: {
+                required: true
+            },
+            managerEmail: {
+                required: true,
+                email: true
+            },
+            managerPhone1: {
+                required: true,
+                number:true
+            },
+            managerPhone2: {
+                required: true,
+                number:true
+            },
+            managerPhone3: {
+                required: true,
+                number:true
+            },
+            question: {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: '제목을 입력해주세요.'
+            },
+            companyName:{
+                required: '회사명을 입력해주세요.'
+            },
+            managerName: {
+                required: '담당자이름을 입력해주세요.'
+            },
+            managerEmail: {
+                required: '담당자 이메일을 입력해주세요.',
+                email: '이메일 형식을 입력해주세요.'
+            },
+            managerPhone1: {
+                required: '담당자 연락처를 입력해주세요.',
+                number: '숫자만 입력해주세요.'
+            },
+            managerPhone2: {
+                required: '담당자 연락처를 입력해주세요.',
+                number: '숫자만 입력해주세요.'
+            },
+            managerPhone3: {
+                required: '담당자 연락처를 입력해주세요.',
+                number: '숫자만 입력해주세요.'
+            },
+            question: {
+                required: '문의내용을 입력해주세요.'
+            }
+        }
+    })
+</script>
+</th:block>
+</body>
+</html>

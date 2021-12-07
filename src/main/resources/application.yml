@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/vmtech?serverTimezone=UTC
+    username: root
+    password: cka2tmf#hihi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+upload:
+  dir: /Users/gimjinho/Desktop/upload/
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
+
+nhn:
+  username: bgpyo@naver.com
+
+

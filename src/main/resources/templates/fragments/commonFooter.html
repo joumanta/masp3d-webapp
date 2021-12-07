@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="commonFooter" class="footer_common">
+    <section class="layout_inner layout_vertical">
+        <div class="layout_tit">
+            <h2 class="layout_screen-out">Footer</h2>
+            <section class="footer_customer">
+                <h3 class="layout_screen-out">Contact</h3>
+                <ul class="footer_customer_list">
+                    <li>
+                        <span class="ele_tit">신청문의</span>
+                        <a class="ele_tel" href="tel:031. 206. 6500">031. 206. 6500</a>
+                        <a class="ele_mail" href="mailto:maps3d@naver.com">maps3d@naver.com</a>
+                    </li>
+                    <li>
+                        <span class="ele_tit">기술문의</span>
+                        <a class="ele_tel" href="tel:031. 206. 6500">031. 206. 6500</a>
+                        <a class="ele_mail" href="mailto:maps3d@naver.com">maps3d@naver.com</a>
+                    </li>
+                </ul>
+            </section><!-- //footer_customer -->
+
+            <div class="footer_cont">
+                <section class="footer_nav">
+                    <h3 class="layout_screen-out">Site Map</h3>
+                </section>
+                <section class="footer_info footer_side">
+                    <h3 class="layout_screen-out">Company Info</h3>
+                    <div class="footer_logo">(주)브이엠테크</div>
+                    <div class="footer_menu">
+                        <a th:href="@{/common/terms}" href="/src/common/terms.html">이용 약관</a>
+                        <a th:href="@{/common/privacy}" href="/src/common/privacy.html">개인정보 처리 방침</a>
+                        <a target="_blank" th:href="@{/files/maps3d_manual.pdf}" href="/src/common/maps3d manual.pdf">매뉴얼 다운로드</a>
+                    </div>
+                    <address class="footer_address">
+                        <p>경기도 수원시 영통구 영일로 6번길 50, 701호<br>(영통동 경희레스피아)</p>
+                        <p><span>TEL : 031. 206. 6500~1</span><span>FAX : 031. 206. 6502</span></p>
+                    </address>
+                    <div class="footer_company">
+                        <p><span>대표이사 : 구본흥</span><span>사업자 등록번호 : 124-81-66874</span></p>
+                    </div>
+                    <div class="footer_copyright">COPYRIGHT 2021 VMTech. ALL RIGHT RESERVED.</div>
+                </section>
+            </div><!-- //footer_cont -->
+        </div>
+    </section>
+</footer>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>회원정보 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">회원정보</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">회원정보</h2>
+                <form name="form" id="form" method="post" th:action="@{/member/member_info}" target="iframe" novalidate="novalidate">
+                <div class="cont_wrap">
+                    <h3 class="cont_tit_sub2 st2">로그인 정보</h3>
+                    <table class="tb_row tb_signup">
+                        <tr>
+                            <th scope="row">아이디</th>
+                            <td>
+                                <div class="input_wrap_btn">
+                                    <span th:text="${member.email}">vmtech@vmtech.co.kr</span>
+                                    <button type="button" class="btn_tb_input" th:onclick="'location.href=\''+ @{/member/findpw} + '\''">비밀번호 변경</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h3 class="cont_tit_sub2 st2">기업 정보</h3>
+                    <table class="tb_row tb_signup">
+                        <tr>
+                            <th scope="row">회사명</th>
+                            <td th:text="${member.company.companyName}">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">사업자등록번호</th>
+                            <td th:text="${member.company.bizNumber}">
+                                XXX-XX-XXXXX
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">대표자 명</th>
+                            <td><input type="text" name="bizOwner" value="" th:value="${member.company.bizOwner}" class="input_login">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">유선대표번호</th>
+                            <td>
+                                <div class="input_wrap_mobile">
+                                    <th:block th:with="telArr=${#strings.arraySplit(member.company.tel,'-')}">
+                                    <input type="text" name="tel1" class="input_login" value="02" maxlength="3" th:value="${telArr[0]}">
+                                    <span class="txt_mobile">-</span>
+                                    <input type="text" name="tel2" class="input_login" value="9999" maxlength="4" th:value="${telArr[1]}">
+                                    <span class="txt_mobile">-</span>
+                                    <input type="text" name="tel3" class="input_login" value="9999" maxlength="4" th:value="${telArr[2]}">
+                                    </th:block>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" scope="row">주소(필수)</th>
+                            <td>
+                                <div class="input_wrap_btn">
+                                    <input type="text" name="addr1" class="input_login"  id="addr1" readonly value="서울시 서초구 강남대로 9999번길 9," th:value="${member.company.addr1}">
+                                    <button type="button" class="btn_tb_input" id="searchAddr">찾아보기</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="addr2" id="addr2" th:value="${member.company.addr2}" class="input_login" value="9999 2층">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h3 class="cont_tit_sub2 st2">담당자 정보</h3>
+                    <table class="tb_row tb_signup">
+                        <tr>
+                            <th scope="row">담당자</th>
+                            <td><input type="text" name="chargeName" class="input_login" th:value="${member.company.chargeName}" value="홍길동">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">담당자 연락처</th>
+                            <td>
+                                <div class="input_wrap_mobile">
+                                    <th:block th:with="mobileArr=${#strings.arraySplit(member.company.chargeMobile,'-')}">
+                                    <input type="text" name="chargeMobile1" maxlength="3" class="input_login" value="010" th:value="${mobileArr[0]}">
+                                    <span class="txt_mobile">-</span>
+                                    <input type="text" name="chargeMobile2" maxlength="4" class="input_login" value="9999" th:value="${mobileArr[1]}">
+                                    <span class="txt_mobile">-</span>
+                                    <input type="text" name="chargeMobile3" maxlength="4" class="input_login" value="9999" th:value="${mobileArr[2]}">
+                                    </th:block>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">담당자 메일주소</th>
+                            <td><input type="text" name="chargeEmail" class="input_login" th:value="${member.company.chargeEmail}" value="vmtech@vmtech.co.kr">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">세금계산서 수령 메일주소</th>
+                            <td><input type="text" name="taxEmail" class="input_login" th:value="${member.company.taxEmail}" value="vmtech@vmtech.co.kr">
+                            </td>
+                        </tr>
+                    </table>
+
+<!--                    <div class="signup_error" style="display: block"><span class="ico_notice">이름을 입력해 주세요.</span></div>-->
+
+                    <div class="cont_btns">
+                        <button type="submit" class="btn_btm submit" id="test_submit">확인</button>
+                        <button type="button" class="btn_btm" onclick="history.back();">취소</button>
+                    </div>
+                </div><!-- //cont_wrap -->
+                </form>
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#searchAddr").on("click",function() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        var fullAddr = ''; // 최종 주소 변수
+                        var extraAddr = ''; // 조합형 주소 변수
+
+                        // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            fullAddr = data.roadAddress;
+
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            fullAddr = data.jibunAddress;
+                        }
+
+                        // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                        if (data.userSelectedType === 'R') {
+                            //법정동명이 있을 경우 추가한다.
+                            if (data.bname !== '') {
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있을 경우 추가한다.
+                            if (data.buildingName !== '') {
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                            fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('addr1').value = fullAddr; //5자리 새우편번호 사용
+                        document.getElementById('addr2').focus();
+                    }
+                }).open();
+            });
+        })
+
+        $("#form").validate({
+            rules: {
+                bizOwner: {
+                    required: true
+                },
+                tel1: {
+                    required:true,
+                    number: true
+                },
+                tel2: {
+                    required:true,
+                    number: true
+                },
+                tel3: {
+                    required:true,
+                    number: true
+                },
+                addr1: {
+                    required:true
+                },
+                addr2: {
+                    required: true
+                },
+                chargeName: {
+                    required: true
+                },
+                chargeMobile1: {
+                    required: true,
+                    number: true
+                },
+                chargeMobile2: {
+                    required: true,
+                    number: true
+                },
+                chargeMobile3: {
+                    required: true,
+                    number: true
+                },
+                chargeEmail : {
+                    required:true,
+                    email: true
+                },
+                taxEmail: {
+                    required:true,
+                    email: true
+                }
+            },
+            messages: {
+                bizOwner: {
+                    required: '대표자 이름을 입력해 주세요.'
+                },
+                tel1: {
+                    required:'전화번호를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                tel2: {
+                    required:'전화번호를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+
+                },
+                tel3: {
+                    required:'전화번호를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                addr1: {
+                    required : '주소를 입력해 주세요.'
+                },
+                addr2: {
+                    required : '상세주소를 입력해 주세요.'
+                },
+                chargeName: {
+                    required: '담당자 이름을 입력해 주세요.'
+                },
+                chargeMobile1: {
+                    required: '담당자 연락처를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                chargeMobile2: {
+                    required: '담당자 연락처를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                chargeMobile3: {
+                    required: '담당자 연락처를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                chargeEmail: {
+                    required: '담당자 메일주소를 입력해 주세요.',
+                    email: '이메일 형식을 입력해주세요.'
+                },
+                taxEmail: {
+                    required: '세금계산서 수령 메일 주소를 입력해 주세요.',
+                    email: '이메일 형식을 입력해주세요.'
+                }
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>

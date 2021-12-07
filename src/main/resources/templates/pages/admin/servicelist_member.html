@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>이용자 관리[관리자] | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">이용자 관리</span>
+            </div>
+        </section><!-- //section_location -->
+
+
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">이용자 관리</h2>
+                <div class="cont_wrap">
+                    <div class="cont_tit st2">
+                        <div class="payment_month">이용자 관리</div>
+                    </div>
+
+
+                    <h3 class="cont_tit_sub2 st2">기업 정보</h3>
+                    <table class="tb_row tb_signup">
+                        <tr>
+                            <th scope="row">회사명</th>
+                            <td th:text="${user.company.companyName}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">사업자등록번호</th>
+                            <td th:text="${user.company.bizNumber}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">대표자 명</th>
+                            <td th:text="${user.company.bizOwner}">
+                                홍길동
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">유선대표번호</th>
+                            <td th:text="${user.company.tel}">
+                                02-9999-9999
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">주소</th>
+                            <td th:text="${user.company.addr1} + ' ' + ${user.company.addr2}">
+                                서울시 서초구 강남대로 9999번길 9 1111호
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <h3 class="cont_tit_sub2 st2">담당자 정보</h3>
+                    <table class="tb_row tb_signup">
+                        <tr>
+                            <th scope="row">담당자</th>
+                            <td th:text="${user.company.chargeName}">
+                                홍길동
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">담당자 연락처</th>
+                            <td th:text="${user.company.chargeMobile}">
+                                010-9999-9999
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">담당자 메일주소</th>
+                            <td th:text="${user.company.chargeEmail}">
+                                vmtech@vmtech.co.kr
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">세금계산서 수령 메일주소</th>
+                            <td th:text="${user.company.taxEmail}">
+                                vmtech@vmtech.co.kr
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h3 class="cont_tit_sub2 st2">제출 서류</h3>
+                    <div class="cont_table_wrap">
+
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>신청서</th>
+                                <th>서약서</th>
+                                <th>법인인감</th>
+                                <th>사용인감계</th>
+                                <th>등록증</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|download('${user.id}','1')|">다운로드</button></td>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|download('${user.id}','2')|">다운로드</button></td>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|download('${user.id}','3')|">다운로드</button></td>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|download('${user.id}','4')|" th:disabled="${user.company.file4 == null}">다운로드</button></td>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|download('${user.id}','5')|">다운로드</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="cont_btns">
+                            <button type="button" class="btn_btm submit" id="test_submit">승인</button>
+                            <button type="button" class="btn_btm" id="btn_stop">사용중지</button>
+                        </div>
+
+
+                        <!--<h3 class="cont_tit_sub2 st2">이용자 목록</h3>
+                        <div class="cont_table_wrap">
+
+                            <table class="tb_login_list tb_calculator_list">
+                                <thead>
+                                <tr>
+                                    <th>이용자 명</th>
+                                    <th>이용계정</th>
+                                    <th>이용 서비스</th>
+                                    <th>이용 서버</th>
+                                    <th>서버 IP</th>
+                                    <th>시작일</th>
+                                    <th>종료일</th>
+                                    <th>이용 상태</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${list.totalElements == 0}">
+                                    <td colspan="8">등록된 이용자가 없습니다.</td>
+                                </tr>
+                                <tr th:unless="${list.totalElements == 0}" th:each="item: ${list}">
+                                    <td th:text="${item.name}">홍길동</td>
+                                    <td th:text="${item.email}">honggil@company.com</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>&lt;!&ndash; //cont_table_wrap &ndash;&gt;-->
+
+                    </div><!-- //cont_wrap -->
+                    <!--<div class="cont_pagination">
+                        <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                            <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/admin/servicelist_member(page=${list.number},id=${id})}">Prev</a>
+                            <a href="#1" th:href="@{/admin/servicelist_member(page=${page},id=${id})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                            <a href="#next" th:href="@{/admin/servicelist_member(page=${list.number+2},id=${id})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                        </div>
+
+                    </div>&lt;!&ndash; //cont_pagination &ndash;&gt;
+                    <div class="cont_btns">
+                        <button type="button" class="btn_btm submit" onclick="goList()">목록보기</button>
+                    </div>-->
+                </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+    <div class="pop_wrap" id="test_pop">
+        <form th:action="@{/admin/service_permit}" method="post" name="form" id="form">
+        <div class="pop_box pop_box_set">
+            <div class="pop_header">
+                <h3 class="pop_tit">MAPS-3D 서버 신청</h3>
+                <div><button type="button" class="pop_btn_close">Close</button></div>
+            </div>
+            <div class="pop_cont">
+                <div class="cont_tit st4">
+                    <p>프로젝트 설정</p>
+                    <p class="subtxt">프로젝트 테넌트ID를 입력해주세요.</p>
+                </div>
+
+                <div class="pop_cont_option">
+                    <div class="ele_label">테넌트ID</div>
+                    <div class="">
+                        <input type=" text" id="tenantId" name="tenantId" class="input_login" placeholder="테넌트ID를 입력해주세요.">
+                    </div>
+                </div><!-- //pop_cont_option -->
+                <!--<div class="pop_cont_option">
+                    <div class="ele_label">API 비밀번호</div>
+                    <div class="">
+                        <input type=" text" id="password" name="password" class="input_login" placeholder="API비밀번호를 입력해주세요.">
+                    </div>
+                </div>&lt;!&ndash; //pop_cont_option &ndash;&gt;-->
+            </div><!-- //pop_cont -->
+            <div class="cont_btns pop_btns">
+                <button type="submit" class="btn_btm submit">확인</button>
+                <button type="button" class="btn_btm cancel event_close">취소</button>
+            </div>
+        </div><!-- //pop_box -->
+        </form>
+    </div><!-- //pop_wrap -->
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        function download(id,gb) {
+            document.iframe.location.href = 'download?id=' + id + '&gb=' + gb;
+        }
+        function goList() {
+            location.href = '[[@{/admin/servicelist}]]?page=[[${page}]]'
+        }
+        $(document).ready(function() {
+            $('#test_submit').on('click', function () {
+                popupOpen('#test_pop');
+            });
+        })
+        $("#form").validate({
+            rules: {
+                tenantId: {
+                    required: true
+                },
+            },
+            messages: {
+                tenantId: {
+                    required: '테넌트ID를 입력해주세요.'
+                },
+            },
+            submitHandler: function() {
+                $.ajax({
+                    url: '[[@{/admin/service_permit}]]',
+                    method:'post',
+                    data: {
+                        tenantId: $("#tenantId").val(),
+                        id: [[${id}]]
+                    },
+                    success:function(res) {
+                        alert('승인처리 되었습니다.')
+                        $(".pop_btn_close").trigger('click');
+                    }
+                })
+
+            }
+        });
+        $("#btn_stop").on("click",function() {
+            $.ajax({
+                url: '[[@{/admin/service_stop}]]',
+                method:'post',
+                data: {
+                    id: [[${id}]]
+                },
+                success:function(res) {
+                    alert('사용중지 처리 되었습니다.')
+                }
+            })
+        });
+    </script>
+</th:block>
+</body>
+</html>

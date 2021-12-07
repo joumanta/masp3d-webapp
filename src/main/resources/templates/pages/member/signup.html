@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>회원가입 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">회원가입</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <h2 class="layout_screen-out" id="content">회원가입</h2>
+            <section class="layout_tit cont_signup_step">
+                <h3 class="sub_tit"><strong>REGISTER </strong>STEP</h3>
+                <div class="signup_step_wrap">
+                    <ul class="signup_step layout_clearfix">
+                        <li class="step_agree current"><div><span>가입서류</span></div></li>
+                        <li class="step_input"><div><span>약관동의</span></div></li>
+                        <li class="step_identity"><div><span>정보입력</span></div></li>
+                        <li class="step_completion"><div><span>가입완료</span></div></li>
+                    </ul>
+                </div>
+            </section><!-- //layout_tit -->
+
+            <div class="layout_tit">
+                <div class="cont_signup_agree cont_signup_agree_top">
+                    회원 가입 시 준비해야할 자료는 다음과 같습니다.
+                </div>
+            </div><!-- //layout_tit -->
+
+            <section class="layout_tit">
+                <h3 class="sub_tit">가입서류</h3>
+                <div class="service_features_section">
+                    <div class="public_console_tit">
+                        <ul>
+                            <li>- 서비스 신청서<a href="/src/membership/MAPS-3D_서비스신청서.docx">[다운로드]</a></li>
+                            <li>- 보안서약서<a href="/src/membership/MAPS-3D_보안서약서.docx">[다운로드]</a></li>
+                            <li>- 인감증명서</li>
+                            <li>- 사용인감계(사용인감 사용시 제출)</li>
+                            <li>- 사업자등록증 사본</li>
+                        </ul>
+                    </div>
+                </div><!-- //service_features_section -->
+
+            </section><!-- //layout_tit -->
+            <div class="layout_tit">
+                <div class="cont_signup_agree cont_signup_agree_top">
+                    서비스 신청서와 보안서약서는 작성 후 인감도장을 날인하여 스캔파일을 보내주시기 바랍니다.
+                </div>
+            </div><!-- //layout_tit -->
+
+            <div class="layout_tit">
+                <div class="cont_btns">
+                    <button type="submit" class="btn_btm submit" th:onclick="'location.href=\''+ @{/member/signup_step2} + '\''" >다음</button>
+                </div>
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $(function() {
+        $('.btn_policy').on('click', function () {
+            $( '#'+$(this).attr('data-target') ).toggle(100);
+        });
+    });
+</script>
+</th:block>
+</body>
+</html>

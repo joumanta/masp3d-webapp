@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>회원정보 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">회원정보</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">멤버관리</h2>
+                <div class="cont_wrap">
+                    <form name="form" id="form" method="post" th:action="@{/member/member_add}" novalidate="novalidate">
+                    <h3 class="cont_tit_sub2 st2">이용자 정보</h3>
+                    <table class="tb_row tb_signup">
+                        <tr>
+                            <th scope="row">이용자</th>
+                            <td><input type="text" name="name" id="name" class="input_login" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">담당자 연락처</th>
+                            <td>
+                                <div class="input_wrap_mobile">
+                                    <input type="text" name="mobile1" class="input_login" maxlength="3">
+                                    <span class="txt_mobile">-</span>
+                                    <input type="text" name="mobile2" class="input_login" maxlength="4">
+                                    <span class="txt_mobile">-</span>
+                                    <input type="text" name="mobile3" class="input_login" maxlength="4">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">아이디 (필수)</th>
+                            <td>
+                                <input type="text" name="email" id="email" value="" placeholder="아이디용 이메일주소를 입력해 주세요." data-error="" class="input_login">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">비밀번호(필수)</th>
+                            <td><input type="password" name="password" id="password" value="" placeholder="영문 대소문자, 숫자, 특수기호 포함 8~15자" class="input_login">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">비밀번호 확인(필수)</th>
+                            <td><input type="password" name="password2" id="password2" value="" placeholder="입력한 비밀번호를 다시 입력해 주세요." class="input_login">
+                            </td>
+                        </tr>
+                    </table>
+
+<!--                    <div class="signup_error" style="display: block"><span class="ico_notice">이름을 입력해 주세요.</span></div>-->
+
+                    <div class="cont_btns">
+                        <button type="submit" class="btn_btm submit" id="test_submit">확인</button>
+                        <button type="button" class="btn_btm" onclick="history.back()">취소</button>
+                    </div>
+                    </form>
+                </div><!-- //cont_wrap -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        $("#form").validate({
+            rules: {
+                name: {
+                  required: true
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    // remote: "[[@{/member/check_email}]]"
+                },
+                password: {
+                    required: true,
+                    passRegex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/
+                },
+                password2: {
+                    equalTo: '#password',
+                    required: true
+                },
+                mobile1: {
+                    required: true,
+                    number: true
+                },
+                mobile2: {
+                    required: true,
+                    number: true
+                },
+                mobile3: {
+                    required: true,
+                    number: true
+                },
+            },
+            messages: {
+                name: {
+                  required: '이름을 입력해주세요.'
+                },
+                email: {
+                    required: '이메일주소를 입력해주세요.',
+                    email: '이메일형식이 올바르지 않습니다.',
+                    // remote : '이미 존재하는 아이디입니다.'
+                },
+                password: {
+                    required: '비밀번호를 입력해 주세요.',
+                    passRegex: '비밀번호는 영문 대소문, 숫자, 특수기호 포 8~15자형식입니다.',
+                },
+                password2: {
+                    equalTo: '비밀번호가 일치하지 않습니다.',
+                    required: '입력한 비밀번호를 다시 입력해 주세요.'
+                },
+                mobile1: {
+                    required: '담당자 연락처를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                mobile2: {
+                    required: '담당자 연락처를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+                mobile3: {
+                    required: '담당자 연락처를 입력해 주세요.',
+                    number: '숫자만 입력해주세요.'
+                },
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>

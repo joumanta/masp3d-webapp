@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <title>서비스 점검 | G Cloudit</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/javascript">
+    <meta http-equiv="Content-Type" content="text/css">
+    
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1 minimum-scale=1, maximum-scale=2">
+
+    <link rel="stylesheet" href="/lib/css/normalize.css">
+    <link rel="stylesheet" href="/lib/css/font.css">
+    <link rel="stylesheet" href="/lib/css/selectric.css">
+    <link rel="stylesheet" href="/lib/css/style.css">
+    <link rel="stylesheet" href="/lib/css/pc.css">
+</head>
+<body>
+<header class="header_common">
+    <a class="layout_skip" href="#nav">메뉴 바로가기</a>
+    <a class="layout_skip" href="#content">본문 바로가기</a>
+    <div class="layout_inner">
+        <h1 class="header_logo"><a href="/">G Cloudit</a></h1>
+        <button type="button" class="header_gnb_btn"><span>Menu</span></button>
+        <nav>
+            <h2 class="layout_screen-out">GNB Menu</h2>
+            <section class="header_util">
+                <h3 class="layout_screen-out">Util Menu</h3>
+                <div class="header_util_menu" style="display: none">
+                    <a href="/src/membership/login.html">로그인</a>
+                    <a href="/src/membership/signup.html">회원가입</a>
+                </div>
+                <div class="header_util_user js_dropdown">
+                    <button type="button" class="header_util_btn_user js_dropdown_btn"><span>홍길동</span></button>
+                    <ul class="header_util_dropdown js_dropdown_list">
+                        <li><a href="/src/membership/member.html">회원정보</a></li>
+                        <li><a href="/src/membership/payment.html">요금 및 사용내역</a></li>
+                        <li class="header_util_dropdown_btn"><button type="button" class="header_util_btn_logout">LOGOUT</button></li>
+                    </ul>
+                </div>
+                <div class="header_util_service js_dropdown">
+                    <button type="button" class="header_util_btn_service js_dropdown_btn"><span>추가 서비스 신청</span></button>
+                    <ul class="header_util_dropdown js_dropdown_list">
+                        <li><a href="/src/additional/ssl.html">SSL-VPN 신청</a></li>
+                        <li><a href="/src/additional/vc.html">바이러스백신 신청</a></li>
+                        <li><a href="/src/additional/dr.html">DR서비스 신청</a></li>
+                        <li><a href="/src/additional/managed.html">매니지드 신청</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="header_util_btn_console">CLOUD CONSOLE</button>
+                <a href="/src/membership/subscription.html" class="header_util_btn_console" style="display: none">서비스 신청하기</a>
+            </section>
+
+            <section>
+                <h3 class="layout_screen-out">Navigation</h3>
+                <ul class="header_gnb" id="nav">
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" href="/src/cloudit/cloudit.html" data-name="public"><span>소개</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">소개</strong>
+                                <ul class="header_gnb_sub_menu header_gnb_scroll">
+                                    <li><a href="/src/cloudit/cloudit.html">서비스 소개</a></li>
+                                    <li><a href="/src/cloudit/cloudit.html#cont02">도입 효과 및 특장점</a></li>
+                                    <li><a href="/src/cloudit/cloudit.html#cont03">SLA</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" href="/src/service/server.html" data-name="service"><span>서비스</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">서비스</strong>
+                                <ul class="header_gnb_sub_2depth">
+                                    <li><a href="/src/service/server.html">Compute</a>
+                                        <ul class="header_gnb_sub_3depth">
+                                            <li><a href="/src/service/server.html" data-name="service-server">서버</a></li>
+                                            <li><a href="/src/service/volume.html" data-name="service-volume">볼륨</a></li>
+                                            <li><a href="/src/service/snapshot.html" data-name="service-snapshot">스냅샷/템플릿</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="/src/service/gpu.html" data-name="service-gpu">GPU 서버</a></li>
+                                    <li><a href="/src/service/loadbalancing.html">Networking</a>
+                                        <ul class="header_gnb_sub_3depth">
+                                            <li><a href="/src/service/loadbalancing.html" data-name="service-loadbalancing" class="ico_update">로드밸런싱</a></li>
+                                            <li><a href="/src/service/autoscaling.html" data-name="service-autoscaling">오토스케일링</a></li>
+                                            <li><a href="/src/service/subnet.html" data-name="service-subnet">서브넷/포트포워딩/IP</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="/src/service/managed.html">매니지드 서비스</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" href="/src/charge/charge.html" data-name="charge"><span>요금</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">요금</strong>
+                                <ul class="header_gnb_sub_menu">
+                                    <li><a href="/src/charge/charge.html" data-name="charge-charge">요금 소개</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="header_gnb_item">
+                        <a class="header_gnb_link" href="/src/customer/notice.html" data-name="customer"><span>고객지원ㆍFAQ</span></a>
+                        <div class="header_gnb_sub">
+                            <div class="layout_inner">
+                                <strong class="header_gnb_sub_tit">고객지원ㆍFAQ</strong>
+                                <ul class="header_gnb_sub_menu">
+                                    <li><a href="/src/customer/notice.html" data-name="customer-notice">공지 및 뉴스</a></li>
+                                    <li><a href="/src/customer/faq.html" data-name="customer-faq">FAQ</a></li>
+                                    <li><a href="/src/customer/inquiry.html" data-name="customer-inquiry">문의하기</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul><!-- //header_gnb -->
+            </section>
+        </nav>
+    </div>
+    <div class="header_bg"></div>
+</header>
+
+<main class="main_sub">
+    <section class="section_location">
+        <h2 class="layout_screen-out">Site Location</h2>
+        <div class="layout_inner">
+            <a href="/">홈</a>
+            <span class="current">서비스 점검</span>
+        </div>
+    </section><!-- //section_location -->
+
+    <section class="layout_inner layout_vertical">
+        <div class="layout_tit">
+            <h2 class="sub_tit" id="content">서비스 점검</h2>
+
+            <div class="board_search layout_clearfix">
+                <p class="board_search_txt">현재 총 <strong>43</strong>개의 서비스 점검 내역이 있습니다.</p>
+                <div class="board_search_option">
+                    <div class="select_wrap">
+                        <select name="">
+                            <option value="">전체</option>
+                            <option value="">유지보수 내역</option>
+                            <option value="">뉴스</option>
+                        </select>
+                    </div>
+                    <div class="board_search_box"><input type="search" name="" placeholder="검색어를 입력해 주세요.">
+                        <button type="submit" class="btn_board_search"><span>Search</span></button>
+                    </div>
+                </div><!-- //board_search_option -->
+            </div><!-- //board_search -->
+
+            <table class="board_list board_test">
+                <colgroup>
+                    <col class="board_list_num">
+                    <col class="board_list_category2">
+                    <col>
+                    <col class="board_list_toggle">
+                    <col class="board_list_date2">
+                </colgroup>
+                <tr>
+                    <td class="td_board_num">43</td>
+                    <td class="td_board_test"><span>작업</span><span>버그</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle on"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">42</td>
+                    <td class="td_board_test"><span>작업</span><span>업데이트</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">41</td>
+                    <td class="td_board_test"><span>작업</span><span>개선</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">40</td>
+                    <td class="td_board_test"><span>작업</span><span>유지보수</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작 로드밸런싱 특정포트 미동작 로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">39</td>
+                    <td class="td_board_test"><span>작업</span><span>문서</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">38</td>
+                    <td class="td_board_test"><span>작업</span><span>새기능</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">37</td>
+                    <td class="td_board_test"><span>작업</span><span>테스트</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">36</td>
+                    <td class="td_board_test"><span>작업</span><span>버그</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">35</td>
+                    <td class="td_board_test"><span>작업</span><span>버그</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+                <tr>
+                    <td class="td_board_num">34</td>
+                    <td class="td_board_test"><span>작업</span><span>버그</span></td>
+                    <td class="td_board_tit"><a href="test_read.html">로드밸런싱 특정포트 미동작</a></td>
+                    <td class="td_board_toggle"><button type="button" class="btn_toggle"><span>on/off</span></button></td>
+                    <td class="td_board_date w2">2019.04.30 06:00 ~ 2019.04.30 10:00</td>
+                </tr>
+            </table>
+            <div class="cont_pagination">
+                <div class="pagination_inner">
+                    <a href="#prev" class="page_btn prev disabled">Prev</a>
+                    <a href="#1" class="page_num current">1</a>
+                    <a href="#2" class="page_num">2</a>
+                    <a href="#3" class="page_num">3</a>
+                    <a href="#4" class="page_num">4</a>
+                    <a href="#5" class="page_num">5</a>
+                    <a href="#next" class="page_btn next">Next</a>
+                </div>
+
+                <div class="cont_btns">
+                    <button type="button" class="btn_btm submit" onclick="location.href='notice_write.html'">등록하기</button>
+                </div>
+            </div><!-- //cont_pagination -->
+        </div><!-- //layout_tit -->
+    </section><!-- //layout_inner -->
+</main>
+
+<aside class="side_util">
+    <div class="layout_inner">
+        <h2 class="layout_screen-out">Side Menu</h2>
+        <a href="#top" class="side_top_btn">Top</a>
+        <div class="side_menu">
+            <div class="side_menu_btn">
+                <div class="ele_outer"></div>
+                <button type="button" class="ele_btn"><span></span></button>
+                <div class="ele_inner"></div>
+            </div>
+            <div class="side_menu_link">
+                <a class="ico_inquiry" href="/src/customer/inquiry.html"><span>문의하기</span></a>
+                <a class="ico_guide" href="#" target="_blank" title="새창으로 이동"><span>사용설명서</span></a>
+                <a class="ico_faq" href="/src/customer/faq.html"><span>FAQ</span></a>
+            </div>
+        </div><!-- //side_menu -->
+    </div>
+</aside>
+
+<footer class="footer_common">
+    <section class="layout_inner layout_vertical">
+        <div class="layout_tit">
+            <h2 class="layout_screen-out">Footer</h2>
+            <section class="footer_customer">
+                <h3 class="layout_screen-out">Contact</h3>
+                <ul class="footer_customer_list">
+                    <li>
+                        <span class="ele_tit">신청문의</span>
+                        <a class="ele_tel" href="tel:070-4866-5520">070. 4866. 5520</a>
+                        <a class="ele_mail" href="mailto:cloudbiz@innogrid.com">cloudbiz@innogrid.com</a>
+                    </li>
+                    <li>
+                        <span class="ele_tit">기술문의</span>
+                        <a class="ele_tel" href="tel:070-4866-5528">070. 4866. 5528</a>
+                        <a class="ele_mail" href="mailto:rndtech@innogrid.com">rndtech@innogrid.com</a>
+                    </li>
+                </ul>
+            </section><!-- //footer_customer -->
+
+            <div class="footer_cont">
+                <section class="footer_nav">
+                    <h3 class="layout_screen-out">Site Map</h3>
+                </section>
+                <section class="footer_info footer_side">
+                    <h3 class="layout_screen-out">Company Info</h3>
+                    <div class="footer_logo">GCloudit</div>
+                    <div class="footer_menu">
+                        <a href="/src/common/terms.html">이용 약관</a>
+                        <a href="/src/common/privacy.html">개인정보 처리 방침</a>
+                    </div>
+                    <address class="footer_address">
+                        <p>서울특별시 서초구 서초대로 314 정보통신공제조합 빌딩 10층</p>
+                        <p><span>TEL : 02. 516. 5990</span><span>FAX : 02. 516. 5997</span></p>
+                    </address>
+                    <div class="footer_company">
+                        <p><span>대표이사 : 김명진</span><span>사업자 등록번호 : 220-87-36743</span></p>
+                        <p>통신판매업신고 : 제 2012-서울강남-00571호</p>
+                    </div>
+                    <div class="footer_copyright">COPYRIGHT 2019 INNOGRID. ALL RIGHT RESERVED.</div>
+                </section>
+            </div><!-- //footer_cont -->
+        </div>
+    </section>
+</footer>
+
+<script src="/lib/js/jquery-1.9.1.min.js"></script>
+<script src="/lib/js/jquery-ui.min.js"></script>
+<script src="/lib/js/jquery.selectric.min.js"></script>
+<script src="/lib/js/jquery.script.js"></script>
+<script src="/lib/js/jquery.script.pc.js"></script>
+</body>
+</html>

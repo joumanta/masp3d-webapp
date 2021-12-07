@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>쾌속 금형설계 검증 S/W | 서비스 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <a href="server.html">서비스</a>
+                <span class="current">쾌속 금형설계 검증 S/W</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">개요</h2>
+                <section class="cont_section cont_tit service_tit">
+                    <h3><span class="service_tit_ico ico_service">쾌속 금형설계 검증 S/W</span></h3>
+                    <div class="cont_service_txt">기존 사출성형해석 대비 500 ~ 3000배 빠른 속도로 해석 가능</div>
+                </section>
+            </div><!-- //layout_tit -->
+
+            <section class="cont_section">
+                <div class="layout_tit">
+                    <h3 class="sub_tit">상세기능</h3>
+                    <div class="cont_border">
+                        <ul class="service_features">
+                            <li class="service_features_ico01">
+                                <div class="service_features_inner">
+                                    <div class="ele_tit">쾌속 금형설계 검증 S/W</div>
+                                    <p>MAPS-3D ez는 누구나 쉽게 사용하며, 기존 사출성형해석 대비 500~3000배 빠른 속도로 개발 기간 단축 및 실시간 협업이 가능합니다.</p>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="service_features_section">
+                            <div class="public_console_tit">
+                                <h4 class="cont_tit_sub2 st2">쾌속 금형설계 검증 S/W</h4><br>
+                                <ul>
+                                    <li>- STL 사용</li>
+                                    <li>- Mesh 수정이 필요없음</li>
+                                    <li>- 기하학적 형상 정보를 이용함</li>
+                                    <li>- 빠른 계산속도 : 사출성형 CAE 대비 500~3000배 ↑</li>
+                                    <li>- 비전문가도 사용이 가능함 : 별도의 교육이 필요없음</li>
+                                    <li>- 저렴한 가격</li>
+                                </ul>
+                            </div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1612144025.png}" src="/lib/image/content/W_1612144025.png" alt="쾌속 금형설계 검증 S/W"></div>
+                            <div class="public_console_img"><img th:src="@{/images/content/W_1612144033.png}" src="/lib/image/content/W_1612144033.png" alt="쾌속 금형설계 검증 S/W"></div>
+
+                        </div><!-- //service_features_section -->
+                    </div><!-- //cont_border -->
+                </div><!-- //layout_tit -->
+            </section>
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+</body>
+</html>

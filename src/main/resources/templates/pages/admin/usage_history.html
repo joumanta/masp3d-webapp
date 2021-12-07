@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>문의하기 | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">이용현황</span>
+            </div>
+        </section><!-- //section_location -->
+
+
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">이용현황</h2>
+                <div class="board_search layout_clearfix">
+                    <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">43</strong>의 사용자가 있습니다.</p>
+                    <div class="board_search_option">
+                        <form method="get">
+                        <div class="select_wrap">
+                            <select name="type">
+                                <option value="all" th:selected="${type == 'all'}">전체</option>
+                                <option value="company" th:selected="${type == 'company'}">회사명</option>
+                                <option value="name" th:selected="${type == 'name'}">이용자명</option>
+                                <option value="email" th:selected="${type == 'email'}">이용계정</option>
+                            </select>
+                        </div>
+                        <div class="board_search_box"><input type="search" name="search" placeholder="검색어를 입력해 주세요." th:value="${search}">
+                            <button type="submit" class="btn_board_search"><span>Search</span></button>
+                        </div>
+                        </form>
+                    </div><!-- //board_search_option -->
+                </div><!-- //board_search -->
+
+                <div class="cont_table_wrap">
+
+                    <h3 class="cont_tit_sub2 st2">이용현황</h3>
+                    <div class="cont_table_wrap">
+
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>회사 명</th>
+                                <th>이용자 명</th>
+                                <th>이용계정</th>
+                                <th>이용 서비스</th>
+                                <th>이용 서버</th>
+                                <th>서버 IP</th>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                                <th>이용 상태</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${list.totalElements == 0}">
+                                <td colspan="9">등록된 사용자가 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${list.totalElements == 0}" th:each="item : ${list}">
+                                <td th:text="${item.user.company.companyName}">(주)홍길동닷컴</td>
+                                <td th:text="${item.user.name}">홍길동</td>
+                                <td th:text="${item.user.email}">honggil@company.com</td>
+                                <td th:text="${item.serviceType}"></td>
+                                <td th:text="${item.server.type}"></td>
+                                <td th:text="${item.server.ip}"></td>
+                                <td th:text="${#dates.format(item.server.startDate,'yyyy. MM. dd')}"></td>
+                                <td th:text="${#dates.format(item.server.endDate,'yyyy. MM. dd')}"></td>
+                                <td th:text="${item.server.status == 'ACTIVE' ? '이용중' : '정지'}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div><!-- //cont_table_wrap -->
+
+                </div><!-- //cont_wrap -->
+                <div class="cont_pagination">
+                    <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/admin/usage_history(page=${list.number},type=${type},search=${search})}">Prev</a>
+                        <a href="#1" th:href="@{/admin/usage_history(page=${page},type=${type},search=${search})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/admin/usage_history(page=${list.number+2},type=${type},search=${search})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    </div>
+
+                </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $("#form").validate({
+        rules: {
+            title: {
+                required: true
+            },
+            contents: {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: '제목을 입력해주세요.'
+            },
+            contents: {
+                required: '내용을 입력해주세요.'
+            }
+        }
+    })
+</script>
+</th:block>
+</body>
+</html>

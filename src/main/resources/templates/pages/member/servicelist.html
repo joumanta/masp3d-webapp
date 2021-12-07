@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>아이디 찾기 |  MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">서비스 이용</span>
+            </div>
+        </section><!-- //section_location -->
+
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">서비스 이용</h2>
+                <div class="cont_wrap">
+                    <div class="cont_tit st2">
+                        <div class="payment_month">서비스 이용</div>
+                    </div>
+                    <h3 class="cont_tit_sub2 st2">서비스 이용 항목</h3>
+                    <div class="cont_table_wrap">
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>이용 서비스</th>
+                                <th>이용 서버</th>
+                                <th>서버 IP</th>
+                                <th>이용 상태</th>
+                                <th>서버 접속</th>
+<!--                                <th>진행률</th>-->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(serverList)}">
+                                <td colspan="5">이용중인 서비스가 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${#lists.isEmpty(serverList)}" th:each="item : ${serverList}">
+                                <td th:text="${item.name}">Basic</td>
+                                <td th:text="${item.type}">4vCPU * 16GB</td>
+                                <td th:text="${item.ip}">10.0.0.1</td>
+                                <td th:text="${item.status == 'ACTIVE' ? '이용중' : '정지'}">이용중</td>
+                                <td>
+                                    <form target="_blank" th:action="@{${item.rdpUrl}}">
+                                    <button type="submit" class="header_util_btn_report">서버접속</button>
+                                    </form>
+                                </td>
+<!--                                <td><button type="button" class="header_util_btn_report">진행률</button></td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                        정지중인 서비스에 접속 시 서버 구동이 시작되며 과금이 시작됩니다.
+
+                    </div><!-- //cont_table_wrap -->
+
+                    <div class="cont_btns">
+                        <button type="submit" class="btn_btm submit" id="test_submit">서비스 추가</button>
+
+                    </div>
+                    <th:block sec:authorize="hasRole('ADMIN')" >
+                    <h3 class="cont_tit_sub2 st2">서비스 이용/신청 내역</h3>
+                    <div class="cont_table_wrap">
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>이용자명</th>
+                                <th>이용계정</th>
+                                <th>이용 서비스</th>
+<!--                                <th>이용 서버</th>-->
+<!--                                <th>서버 IP</th>-->
+                                <th>신청 사유</th>
+                                <th>상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${requestList.totalElements == 0}">
+                                <td colspan="5">서비스 신청내역이 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${requestList.totalElements == 0}" th:each="item : ${requestList}">
+                                <td th:text="${item.user.name}">이순신</td>
+                                <td th:text="${item.user.email}">hong@hong.co.kr</td>
+                                <td th:text="${item.serviceType}">Professional</td>
+<!--                                <td th:text="${item.server.type}">8vCPU * 32GB</td>-->
+<!--                                <td th:text="${item.server.ip}">10.0.0.5</td>-->
+                                <td th:text="${item.cause}">정지</td>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|permit(${item.id})|" th:if="${item.status == T(kr.co.specko.masp3d.member.entity.RequestStatus).READY}">승인</button>
+                                    <button type="button" class="header_util_btn_report" th:attr="onclick=|deletePermit('${item.serviceType}',${item.id})|" th:unless="${item.status == T(kr.co.specko.masp3d.member.entity.RequestStatus).READY}" th:text="삭제">승인</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- //cont_table_wrap -->
+                    </th:block>
+                </div><!-- //cont_wrap -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+    <div class="pop_wrap" id="test_pop">
+        <div class="pop_box pop_box_set">
+            <form name="form" id="form">
+            <div class="pop_header">
+                <h3 class="pop_tit">MAPS-3D 서버 신청</h3>
+                <div><button type="button" class="pop_btn_close">Close</button></div>
+            </div>
+            <div class="pop_cont">
+                <div class="cont_tit st4">
+                    <p>MAPS-3D 서버 신청</p>
+                    <p class="subtxt">이용하실 MAPS-3D서비스 신청 후 관리자 승인 후 사용하실 수 있습니다.</p>
+                </div>
+
+                <div class="pop_cont_option">
+                    <div class="ele_label">Service</div>
+                    <div class="">
+                        <select name="serviceType" id="serviceType">
+                            <option value="Basic">Basic</option>
+                            <option value="Professional">Professional</option>
+                            <option value="Special">Special</option>
+                            <option value="쾌속 금형설계 검증 S/W">쾌속 금형설계 검증 S/W</option>
+                        </select>
+                        <input type="text" id="cause" name="cause" class="input_login" placeholder="신청 이유를 입력해 주세요.">
+                    </div>
+                </div><!-- //pop_cont_option -->
+            </div><!-- //pop_cont -->
+            <div class="cont_btns pop_btns">
+                <button type="submit" class="btn_btm submit">확인</button>
+                <button type="button" class="btn_btm cancel event_close">취소</button>
+            </div>
+            </form>
+        </div><!-- //pop_box -->
+    </div><!-- //pop_wrap -->
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+            $('#test_submit').on('click', function () {
+                popupOpen('#test_pop');
+            });
+
+            $("#form").validate({
+                rules: {
+                    cause: {
+                        required:true
+                    }
+                },
+                messages: {
+                    cause: {
+                        required: '신청사유를 입력해주세요.'
+                    }
+                },
+                submitHandler: function() {
+                    $.ajax({
+                        url: '[[@{/member/service_add}]]',
+                        method:'post',
+                        data: {
+                            serviceType: $("#serviceType option:selected").val(),
+                            cause: $("#cause").val()
+                        },
+                        success:function(res) {
+                            if(res == 'FAIL') {
+                                alert('이미 신청된 서비스입니다.');
+                            } else {
+                                alert('정상적으로 신청되었습니다.\r\n관리자의 승인을 기다려 주세요.');
+                                $(".pop_btn_close").trigger('click');
+                                setTimeout(function() {
+                                    location.reload();
+                                },50);
+
+                            }
+                        }
+                    })
+
+                }
+            });
+
+            function permit(id) {
+                $.ajax({
+                    url: '[[@{/member/service_permit}]]',
+                    method:'post',
+                    data: {
+                        id : id
+                    },
+                    success:function(res) {
+                        alert("승인 되었습니다.");
+                        location.reload();
+                    }
+                })
+            }
+
+            function deletePermit(serviceType,id) {
+
+                confirm('[' + serviceType + '] 서비스 권한을 삭제하시겠습니까?')
+                {
+                    $.ajax({
+                        url: '[[@{/member/service_delete}]]',
+                        method: 'post',
+                        data: {
+                            id: id
+                        },
+                        success: function (res) {
+                            alert("서비스 권한이 삭제되었습니다.");
+                            location.reload();
+                        }
+                    })
+                }
+            }
+    </script>
+</th:block>
+</th:block>
+</body>
+</html>

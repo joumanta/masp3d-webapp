@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>이용자 관리[관리자] | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">이용자 관리</span>
+            </div>
+        </section><!-- //section_location -->
+
+
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">이용자 관리</h2>
+                <div class="cont_wrap">
+                    <div class="cont_tit st2">
+                        <div class="payment_month">이용자 관리</div>
+                    </div>
+                    <h3 class="cont_tit_sub2 st2">이용자 목록</h3>
+                    <div class="cont_table_wrap">
+
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>회사명</th>
+                                <th>대표 계정</th>
+                                <th>담당자 명</th>
+                                <th>담당자 연락처</th>
+                                <th>상태</th>
+                                <th>상세</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${list.totalElements == 0}">
+                                <td colspan="6">등록된 이용자가 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${list.totalElements == 0}" th:each="item : ${list}">
+                                <td th:text="${item.company.companyName}"></td>
+                                <td th:text="${item.email}">honggil@company.com</td>
+                                <td th:text="${item.company.chargeName}">홍길동</td>
+                                <td th:text="${item.company.chargeMobile}">010-9999-8888</td>
+                                <th:block th:if="${item.enabled}">
+                                <td th:text="승인완료"></td>
+                                </th:block>
+                                <th:block th:unless="${item.enabled}">
+                                    <td th:text="신청"></td>
+                                </th:block>
+                                <td><button type="button" class="header_util_btn_report" th:attr="onclick=|goDetail('${item.id}')|"  >상세</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div><!-- //cont_table_wrap -->
+
+                </div><!-- //cont_wrap -->
+                <div class="cont_pagination">
+                    <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/admin/servicelist(page=${list.number})}">Prev</a>
+                        <a href="#1" th:href="@{/admin/servicelist(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/admin/servicelist(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    </div>
+
+                    <!--
+                    <div class="cont_btns">
+                        <button type="button" class="btn_btm submit" onclick="location.href='notice_write.html'">글쓰기</button>
+                    </div>
+                    -->
+                </div><!-- //cont_pagination -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        function goDetail(id) {
+            location.href = 'servicelist_member?page=[[${page}]]&id=' + id;
+        }
+
+    </script>
+</th:block>
+</body>
+</html>

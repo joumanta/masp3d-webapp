@@ -1,0 +1,418 @@
+.side_util {
+    position: fixed;
+    bottom: 320px;
+    width: 100%;
+    display: block;
+    z-index: 1
+}
+.side_util.on {
+    z-index: 101
+}
+.side_util .layout_inner {
+    position: relative
+}
+.side_top_btn {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 100%;
+    width: 58px;
+    height: 58px;
+    margin-left: 37px;
+    border: 0;
+    background: url(../images/common/btn_side_top.png) no-repeat center center;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    transition: top .2s ease-out;
+}
+.side_util.on .side_top_btn {
+    top: -130px
+}
+
+.side_menu {
+    position: absolute;
+    top: 50px;
+    left: 100%;
+}
+.side_menu_btn {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    cursor: pointer;
+    -webkit-transform: scale(0.5);
+    -moz-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    transform: scale(0.5);
+}
+.side_menu_btn .ele_outer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 30px solid #fff;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 20px 6px rgba(0,0,0,0.08);
+}
+.side_menu_btn .ele_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 116px;
+    height: 116px;
+    border: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    background: url(../images/common/btn_side_bg.png) no-repeat center center;
+    animation: sideBtn 8000ms 0s infinite ease-in-out, sideBtn2 6000ms 0s infinite ease-in
+}
+.side_menu_btn .ele_inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 8px solid #fff;
+    box-shadow: inset 0 20px 6px rgba(0,0,0,0.08);
+    animation: sideBtn3 6000ms 0s infinite ease-in
+}
+
+@keyframes sideBtn {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sideBtn2 {
+    0% {
+        width: 116px;
+        height: 116px;
+    }
+    5% {
+        width: 92px;
+        height: 92px;
+    }
+    10% {
+        width: 124px;
+        height: 124px;
+    }
+    15% {
+        width: 116px;
+        height: 116px;
+    }
+}
+
+@keyframes sideBtn3 {
+    0% {
+        border-width: 8px;
+        width: 65px;
+        height: 65px;
+    }
+    5% {
+        width: 60px;
+        height: 60px
+    }
+    10% {
+        border-width: 20px;
+        width: 68px;
+        height: 68px
+    }
+    15% {
+        border-width: 8px;
+        width: 65px;
+        height: 65px;
+    }
+}
+
+.side_menu_link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.side_menu_link a {
+    position: absolute;
+    display: block;
+    width: 96px;
+    height: 96px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    background: url(../images/common/btn_side_bg.png) no-repeat center center;
+    background-size: 100%;
+    box-shadow: 0 10px 3px rgba(0,0,0,0.08);
+    color: #5f6b8c;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+}
+.side_menu_link a span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 70px;
+    height: 70px;
+    padding-top: 42px;
+    border-radius: 50%
+}
+.side_menu_link a:first-child {
+    /*top: -154px;
+    left: -19px;*/
+    top: -156px;
+    left: -19px;
+    transition: .1s .1s;
+}
+.side_menu_link a:nth-child(2) {
+    /*top: -106px;
+    left: -145px;*/
+    top: -77px;
+    left: -155px;
+    transition: .1s .05s;
+}
+.side_menu_link a:nth-child(3) {
+    top: 58px;
+    left: -75px;
+    transition: .1s;
+}
+.side_util.on .side_menu_link a {
+    opacity: 1;
+    pointer-events: inherit;
+}
+.side_util.on .side_menu_link a:first-child {
+    top: -159px;
+    left: -47px
+}
+.side_util.on .side_menu_link a:nth-child(2) {
+    /*top: -79px;
+    left: -156px*/
+    top: -49px;
+    left: -156px
+}
+.side_util.on .side_menu_link a:nth-child(3) {
+    top: 62px;
+    left: -47px
+}
+.ico_calculator span {
+    background: #fff url(../images/common/btn_side_ico_bank.png) no-repeat center 8px;
+}
+.ico_inquiry span {
+    background: #fff url(../images/common/btn_side_ico_bubble.png) no-repeat center 8px;
+}
+.ico_guide span {
+    background: #fff url(../images/common/btn_side_ico_doc.png) no-repeat center 8px;
+}
+.ico_faq span {
+    background: #fff url(../images/common/btn_side_ico_faq.png) no-repeat center 8px;
+}
+
+/******************* media query ***********************/
+@media all and (max-width:1850px) {
+    body,
+    .header_common,
+    .calculator_wrap {
+        min-width: 1280px
+    }
+    .layout_inner {
+        padding-right: 100px
+    }
+    body.body_error .layout_inner {
+        padding-right: 20px;
+    }
+    .side_top_btn {
+        left: auto;
+        right: 10px
+    }
+    .side_menu {
+        left: auto;
+        right: 10px;
+        margin-right: -37px
+    }
+}
+
+@media all and (min-width:1550px) {
+    .index_service .layout_tit,
+    .footer_common .layout_tit {
+        padding-left: 290px
+    }
+    .index_service .index_tit {
+        position: absolute;
+        border-top: 0;
+        border-bottom: 0;
+        line-height: inherit;
+        text-align: left;
+        padding-left: 22px
+    }
+    .index_service .index_tit span {
+        display: block
+    }
+    .index_service .index_tit::after {
+        display: block
+    }
+
+    .index_service .header_gnb_sub_2depth > li {
+        border-left: 0;
+        border-top: 1px solid #a5c1ba;
+        padding-top: 10px;
+        padding-left: 0
+    }
+    .index_service_cont {
+        margin: 0 -42px;
+    }
+    .index_service .header_gnb_sub_2depth {
+        border-spacing: 42px 0;
+    }
+}
+
+@media all and (max-width:1550px) {
+    /***** MAIN BANNER *****/
+    .index_banner {
+        height: 640px
+    }
+    .index_banner .swiper-pagination {
+        right: 100px
+    }
+    .index_banner .slide_cont {
+        margin-left: 0
+    }
+    .index_banner .slide_link {
+        top: 460px
+    }
+    .index_banner .slide_pagination {
+        top: 505px;
+    }
+    .index_banner .swiper-pagination {
+        text-align: right;
+        right: 20px
+    }
+    .index_banner .swiper-pagination-bullet {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    .header_logo, .header_gnb_sub_tit {
+        width: 200px
+    }
+
+}
+
+
+@media print {
+    .header_common,
+    .footer_common,
+    .side_util,
+    .main_sub,
+    .layout_tit .sub_tit,
+    .calculator_body .cont_btns,
+    .calculator_footer {
+        display: none
+    }
+
+    body {
+        min-width: auto;
+        background: #fff;
+        font-size: 12px
+    }
+
+    .calculator_wrap {
+        position: static;
+        height: 100%;
+        min-width: auto;
+    }
+
+    .calculator_logo {
+        display: block;
+        height: 100px;
+        padding-top: 45px;
+        margin: 0 20px;
+        border-bottom: 1px solid #565656;
+        text-align: right;
+    }
+
+    .calculator_logo img {
+        width: 160px
+    }
+
+    .calculator_wrap .layout_inner {
+        padding: 0 20px 20px;
+        max-width: none
+    }
+
+    .calculator_wrap .layout_tit {
+        padding-left: 0
+    }
+
+    .calculator_wrap .cont_section {
+        border-top: 0
+    }
+
+    .calculator_wrap .cont_tit {
+        border-bottom: 0;
+        padding: 10px 0 0 0;
+        margin-bottom: 60px;
+        border-top: 0
+    }
+
+    .calculator_wrap .cont_tit::before {
+        content: '요금 계산 결과';
+        float: left;
+        font-weight: 300
+    }
+
+    .calculator_wrap .cont_tit_sub2.st2 {
+        padding-left: 0;
+        font-size: 13px
+    }
+
+    .calculator_wrap .cont_tit_sub2::after {
+        display: none
+    }
+
+    .calculator_body {
+        position: static;
+        padding-top: 50px
+    }
+
+    .calculator_wrap .tb_calculator_list {
+        border-right: 0 hidden;
+        border-top: 1px double #565656;
+        border-bottom: 1px double #565656
+    }
+
+    .calculator_wrap .tb_calculator_list tr th,
+    .calculator_wrap .tb_calculator_list td {
+        background: transparent;
+        color: #2e2e2e;
+        border: 1px solid #e5e5e5;
+        height: 3em;
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .calculator_wrap .tb_calculator_list tr th {
+        font-weight: normal
+    }
+
+    .calculator_wrap .tb_calculator_list tr td {
+        font-weight: 300
+    }
+
+    .calculator_wrap .cont_tit .calculator_txt_total {
+        color: #000
+    }
+}

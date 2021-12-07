@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>회원정보 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">요금 및 사용내역</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">사용내역 조회</h2>
+                <div class="cont_wrap">
+                    <div class="cont_tit st2">
+                        <div class="payment_month" th:text="${#dates.month(searchDate)} + '월 이용내역'">9월 이용내역</div>
+                        <div class="select_wrap payment_month_select">
+                            <form method="get" id="form" name="form">
+                                <select name="searchDate" th:onchange="search()">
+                                    <option th:each="item : ${searchDates}" th:text="${#dates.format(item, 'yyyy. MM') + '월 이용내역'}" th:value="${#dates.format(item, 'yyyyMM')}"
+                                            th:selected="${#dates.format(searchDate, 'yyyyMM') == #dates.format(item, 'yyyyMM')}">
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="payment_total">
+                        <div class="payment_total_date"><span>이용기간</span><span th:text="${#dates.format(firstDate, 'yyyy. MM. dd')} + ' ~ ' + ${#dates.format(lastDate, 'yyyy. MM. dd')}">2021. 09. 01 ~ 2021. 09. 30</span></div>
+                        <div class="payment_total_price">
+                            <div><span class="calculator_txt_label" th:text="${#dates.month(searchDate)} + '월 납부하실 금액'">9월 납부하실 금액</span>
+                                <span class="calculator_txt_total"><strong th:text="${#numbers.formatInteger(total, 0, 'COMMA')}">0</strong>원</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="cont_tit_sub2 st2">이용내역</h3>
+                    <div class="cont_table_wrap">
+                        <table class="tb_login_list tb_calculator_list">
+                            <thead>
+                            <tr>
+                                <th>이용 서비스</th>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                                <th>월 이용시간</th>
+                                <th>월 이용요금</th>
+                                <!--<h>리포트</th>-->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
+                                <td th:text="${item.serverName}">Basic</td>
+                                <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}">2021. 08. 15.</td>
+                                <td th:text="${#dates.format(item.endDate,'yyyy. MM. dd')}"></td>
+                                <td th:text="${item.usageTime} + '시간'">0시간</td>
+                                <td class="td_charge" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}">0원</td>
+                                <!--<td><button type="button" class="header_util_btn_report">리포트</button></td>-->
+                            </tr>
+                            <tr th:unless="${not #lists.isEmpty(list)}">
+                                <td colspan="5">이용내역이 없습니다.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- //cont_table_wrap -->
+
+                </div><!-- //cont_wrap -->
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        function search() {
+            $("#form").submit();
+        }
+    </script>
+</th:block>
+</body>
+</html>

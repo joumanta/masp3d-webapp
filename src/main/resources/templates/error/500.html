@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/errorLayout">
+<head>
+    <title>서비스 점검 | G Cloudit</title>
+</head>
+<body class="body_error">
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="layout_inner layout_vertical">
+            <h2 class="layout_screen-out">Service Error</h2>
+            <div class="section_error">
+                <div class="error_front">
+                    <div class="error_tit">
+                        <div class="tit">Oops...!&nbsp;&nbsp;<p><strong>500</strong><span>&nbsp;Error.</span></p></div>
+                        <div class="subtit"><span>죄송합니다.&nbsp;</span><span>서버 오류로 요청하신 작업을 수행할 수 없습니다.</span></div>
+                        <div>이전 페이지에서 다시 시도해주시거나 고객센터에 문의해주시기 바랍니다.</div>
+                    </div><!-- //error_tit -->
+                    <div class="cont_btns cont_btns_error">
+                        <div class="cont_btns_group">
+                            <a class="btn_btm" href="javascript:history.back()">이전 페이지</a>
+                            <a class="btn_btm submit" th:href="@{/customer/inquiry}" href="/src/customer/inquiry.html">문의하기</a>
+                        </div>
+                        <div class="cont_btns_group">
+                            <span class="btn_btm normal">문의:070.4866-5528</span>
+                        </div>
+                    </div>
+                </div><!-- //error_front -->
+            </div><!-- //section_error -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+
+
+</body>
+</html>
