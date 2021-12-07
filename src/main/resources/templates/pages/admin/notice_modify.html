@@ -47,7 +47,7 @@
                         <tr>
                             <th>첨부파일</th>
                             <td><input type="file" name="file" class="input_file">
-                            <div style="padding:10px;"><a th:href="@{/customer/download(id=${notice.id})}"><span th:text="${notice.orgFileName}"></span></a> </div></td>
+                            <div style="padding:10px;" th:if="${notice.orgFileName}"><a th:href="@{/customer/download(id=${notice.id})}"><span th:text="${notice.orgFileName}"></span></a> </div></td>
                         </tr>
                         <tr>
                             <th scope="row">내용</th>

@@ -41,7 +41,7 @@
 
                 <div>
                     <div class="board_body" th:text="${notice.contents}"></div>
-                    <p style="padding:10px;text-align: right">첨부파일 : <a th:href="@{/customer/download(id=${notice.id})}" th:text="${notice.orgFileName}"></a> </p>
+                    <p style="padding:10px;text-align: right" th:if="${notice.orgFileName}">첨부파일 : <a th:href="@{/customer/download(id=${notice.id})}" th:text="${notice.orgFileName}"></a> </p>
                 </div>
 
                 <div class="cont_btns">
