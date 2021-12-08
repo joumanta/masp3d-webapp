@@ -52,7 +52,7 @@
                         <input type="hidden" name="search" id="search" th:value="${search}"/>
                         <input type="hidden" name="page" id="page" th:value="${page}"/>
                     <button type="submit" onclick="return confirm('삭제하시겠습니까?')" sec:authorize="hasRole('SUPER')" class="btn_btm">삭제</button>
-                        <button type="button" class="btn_btm" id="btn_list" th:onclick="'location.href=\''+ @{/admin/notice_modify(id=${notice.id},searchType=${type},search=${search},page=${page})} + '\''" onclick="location.href='notice.html'">수정</button>
+                        <button type="button" class="btn_btm" id="btn_list" sec:authorize="hasRole('SUPER')" th:onclick="'location.href=\''+ @{/admin/notice_modify(id=${notice.id},searchType=${type},search=${search},page=${page})} + '\''" onclick="location.href='notice.html'">수정</button>
                     </form>
 
                 </div>

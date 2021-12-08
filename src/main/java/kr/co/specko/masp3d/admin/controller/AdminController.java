@@ -127,12 +127,13 @@ public class AdminController {
     }
 
 
-
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/faq_write")
     public String faqWrite() {
         return "pages/admin/faq_write";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/faq_write")
     public String faqWriteAction(Faq faq, HttpServletRequest request) throws IOException {
         Map<String, String> upload = uploadUtil.upload(request);
@@ -145,11 +146,13 @@ public class AdminController {
         return "redirect:/customer/faq";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/notice_write")
     public String noticeWrite() {
         return "pages/admin/notice_write";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/notice_modify")
     public String noticeModify(@RequestParam(name = "page") Integer page,
                                @RequestParam(name="searchType", defaultValue = "all") String type,
@@ -164,6 +167,7 @@ public class AdminController {
         return "pages/admin/notice_modify";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/notice_write")
     public String noticeWriteAction(Notice notice, HttpServletRequest request) throws IOException {
         Map<String, String> upload = uploadUtil.upload(request);
@@ -177,7 +181,7 @@ public class AdminController {
     }
 
 
-
+    @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/notice_modify")
     public String noticeModifyAction(Notice notice,@RequestParam(name = "page") Integer page,
     @RequestParam(name="searchType", defaultValue = "all") String type,
@@ -195,6 +199,7 @@ public class AdminController {
         return "redirect:/customer/notice";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/notice_delete")
     public String noticeDelete(
             @RequestParam(name = "page") Integer page,
@@ -208,6 +213,7 @@ public class AdminController {
         return "redirect:/customer/notice";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/inquiry_list")
     public String inquiryList(@RequestParam(name = "page") Optional<Integer> page,
                               @RequestParam(name="searchType", defaultValue = "all") String type,
@@ -221,14 +227,29 @@ public class AdminController {
         return "pages/admin/inquiry_list";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/inquiry_write")
     public String inquiryWrite(@RequestParam(name = "id") Long id,
+                               @RequestParam(name = "page") Integer page,
                                Model model) {
         Inquiry inquiry = inquiryRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         model.addAttribute("inquiry", inquiry);
+        model.addAttribute("page", page);
         return "pages/admin/inquiry_write";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
+    @PostMapping("/inquiry_delete")
+    public String inquiryDelete(@RequestParam(name = "id") Long id,
+                               @RequestParam(name = "page") Integer page,
+                               Model model,RedirectAttributes redirectAttributes) {
+        Inquiry inquiry = inquiryRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        inquiryRepository.delete(inquiry);
+        redirectAttributes.addAttribute("page", page);
+        return "redirect:/admin/inquiry_list";
+    }
+
+    @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/inquiry_answer")
     public String inquiryAnswer(@RequestParam(name = "id") Long id, @RequestParam(name = "answer") String answer,
                                Model model) {
@@ -240,6 +261,7 @@ public class AdminController {
         return "redirect:/admin/inquiry_write?id=" + id;
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/billing")
     public String billing(@DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model, Authentication authentication) throws ParseException {
 
@@ -281,6 +303,7 @@ public class AdminController {
         return "pages/admin/billing";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/billing_insert")
     public String billingInsert(@RequestParam(name = "page") Optional<Integer> page,
                                 @DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model) {
@@ -317,6 +340,7 @@ public class AdminController {
         return "pages/admin/billing_insert";
     }
 
+    @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/billing_insert")
     public String billingInsertAction(@RequestParam("searchDate") String searchDate,
                                       @RequestParam("id[]") Long[] id,

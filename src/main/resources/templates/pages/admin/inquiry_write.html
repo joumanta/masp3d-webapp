@@ -61,15 +61,19 @@
 
                     </table>
 <!--                    <div class="signup_error" style="display: block"><span class="ico_notice">내용을 입력해 주세요.</span></div>-->
-
                     <div class="cont_btns">
                         <button type="submit" class="btn_btm submit" th:onclick="return confirm('답변을 등록하시겠습니까?')">작성하기</button>
                         <button type="button" class="btn_btm" onclick="history.back();">취소</button>
+                        <button type="button" onclick="deleteInquiry()" sec:authorize="hasRole('SUPER')" class="btn_btm">삭제</button>
                     </div>
                 </form>
             </div><!-- //layout_tit -->
         </section><!-- //layout_inner -->
     </main>
+    <form id="deleteForm" th:action="@{/admin/inquiry_delete}" method="post">
+        <input type="hidden" name="id" th:value="${inquiry.id}">
+        <input type="hidden" name="page" th:value="${page}">
+    </form>
 </th:block>
 <th:block layout:fragment="pageScript">
 <script>
@@ -91,6 +95,12 @@
             }
         }
     })
+    function deleteInquiry() {
+        if(confirm('삭제하시겠습니까?')) {
+            $("#deleteForm").submit();
+        }
+    }
+
 </script>
 </th:block>
 </body>
