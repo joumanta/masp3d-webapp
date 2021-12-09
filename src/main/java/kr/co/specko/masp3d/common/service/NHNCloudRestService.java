@@ -80,6 +80,8 @@ public class NHNCloudRestService {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.postForObject(uri, request, String.class);
 
+        System.out.println("토큰"+result);
+
         JSONObject jsonObject = new JSONObject(result);
 
         String token = jsonObject
