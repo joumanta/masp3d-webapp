@@ -6,6 +6,7 @@ import kr.co.specko.masp3d.member.repository.CompanyRepository;
 import kr.co.specko.masp3d.member.repository.ServerRepository;
 import kr.co.specko.masp3d.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import java.util.TimeZone;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NHNCloudRestService {
 
     @Value("${nhn.username}")
@@ -58,7 +60,7 @@ public class NHNCloudRestService {
 
     private String token(String tenantId, String password) throws JSONException {
 
-
+        log.info("토큰 발급시작");
         URI uri = UriComponentsBuilder.fromUriString("https://api-identity.infrastructure.cloud.toast.com")
                 .path("/v2.0/tokens").encode().build().toUri();
 
@@ -90,7 +92,7 @@ public class NHNCloudRestService {
                 .getString("id");
         String expire = jsonObject.getJSONObject("access").getJSONObject("token").getString("expires");
 
-
+        log.info("토큰 {}", token);
         return token;
     }
 
