@@ -22,12 +22,12 @@ public class InitDB {
     private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
 
-    @Bean
+//    @Bean
     @Transactional
     public void initializeDefaultUser() {
 
 //        Company byId = companyRepository.findById(12L).orElseThrow(IllegalAccessError::new);
-        String encode = passwordEncoder.encode("1234");
+        String encode = passwordEncoder.encode("qwer1234%");
         System.out.println("");
 
        /* User user = User.builder()

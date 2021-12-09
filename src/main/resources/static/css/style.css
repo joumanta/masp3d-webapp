@@ -5565,61 +5565,76 @@ td .ico_check {
   background-position: center center;
 }
 .service_features .service_features_ico01::after {
-  background-image: url(../images/content/service_features_ico01.png)
+  background-image: url(../images/content/service_features_ico01.png);
+  background-size: contain;
 }
 .service_features .service_features_ico02::after {
-  background-image: url(../images/content/service_features_ico02.png)
+  background-image: url(../images/content/service_features_ico02.png);
+  background-size: contain;
 }
 .service_features .service_features_ico03::after {
-  background-image: url(../images/content/service_features_ico03.png)
+  background-image: url(../images/content/service_features_ico03.png);
+  background-size: contain;
 }
 .service_features .service_features_ico04::after {
-  background-image: url(../images/content/service_features_ico04.png)
+  background-image: url(../images/content/service_features_ico04.png);
+  background-size: contain;
 }
 .service_features .service_features_ico05::after {
-  background-image: url(../images/content/service_features_ico05.png)
+  background-image: url(../images/content/service_features_ico05.png);
+  background-size: contain;
 }
 .service_features .service_features_ico06::after {
-  background-image: url(../images/content/service_features_ico06.png)
+  background-image: url(../images/content/service_features_ico06.png);
+  background-size: contain;
 }
 .service_features .service_features_ico07::after {
-  background-image: url(../images/content/service_features_ico07.png)
+  background-image: url(../images/content/service_features_ico07.png);
+  background-size: contain;
 }
 .service_features .service_features_ico08:after {
-  background-image: url(../images/content/service_features_ico08.png)
+  background-image: url(../images/content/service_features_ico08.png);
+  background-size: contain;
 }
 .service_features .service_features_ico09::after {
-  background-image: url(../images/content/service_features_ico09.png)
+  background-image: url(../images/content/service_features_ico09.png);
+  background-size: contain;
 }
 .service_features .service_features_ico10::after {
-  background-image: url(../images/content/service_features_ico10.png)
+  background-image: url(../images/content/service_features_ico10.png);
+  background-size: contain;
 }
 .service_features .service_features_ico11::after {
-  background-image: url(../images/content/service_features_ico11.png)
+  background-image: url(../images/content/service_features_ico11.png);
+  background-size: contain;
 }
 .service_features .service_features_ico12::after {
-  background-image: url(../images/content/service_features_ico12.png)
+  background-image: url(../images/content/service_features_ico12.png);
+  background-size: contain;
 }
 .service_features .service_features_ico13::after {
-  background-image: url(../images/content/service_features_ico13.png)
+  background-image: url(../images/content/service_features_ico13.png);
+  background-size: contain;
 }
 .service_features .service_features_ico14::after {
-  background-image: url(../images/content/service_features_ico14.png)
+  background-image: url(../images/content/service_features_ico14.png);
+  background-size: contain;
 }
 .service_features .service_features_ico15::after {
-  background-image: url(../images/content/service_features_ico15.png)
+  background-image: url(../images/content/service_features_ico15.png);
+  background-size: contain;
 }
 .service_features .service_features_ico16::after {
-  background-image: url(../images/content/service_features_ico16.png)
+  background-image: url(../images/content/service_features_ico16.png);
 }
 .service_features .service_features_ico17::after {
-  background-image: url(../images/content/service_features_ico17.png)
+  background-image: url(../images/content/service_features_ico17.png);
 }
 .service_features .service_features_ico18::after {
-  background-image: url(../images/content/service_features_ico18.png)
+  background-image: url(../images/content/service_features_ico18.png);
 }
 .service_features .service_features_ico19::after {
-  background-image: url(../images/content/service_features_ico19.png)
+  background-image: url(../images/content/service_features_ico19.png);
 }
 .service_features .service_features_ico20::after {
   background-image: url(../images/content/service_features_ico20.png)
