@@ -21,7 +21,7 @@ public interface ServerRepository extends JpaRepository<Server, Long> {
     List<Server> findByName(String type);
 
     @Query("select new kr.co.specko.masp3d.member.entity.CompanyBilling(sum(b.price),b.company) from Billing b join b.company where b.baseDate = :baseDate group by b.company")
-    List<CompanyBilling> findGroupByCompany(String baseDate);
+    Page<CompanyBilling> findGroupByCompany(String baseDate, Pageable pageable);
 
 
     Server findByServerId(String serverId);

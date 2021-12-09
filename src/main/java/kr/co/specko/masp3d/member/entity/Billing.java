@@ -37,6 +37,8 @@ public class Billing {
 
     private int usageTime;
 
+    private String serverId;
+
     @ManyToOne
     private Company company;
 

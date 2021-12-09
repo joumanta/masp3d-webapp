@@ -39,6 +39,23 @@ public class NHNCloudRestService {
 
     private final CompanyRepository companyRepository;
 
+    public boolean isActive(String tenantId, String serverId) {
+        String token = token(tenantId, "!$VMtech1!");
+        URI uri = UriComponentsBuilder.fromUriString("https://kr1-api-instance.infrastructure.cloud.toast.com")
+                .path("/v2/" + tenantId + "/servers/" + serverId).encode().build().toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("X-Auth-Token",token);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+        JSONObject jsonObject = new JSONObject(exchange.getBody());
+        return jsonObject.getJSONObject("server").getString("status").equals("ACTIVE");
+    }
+
     private String token(String tenantId, String password) throws JSONException {
 
 
@@ -147,6 +164,9 @@ public class NHNCloudRestService {
                 server.setType(vcpu + "vCPU * " + (ram / 1024) + "GB");
                 server.setStatus(status);
                 server.setIp(ip);
+                if(status.equals("STOPPED")) {
+                    server.setEndDate(sdf.parse(updatedTime));
+                }
                 server.setServerId(id);
                 server.setStartDate(startDate);
                 list.add(server);
@@ -247,6 +267,32 @@ public class NHNCloudRestService {
     }
 
 
+    public Server getServerInfo(String tenantId, String serverId) throws ParseException {
+        String token = token(tenantId, "!$VMtech1!");
+        URI uri = UriComponentsBuilder.fromUriString("https://kr1-api-instance.infrastructure.cloud.toast.com")
+                .path("/v2/" + tenantId + "/servers/" + serverId).encode().build().toUri();
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("X-Auth-Token",token);
 
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+        JSONObject serverInfo = new JSONObject(exchange.getBody());
+        JSONObject server1 = serverInfo.getJSONObject("server");
+
+        Server server = new Server();
+        server.setServerId(server1.getString("id"));
+        server.setStatus(server1.getString("status"));
+        String createdDate = convertUTC(server1.getString("created"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        server.setStartDate(sdf.parse(createdDate));
+        String updatedDate = convertUTC(server1.getString("updated"));
+        if(server1.getString("status").equals("STOPPED")) {
+            server.setEndDate(sdf.parse(updatedDate));
+        }
+        return server;
+    }
 }

@@ -10,7 +10,6 @@ import kr.co.specko.masp3d.customer.repository.InquiryRepository;
 import kr.co.specko.masp3d.customer.repository.NoticeRepository;
 import kr.co.specko.masp3d.member.entity.*;
 import kr.co.specko.masp3d.member.repository.*;
-import kr.co.specko.masp3d.member.service.BillingService;
 import kr.co.specko.masp3d.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.time.DateUtils;
@@ -49,7 +48,6 @@ public class AdminController {
     private final ServerRepository serverRepository;
     private final UserRepository userRepository;
     private final BillingRepository billingRepository;
-    private final BillingService billingService;
 
     @GetMapping(value = {"","/"})
     public String index() {
@@ -263,8 +261,9 @@ public class AdminController {
 
     @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/billing")
-    public String billing(@DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model, Authentication authentication) throws ParseException {
-
+    public String billing(@RequestParam(name = "page") Optional<Integer> page,
+                          @DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model, Authentication authentication) throws ParseException {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10,Sort.by("id").descending());
         if(searchDate == null) {
             searchDate = new Date();
         }
@@ -283,7 +282,10 @@ public class AdminController {
 
         List<Company> list = companyRepository.findAll();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        List<CompanyBilling> groupByCompany = serverRepository.findGroupByCompany(sdf.format(searchDate));
+        Page<CompanyBilling> groupByCompany = serverRepository.findGroupByCompany(sdf.format(searchDate), pageable);
+
+        model.addAttribute("page", pageable.getPageNumber()+1);
+        model.addAttribute("maxPage", 5);
 
         long totalSum = 0;
         for(CompanyBilling c : groupByCompany) {
@@ -301,6 +303,46 @@ public class AdminController {
         model.addAttribute("searchDates", searchDates);
 
         return "pages/admin/billing";
+    }
+
+    @PreAuthorize("hasRole('SUPER')")
+    @GetMapping("/billing_detail")
+    public String billingDetail(@RequestParam(name = "page") Optional<Integer> page,
+                          @DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model, Authentication authentication) throws ParseException {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10,Sort.by("id").descending());
+        if(searchDate == null) {
+            searchDate = new Date();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(searchDate);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DATE));
+
+        model.addAttribute("searchDate", searchDate);
+        model.addAttribute("firstDate", calendar.getTime());
+
+        calendar = Calendar.getInstance();
+        calendar.setTime(searchDate);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+
+        model.addAttribute("lastDate", calendar.getTime());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+        Page<Billing> groupByCompany = billingRepository.findByBaseDate(sdf.format(searchDate), pageable);
+
+        model.addAttribute("page", pageable.getPageNumber()+1);
+        model.addAttribute("maxPage", 5);
+
+        model.addAttribute("list", groupByCompany);
+
+        List<Date> searchDates = new ArrayList<>();
+        Date date = new Date();
+        for(int i=0;i<10;i++) {
+            searchDates.add(date);
+            date = DateUtils.addMonths(date, -1);
+        }
+        model.addAttribute("searchDates", searchDates);
+
+        return "pages/admin/billing_detail";
     }
 
     @PreAuthorize("hasRole('SUPER')")
@@ -340,7 +382,7 @@ public class AdminController {
         return "pages/admin/billing_insert";
     }
 
-    @PreAuthorize("hasRole('SUPER')")
+    /*@PreAuthorize("hasRole('SUPER')")
     @PostMapping("/billing_insert")
     public String billingInsertAction(@RequestParam("searchDate") String searchDate,
                                       @RequestParam("id[]") Long[] id,
@@ -375,6 +417,6 @@ public class AdminController {
             }
         }
         return "redirect:billing?searchDate=" + searchDate;
-    }
+    }*/
 
 }

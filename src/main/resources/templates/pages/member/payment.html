@@ -55,7 +55,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
+                            <tr th:if="${list.totalElements > 0}" th:each="item : ${list}">
                                 <td th:text="${item.serverName}">Basic</td>
                                 <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}">2021. 08. 15.</td>
                                 <td th:text="${#dates.format(item.endDate,'yyyy. MM. dd')}"></td>
@@ -63,13 +63,19 @@
                                 <td class="td_charge" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}">0원</td>
                                 <!--<td><button type="button" class="header_util_btn_report">리포트</button></td>-->
                             </tr>
-                            <tr th:unless="${not #lists.isEmpty(list)}">
+                            <tr th:unless="${list.totalElements > 0}">
                                 <td colspan="5">이용내역이 없습니다.</td>
                             </tr>
                             </tbody>
                         </table>
                     </div><!-- //cont_table_wrap -->
-
+                    <div class="cont_pagination">
+                        <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                            <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/member/payment(page=${list.number})}">Prev</a>
+                            <a href="#1" th:href="@{/member/payment(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                            <a href="#next" th:href="@{/member/payment(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                        </div>
+                    </div>
                 </div><!-- //cont_wrap -->
             </div><!-- //layout_tit -->
         </section><!-- //layout_inner -->

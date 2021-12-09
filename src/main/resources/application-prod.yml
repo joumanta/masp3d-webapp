@@ -10,7 +10,7 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
 
 upload:
   dir: /home/centos/upload/

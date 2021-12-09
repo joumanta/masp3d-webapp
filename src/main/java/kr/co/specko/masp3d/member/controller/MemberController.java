@@ -276,7 +276,9 @@ public class MemberController {
     }
 
     @GetMapping("/payment")
-    public String payment(@DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model, Authentication authentication) throws ParseException {
+    public String payment(@RequestParam(name = "page") Optional<Integer> page,
+                          @DateTimeFormat(pattern = "yyyyMM") Date searchDate, Model model, Authentication authentication) throws ParseException {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10,Sort.by("id").descending());
         User user = (User)authentication.getPrincipal();
 
         if(searchDate == null) {
@@ -296,13 +298,16 @@ public class MemberController {
         model.addAttribute("lastDate", calendar.getTime());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        List<Billing> list = billingRepository.findByBaseDateAndCompanyId(sdf.format(searchDate), user.getCompany().getId());
+        Page<Billing> list = billingRepository.findByBaseDateAndCompanyId(sdf.format(searchDate), user.getCompany().getId(),pageable);
         long total = 0;
         for(Billing billing : list) {
             total += billing.getPrice();
         }
         model.addAttribute("total", total);
         model.addAttribute("list", list);
+
+        model.addAttribute("page", pageable.getPageNumber()+1);
+        model.addAttribute("maxPage", 5);
 
 
         List<Date> searchDates = new ArrayList<>();

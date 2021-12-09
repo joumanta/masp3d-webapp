@@ -31,6 +31,8 @@ public class Server {
 
     private String status;
 
+    private String lastModifyDate;
+
     private Date startDate;
     private Date endDate;
     private String rdpUrl;
