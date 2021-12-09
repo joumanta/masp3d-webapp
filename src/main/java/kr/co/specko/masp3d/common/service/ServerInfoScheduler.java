@@ -33,6 +33,8 @@ public class ServerInfoScheduler {
             try {
                 List<Server> serverList = restService.getServerList(company.getTenantId(), company);
                 for(Server server : serverList) {
+
+                    log.info("{}",server);
                     Server s = serverRepository.findByServerId(server.getServerId());
                     if(s == null) {
                         s = new Server();
@@ -48,9 +50,11 @@ public class ServerInfoScheduler {
                     serverRepository.save(s);
 
                     Billing billing = billingRepository.findByServerId(server.getServerId());
-                    billing.setStatus(s.getStatus());
-                    billing.setEndDate(s.getEndDate());
-                    billingRepository.save(billing);
+                    if(billing != null) {
+                        billing.setStatus(s.getStatus());
+                        billing.setEndDate(s.getEndDate());
+                        billingRepository.save(billing);
+                    }
 
                 }
 

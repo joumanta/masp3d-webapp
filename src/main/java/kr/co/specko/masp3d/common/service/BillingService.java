@@ -33,6 +33,7 @@ public class BillingService {
         serverRepository.findAll().forEach((server -> {
             try {
                 Server result = restService.getServerInfo(server.getCompany().getTenantId(), server.getServerId());
+                log.info("{}", result);
                 Billing billing = billingRepository.findByBaseDateAndServerId(baseDate, server.getServerId());
                 if (billing == null) {
                     billing = new Billing();
