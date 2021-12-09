@@ -118,6 +118,7 @@ public class NHNCloudRestService {
 
             String flavorId = obj.getJSONObject("flavor").getString("id");
             String serverName = obj.getString("name");
+            String updatedTime = convertUTC(obj.getString("updated"));
             String status = obj.getString("status");
             String id = obj.getString("id");
             JSONObject flavor = getFlavor(tenantId, flavorId, token);

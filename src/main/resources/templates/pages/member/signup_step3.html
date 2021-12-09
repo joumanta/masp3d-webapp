@@ -117,7 +117,7 @@
                         <th scope="row">담당자 연락처(필수)</th>
                         <td>
                             <div class="input_wrap_mobile">
-                                <input type="text" name="chargeMobile" id="chargeMobile" class="input_login">
+                                <input type="text" name="chargeMobile1" id="chargeMobile1" class="input_login">
                                 <span class="txt_mobile">-</span>
                                 <input type="text" name="chargeMobile2" id="chargeMobile2" maxlength="4" class="input_login">
                                 <span class="txt_mobile">-</span>
@@ -250,6 +250,23 @@
     })
 
     var validator = $("#form").validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '[[@{/member/check_email}]]',
+                method:'get',
+                data: {
+                    email: $("#email").val(),
+                },
+                success:function(res) {
+                    if(!res) {
+                        alert('이미 존재하는 아이디입니다.');
+                    } else {
+                        form.submit();
+                    }
+                }
+            })
+
+        },
         rules: {
             email: {
                 required: true,

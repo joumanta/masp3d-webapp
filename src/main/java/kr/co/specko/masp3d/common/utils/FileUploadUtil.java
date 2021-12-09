@@ -17,9 +17,10 @@ public class FileUploadUtil {
     @Value("${upload.dir}")
     private String uploadDir;
 
-    public Map<String,String> upload(HttpServletRequest request) throws IOException {
+    public List<Map<String,String>> upload(HttpServletRequest request) throws IOException {
 
-        Map<String,String> result = new HashMap<>();
+        List<Map<String,String>> map = new ArrayList<>();
+
 
         File dir = new File(uploadDir);
         if(!dir.exists()) {
@@ -29,6 +30,7 @@ public class FileUploadUtil {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         List<MultipartFile> files = multipartHttpServletRequest.getFiles("file");
         for(MultipartFile f : files) {
+            Map<String,String> result = new HashMap<>();
             if (!"".equals(f.getOriginalFilename())) {
                 String saveFileName = UUID.randomUUID().toString();
                 String ext = f.getOriginalFilename().substring(f.getOriginalFilename().lastIndexOf(".") + 1);
@@ -38,7 +40,8 @@ public class FileUploadUtil {
                 File saveFile = new File(uploadDir, saveFileName);
                 f.transferTo(saveFile);
             }
+            map.add(result);
         }
-        return result;
+        return map;
     }
 }

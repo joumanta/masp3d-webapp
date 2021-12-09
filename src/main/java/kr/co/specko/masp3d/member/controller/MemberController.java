@@ -65,13 +65,13 @@ public class MemberController {
 
     @PostMapping("/signup_step4")
     public String signupStep4Form(User user, Company company, MultipartHttpServletRequest request) throws IOException {
-        Map<String, String> upload = uploadUtil.upload(request);
+        List<Map<String, String>> upload = uploadUtil.upload(request);
         user.setPassword(encoder.encode(user.getPassword()));
         company.setChargeMobile(company.getChargeMobile1() + "-" + company.getChargeMobile2() + "-" + company.getChargeMobile3());
         company.setTel(company.getTel1() + "-" + company.getTel2() + "-" + company.getTel3());
         user.setCompany(company);
         user.setName(company.getChargeName());
-        memberService.save(user, Collections.singletonList(upload.get("saveFileName")));
+        memberService.save(user, upload);
         return "redirect:/member/signup_success";
     }
 

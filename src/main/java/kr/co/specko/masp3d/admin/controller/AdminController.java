@@ -136,11 +136,11 @@ public class AdminController {
     @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/faq_write")
     public String faqWriteAction(Faq faq, HttpServletRequest request) throws IOException {
-        Map<String, String> upload = uploadUtil.upload(request);
+        List<Map<String, String>> upload = uploadUtil.upload(request);
         String file = null;
         if(upload.size() > 0) {
-            faq.setFileName(upload.get("orgFileName"));
-            faq.setOrgFileName(upload.get("orgFileName"));
+            faq.setFileName(upload.get(0).get("saveFileName"));
+            faq.setOrgFileName(upload.get(0).get("orgFileName"));
         }
         faqRepository.save(faq);
         return "redirect:/customer/faq";
@@ -170,11 +170,11 @@ public class AdminController {
     @PreAuthorize("hasRole('SUPER')")
     @PostMapping("/notice_write")
     public String noticeWriteAction(Notice notice, HttpServletRequest request) throws IOException {
-        Map<String, String> upload = uploadUtil.upload(request);
+        List<Map<String, String>> upload = uploadUtil.upload(request);
         String file = null;
-        if(upload.get("orgFileName") != null) {
-            notice.setFileName(upload.get("saveFileName"));
-            notice.setOrgFileName(upload.get("orgFileName"));
+        if(upload.size() > 0) {
+            notice.setFileName(upload.get(0).get("saveFileName"));
+            notice.setOrgFileName(upload.get(0).get("orgFileName"));
         }
         noticeRepository.save(notice);
         return "redirect:/customer/notice";
@@ -186,11 +186,11 @@ public class AdminController {
     public String noticeModifyAction(Notice notice,@RequestParam(name = "page") Integer page,
     @RequestParam(name="searchType", defaultValue = "all") String type,
     @RequestParam(name="search", required = false) String search, HttpServletRequest request,RedirectAttributes redirectAttributes) throws IOException {
-        Map<String, String> upload = uploadUtil.upload(request);
+        List<Map<String, String>> upload = uploadUtil.upload(request);
         String file = null;
-        if(upload.get("orgFileName") != null) {
-            notice.setFileName(upload.get("saveFileName"));
-            notice.setOrgFileName(upload.get("orgFileName"));
+        if(upload.size() > 0) {
+            notice.setFileName(upload.get(0).get("saveFileName"));
+            notice.setOrgFileName(upload.get(0).get("orgFileName"));
         }
         noticeRepository.save(notice);
         redirectAttributes.addAttribute("page", page);
