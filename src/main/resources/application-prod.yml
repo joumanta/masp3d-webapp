@@ -14,7 +14,10 @@ spring:
 
 upload:
   dir: /home/centos/upload/
-
+logging:
+  level:
+    org.apache.http: debug
+    httpclient.wire: debug
 nhn:
   username: bgpyo@naver.com
 

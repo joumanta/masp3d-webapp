@@ -16,9 +16,11 @@ spring:
 upload:
   dir: /Users/gimjinho/Desktop/upload/
 
-#logging:
-#  level:
-#    org.hibernate.type.descriptor.sql: trace
+
+logging:
+  level:
+    org.apache.http: debug
+    httpclient.wire: debug
 
 
 nhn:
