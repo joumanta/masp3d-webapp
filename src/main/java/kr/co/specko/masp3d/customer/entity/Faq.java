@@ -12,8 +12,8 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Faq extends BaseEntity {
 
     @Id
@@ -22,13 +22,11 @@ public class Faq extends BaseEntity {
 
     private String type;
 
-    private String question;
+    private String title;
 
-    private String answer;
+    private String contents;
 
     private String fileName;
 
     private String orgFileName;
-
-
 }

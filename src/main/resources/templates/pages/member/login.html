@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">로그인</span>
             </div>
         </section><!-- //section_location -->
@@ -27,7 +27,7 @@
                             <input type="password" name="password" id="password" tabindex="2" placeholder="비밀번호를 입력해 주세요." class="input_login">
                             <div class="login_option">
                                 <label class="label_style label_check"><input type="checkbox" id="" name="">아이디 저장</label>
-                                <div class="login_error"><span class="ico_notice">로그인에 실패하였습니다. 남은 로그인 시도 횟수 (1/10)</span></div>
+                                <div class="login_error" th:if="${param.error}" ><span class="ico_notice">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</span></div>
                             </div>
                             <div class="find_btns">
                                 <button type="submit" class="btn_btm submit">LOGIN</button>
@@ -43,7 +43,7 @@
                                 </a>
                             </div>
                             <div class="login_link_item">
-                                <a th:href="@{/member/findpw}" href="/src/membership/findpw.html">
+                                <a th:href="@{/member/forgot_password}" href="/src/membership/findpw.html">
                                     <p class="ele_txt">비밀번호를 잊으셨나요?</p>
                                     <p class="ele_tit">비밀번호 찾기</p>
                                 </a>
@@ -60,6 +60,7 @@
             </div>
         </section><!-- //layout_inner -->
     </main>
+    <iframe name="iframe" id="iframe" style="display: none"></iframe>
 </th:block>
 <th:block layout:fragment="pageScript">
 <script>

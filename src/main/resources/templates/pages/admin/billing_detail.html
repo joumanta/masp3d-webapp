@@ -13,7 +13,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">빌링</span>
             </div>
         </section><!-- //section_location -->
@@ -55,9 +55,9 @@
                                 <td th:text="${item.company.chargeName}">이순신</td>
                                 <td th:text="${item.company.chargeEmail}">lee@hong.co.kr</td>
                                 <td th:text="${item.serverName}">Professional</td>
-                                <td th:text="${item.serverName}">8vCPU * 32GB</td>
+                                <td th:text="${item.type}">8vCPU * 32GB</td>
                                 <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}">2021. 08. 15.</td>
-                                <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}">2021. 09. 10.</td>
+                                <td th:text="${#dates.format(item.endDate,'yyyy. MM. dd')}">2021. 09. 10.</td>
                                 <td th:text="${item.usageTime}+'시간'">150시간</td>
                                 <td class="td_charge" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}">3,082,430원</td>
                                 <td th:text="${item.status == 'ACTIVE' ? '이용중' : '정지'}">정지</td>

@@ -3,6 +3,8 @@ package kr.co.specko.masp3d.member.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -36,6 +38,7 @@ public class Server {
     private Date startDate;
     private Date endDate;
     private String rdpUrl;
+    private boolean deleted = Boolean.FALSE;
 
 
     @ManyToOne(fetch = FetchType.EAGER)

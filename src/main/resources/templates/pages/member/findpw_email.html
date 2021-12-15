@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>아이디 찾기 |  MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">비밀번호 찾기</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <h2 class="layout_screen-out" id="content">비밀번호 찾기</h2>
+            <div class="cont_login">
+                <div class="find_wrap signup_email">
+                    <div class="signup_completion_tit">등록된 Email로 <strong>메일</strong>이 발송되었습니다.</div>
+                    <p class="signup_completion_txt">
+                        회원가입 시 입력한 Email 주소로 메일이 발송되었습니다. 메일 확인 후 "<strong>비밀번호 변경하러 가기"</strong> 버튼을 클릭해 주시기 바랍니다.
+                    </p>
+                </div><!-- //find_wrap -->
+            </div><!-- //cont_login -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+</body>
+</html>

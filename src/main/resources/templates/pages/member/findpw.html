@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">비밀번호 찾기</span>
             </div>
         </section><!-- //section_location -->
@@ -23,18 +23,41 @@
                         <h2 id="content">비밀번호 찾기</h2>
                         <p class="subtxt">회원가입 시 등록했던 아이디(이메일) 정보를 통해 비밀번호를 찾을 수 있습니다.</p>
                     </div>
-                    <form method="">
-                        <input type="text" name="" id="" tabindex="1" placeholder="이름을 입력해 주세요." class="input_login">
-                        <input type="text" name="" id="" tabindex="2" placeholder="아이디(이메일)를 입력해 주세요." class="input_login">
+                    <form method="post" th:action="@{/member/forgot_password}" name="form" id="form" target="iframe">
+                        <input type="text" name="name" id="name" tabindex="1" placeholder="이름을 입력해 주세요." class="input_login">
+                        <input type="text" name="email" id="email" tabindex="2" placeholder="아이디(이메일)를 입력해 주세요." class="input_login">
                         <div class="find_btns">
-                            <button type="button" class="btn_btm submit" onclick="location.href='findpw_email.html'">확인</button>
-                            <button type="button" class="btn_btm cancel" onclick="location.href='login.html'">취소</button>
+                            <button type="submit" class="btn_btm submit">확인</button>
+                            <button type="button" class="btn_btm cancel" onclick="history.back()">취소</button>
                         </div>
                     </form>
                 </div><!-- //find_wrap -->
             </div><!-- //cont_login -->
         </section><!-- //layout_inner -->
     </main>
+    <iframe name="iframe" id="iframe" style="display: none"></iframe>
 </th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        $("#form").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                email: {
+                    required:true,
+                }
+            },
+            messages: {
+                email: {
+                    required:'이메일을 입력해주세요.',
+                    email: '이메일 형식을 입력해주세요.'
+                },
+                name: {
+                    required: '이름을 입력해주세요.'
+                }
+            }
+        });
+    </script>
 </body>
 </html>

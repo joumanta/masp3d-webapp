@@ -862,17 +862,20 @@ body.scrolling {
   color: #fff
 }
 .index_shortcut_calculator a {
-  background-image: url(../images/main/shortcut_ico_calculator.png)
+  background-image: url(../images/content/service_features_ico01.png?v=20211209);
+  background-size: contain;
 }
-.index_shortcut_calculator a:hover {
-  background-image: url(../images/main/shortcut_ico_calculator_over.png)
-}
+/*.index_shortcut_calculator a:hover {*/
+/*  background-image: url(../images/main/shortcut_ico_calculator_over.png)*/
+/*}*/
 .index_shortcut_studio a {
-  background-image: url(../images/main/shortcut_ico_studio.png)
+  background-image: url(../images/content/service_features_ico01.png?v=20211209);
+  background-size: contain;
 }
-.index_shortcut_studio a:hover {
-  background-image: url(../images/main/shortcut_ico_studio_over.png)
-}
+/*.index_shortcut_studio a:hover {*/
+/*  background-image: url(../images/content/service_features_ico02.png?v=20211209);*/
+/*  background-size: contain;*/
+/*}*/
 .index_shortcut_blog a {
   background-image: url(../images/main/shortcut_ico_blog.png)
 }
@@ -892,23 +895,73 @@ body.scrolling {
   background-image: url(../images/main/shortcut_ico_partner_over.png)
 }
 .index_shortcut_guide a {
-  background-image: url(../images/main/shortcut_ico_guide.png)
+  background-image: url(../images/content/service_features_ico02.png?v=20211209);
+  background-size: contain;
 }
-.index_shortcut_guide a:hover {
+/*.index_shortcut_guide a:hover {
   background-image: url(../images/main/shortcut_ico_guide_over.png)
-}
+}*/
 .index_shortcut_faq a {
   background-image: url(../images/main/shortcut_ico_faq.png)
 }
 .index_shortcut_faq a:hover {
   background-image: url(../images/main/shortcut_ico_faq_over.png)
 }
-.index_shortcut_service a {
-  background-image: url(../images/main/shortcut_ico_service.png)
+.index_shortcut_flow a {
+  background-image: url(../images/content/service_features_ico03.png?v=20211209);
+  background-size: contain;
 }
-.index_shortcut_service a:hover {
+.index_shortcut_insert a {
+  background-image: url(../images/content/service_features_ico04.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_cool a {
+  background-image: url(../images/content/service_features_ico05.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_pack a {
+  background-image: url(../images/content/service_features_ico06.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_warp a {
+  background-image: url(../images/content/service_features_ico07.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_fiber a {
+  background-image: url(../images/content/service_features_ico08.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_over a {
+  background-image: url(../images/content/service_features_ico09.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_gate a {
+  background-image: url(../images/content/service_features_ico10.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_rim a {
+  background-image: url(../images/content/service_features_ico14.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_lim a {
+  background-image: url(../images/content/service_features_ico13.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_hot a {
+  background-image: url(../images/content/service_features_ico11.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_nozzle a {
+  background-image: url(../images/content/service_features_ico12.png?v=20211209);
+  background-size: contain;
+}
+.index_shortcut_material a {
+  background-image: url(../images/content/service_features_ico15.png?v=20211209);
+  background-size: contain;
+}
+/*.index_shortcut_service a:hover {
   background-image: url(../images/main/shortcut_ico_service_over.png)
-}
+}*/
 
 /************************** MAIN NEWS **************************/
 .index_news_cont {
@@ -1580,7 +1633,6 @@ td .label_radio {
 
 .login_error {
   float: right;
-  display: none;
 }
 .signup_error {
   padding: 5px 0;

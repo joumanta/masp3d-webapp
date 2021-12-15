@@ -80,11 +80,12 @@ public class NHNCloudRestService {
         HttpEntity<String> request = new HttpEntity<>(requestObject.toString(), headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.postForObject(uri, request, String.class);
+        ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
 
-        System.out.println("토큰"+result);
+        System.out.println(result.getStatusCode());
+        System.out.println("토큰"+result.getBody());
 
-        JSONObject jsonObject = new JSONObject(result);
+        JSONObject jsonObject = new JSONObject(result.getBody());
 
         String token = jsonObject
                 .getJSONObject("access")
@@ -143,8 +144,7 @@ public class NHNCloudRestService {
             JSONObject flavor = getFlavor(tenantId, flavorId, token);
             int vcpu = flavor.getInt("vcpus");
             int ram = flavor.getInt("ram");
-            String imageId = obj.getJSONObject("image").getString("id");
-            String imageName = getImageName(imageId, token);
+            String imageName = obj.getJSONObject("metadata").getString("image_name");
 
             String serviceType = "";
 
@@ -159,7 +159,7 @@ public class NHNCloudRestService {
                     serviceType = "Professional";
                     break;
                 case "CAE-ez-img":
-                    serviceType = "쾌속 금형설 검증 S/W";
+                    serviceType = "쾌속 금형설계 검증 S/W";
                     break;
             }
             if(imageName.equals("CAE-Basic-img") || imageName.equals("CAE-Spe-img") || imageName.equals("CAE-Pro-img") || imageName.equals("CAE-ez-img")) {
@@ -168,11 +168,14 @@ public class NHNCloudRestService {
                 server.setType(vcpu + "vCPU * " + (ram / 1024) + "GB");
                 server.setStatus(status);
                 server.setIp(ip);
-                if(status.equals("STOPPED")) {
+                if(status.equals("SHUTOFF")) {
+                    server.setStartDate(sdf.parse(created));
                     server.setEndDate(sdf.parse(updatedTime));
                 }
+                if(status.equals("ACTIVE")) {
+                    server.setStartDate(sdf.parse(updatedTime));
+                }
                 server.setServerId(id);
-                server.setStartDate(startDate);
                 list.add(server);
 
             }
@@ -292,11 +295,54 @@ public class NHNCloudRestService {
         server.setStatus(server1.getString("status"));
         String createdDate = convertUTC(server1.getString("created"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        server.setStartDate(sdf.parse(createdDate));
         String updatedDate = convertUTC(server1.getString("updated"));
-        if(server1.getString("status").equals("STOPPED")) {
+        if(server1.getString("status").equals("ACTIVE")) {
+            server.setStartDate(sdf.parse(updatedDate));
+        }
+
+        if(server1.getString("status").equals("SHUTOFF")) {
             server.setEndDate(sdf.parse(updatedDate));
         }
         return server;
+    }
+
+    public void startInstance(String tenantId, String serverId) {
+        String token = token(tenantId, "!$VMtech1!");
+
+        URI uri = UriComponentsBuilder.fromUriString("https://kr1-api-instance.infrastructure.cloud.toast.com")
+                .path("/v2/" + tenantId + "/servers/" + serverId + "/action").encode().build().toUri();
+
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("os-start", JSONObject.NULL);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("X-Auth-Token",token);
+
+        HttpEntity<String> request = new HttpEntity<>(requestObject.toString(), headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+    }
+
+    public void stopInstance(String tenantId, String serverId) {
+        String token = token(tenantId, "!$VMtech1!");
+        URI uri = UriComponentsBuilder.fromUriString("https://kr1-api-instance.infrastructure.cloud.toast.com")
+                .path("/v2/" + tenantId + "/servers/" + serverId + "/action").encode().build().toUri();
+
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("os-stop", JSONObject.NULL);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("X-Auth-Token",token);
+
+        HttpEntity<String> request = new HttpEntity<>(requestObject.toString(), headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+
+        System.out.println(result.getStatusCode());
+
     }
 }

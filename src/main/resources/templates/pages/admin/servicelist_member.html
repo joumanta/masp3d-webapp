@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">이용자 관리</span>
             </div>
         </section><!-- //section_location -->
@@ -249,7 +249,7 @@
                     id: [[${id}]]
                 },
                 success:function(res) {
-                    alert('사용중지 처리 되었습니다.')
+                    alert('사용중지 처리 되었습니다.');
                 }
             })
         });

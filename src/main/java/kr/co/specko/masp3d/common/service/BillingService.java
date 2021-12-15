@@ -6,6 +6,7 @@ import kr.co.specko.masp3d.member.entity.Server;
 import kr.co.specko.masp3d.member.repository.ServerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class BillingService {
     private final NHNCloudRestService restService;
 
     @Transactional
-    @Scheduled(fixedDelay = 60*60*1000)
+    @Scheduled(fixedDelay = 10*60*1000)
     public void run() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         Date now = new Date();
@@ -41,30 +42,58 @@ public class BillingService {
                     billing.setCompany(server.getCompany());
                     billing.setIp(server.getIp());
                     billing.setServerName(server.getName());
-                    billing.setUsageTime(1);
+                    if(result.getStatus().equals("ACTIVE")) {
+                        billing.setUsageTime(1);
+                    }
+                    billing.setType(server.getType());
+                    billing.setStatus(result.getStatus());
                     billing.setServerId(server.getServerId());
-                    billing.setStartDate(server.getStartDate());
-                    billing.setEndDate(result.getEndDate());
-                    if (server.getName().equals("Basic")) {
-                        billing.setPrice(5000 * billing.getUsageTime());
-                    } else if (server.getName().equals("Special")) {
-                        billing.setPrice(15000 * billing.getUsageTime());
-                    } else if (server.getName().equals("Professional")) {
-                        billing.setPrice(8000 * billing.getUsageTime());
+                    billing.setStartDate(result.getStartDate());
+                    if(!result.getStatus().equals("ACTIVE")) {
+                        billing.setEndDate(result.getEndDate());
                     } else {
-                        billing.setPrice(30000 * billing.getUsageTime());
+                        billing.setEndDate(null);
+                    }
+                    if(result.getStatus().equals("ACTIVE")) {
+                        if (result.getName().equals("Basic")) {
+                            billing.setPrice(5000 * billing.getUsageTime());
+                        } else if (result.getName().equals("Special")) {
+                            billing.setPrice(15000 * billing.getUsageTime());
+                        } else if (result.getName().equals("Professional")) {
+                            billing.setPrice(8000 * billing.getUsageTime());
+                        } else {
+                            billing.setPrice(30000 * billing.getUsageTime());
+                        }
                     }
                 } else {
-                    billing.setUsageTime(billing.getUsageTime() + 1);
-                    billing.setEndDate(result.getEndDate());
-                    if (server.getName().equals("Basic")) {
-                        billing.setPrice(5000 * (billing.getUsageTime() + 1));
-                    } else if (server.getName().equals("Special")) {
-                        billing.setPrice(15000 * (billing.getUsageTime() + 1));
-                    } else if (server.getName().equals("Professional")) {
-                        billing.setPrice(8000 * (billing.getUsageTime() + 1));
+                    billing.setBaseDate(baseDate);
+                    if(result.getStatus().equals("ACTIVE")) {
+                        billing.setUsageTime(billing.getUsageTime() + 1);
+                    }
+                    if(result.getStatus().equals("SHUTOFF")) {
+                        Date date = DateUtils.addMinutes(now, -10);
+                        // 업데이트 시간이 현재시간과 10분전시간사이에 있으면 +1
+                        if(date.getTime() <= result.getEndDate().getTime() && result.getEndDate().getTime() <= now.getTime()) {
+                            billing.setUsageTime(billing.getUsageTime() + 1);
+                        }
+                    }
+                    billing.setStatus(result.getStatus());
+                    billing.setType(server.getType());
+                    if(!result.getStatus().equals("ACTIVE")) {
+                        billing.setEndDate(result.getEndDate());
                     } else {
-                        billing.setPrice(30000 * (billing.getUsageTime() + 1));
+                        billing.setEndDate(null);
+                    }
+                    if(server.getStatus().equals("ACTIVE")) {
+                        if (server.getName().equals("Basic")) {
+                            billing.setPrice(5000 * (billing.getUsageTime()));
+                        } else if (server.getName().equals("Special")) {
+                            billing.setPrice(15000 * (billing.getUsageTime()));
+                        } else if (server.getName().equals("Professional")) {
+                            billing.setPrice(8000 * (billing.getUsageTime()));
+                        } else {
+                            billing.setPrice(30000 * (billing.getUsageTime()));
+                        }
                     }
                 }
                 billingRepository.save(billing);

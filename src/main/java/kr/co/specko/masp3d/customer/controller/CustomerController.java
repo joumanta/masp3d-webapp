@@ -3,10 +3,7 @@ package kr.co.specko.masp3d.customer.controller;
 import kr.co.specko.masp3d.customer.entity.Faq;
 import kr.co.specko.masp3d.customer.entity.Inquiry;
 import kr.co.specko.masp3d.customer.entity.Notice;
-import kr.co.specko.masp3d.customer.repository.FaqRepository;
-import kr.co.specko.masp3d.customer.repository.InquiryRepository;
-import kr.co.specko.masp3d.customer.repository.NoticeRepository;
-import kr.co.specko.masp3d.customer.repository.NoticeRepositorySupport;
+import kr.co.specko.masp3d.customer.repository.*;
 import kr.co.specko.masp3d.member.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -33,17 +30,23 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 public class CustomerController {
 
     private final FaqRepository faqRepository;
+    private final FaqRepositoryCustom faqRepositoryCustom;
     private final NoticeRepository noticeRepository;
     private final NoticeRepositorySupport noticeRepositorySupport;
     private final InquiryRepository inquiryRepository;
 
     @GetMapping("/faq")
-    public String faq(@RequestParam(name = "page") Optional<Integer> page, Model model) {
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10,Sort.by("id").descending());
-        Page<Faq> list = faqRepository.findAll(pageable);
+    public String faqList(@RequestParam(name = "page") Optional<Integer> page,
+                             @RequestParam(name="searchType", required = false) String type,
+                             @RequestParam(name="search", required = false) String search,
+                             Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10, Sort.by("id").descending());
+        Page<Faq> list = faqRepositoryCustom.findAllFaq(type, search, pageable);
         model.addAttribute("list", list);
         model.addAttribute("page", pageable.getPageNumber()+1);
         model.addAttribute("maxPage", 5);
+        model.addAttribute("searchType", type);
+        model.addAttribute("search", search);
         return "pages/customer/faq";
     }
 
@@ -72,7 +75,7 @@ public class CustomerController {
         model.addAttribute("list", list);
         model.addAttribute("page", pageable.getPageNumber()+1);
         model.addAttribute("maxPage", 5);
-        model.addAttribute("type", type);
+        model.addAttribute("searchType", type);
         model.addAttribute("search", search);
         return "pages/customer/notice";
     }
@@ -91,6 +94,20 @@ public class CustomerController {
         return "pages/customer/notice_read";
     }
 
+    @GetMapping("/faq_read")
+    public String faqRead(@RequestParam(name = "page") Integer page,
+                             @RequestParam(name="searchType", defaultValue = "all") String type,
+                             @RequestParam(name="search", required = false) String search,
+                             @RequestParam(name = "id") Long id, Model model) {
+
+        Faq faq = faqRepository.findById(id).orElseThrow(NullPointerException::new);
+        model.addAttribute("faq", faq);
+        model.addAttribute("page", page);
+        model.addAttribute("type", type);
+        model.addAttribute("search", search);
+        return "pages/customer/faq_read";
+    }
+
 
     @PreAuthorize("permitAll()")
     @GetMapping("/download")
@@ -102,6 +119,23 @@ public class CustomerController {
 
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(notice.getOrgFileName(), "UTF-8")+"\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        response.getOutputStream().write(fileByte);
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/download2")
+    public void downloadFile2(@RequestParam("id") Long id,
+                             HttpServletResponse response, @Value("${upload.dir}") String dir) throws Exception {
+
+        Faq faq = faqRepository.findById(id).orElseThrow(IllegalAccessError::new);
+        byte[] fileByte = FileUtils.readFileToByteArray(new File(dir,faq.getFileName()));
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(faq.getOrgFileName(), "UTF-8")+"\";");
         response.setHeader("Content-Transfer-Encoding", "binary");
 
         response.getOutputStream().write(fileByte);

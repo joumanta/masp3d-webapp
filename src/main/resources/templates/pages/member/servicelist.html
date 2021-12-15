@@ -12,7 +12,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">서비스 이용</span>
             </div>
         </section><!-- //section_location -->
@@ -35,24 +35,31 @@
                                 <th>서버 IP</th>
                                 <th>이용 상태</th>
                                 <th>서버 접속</th>
+                                <th>시작/정지</th>
+<!--                                <th style="">기능</th>-->
 <!--                                <th>진행률</th>-->
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:if="${#lists.isEmpty(serverList)}">
-                                <td colspan="5">이용중인 서비스가 없습니다.</td>
+                                <td colspan="6">이용중인 서비스가 없습니다.</td>
                             </tr>
                             <tr th:unless="${#lists.isEmpty(serverList)}" th:each="item : ${serverList}">
-                                <td th:text="${item.name}">Basic</td>
-                                <td th:text="${item.type}">4vCPU * 16GB</td>
-                                <td th:text="${item.ip}">10.0.0.1</td>
-                                <td th:text="${item.status == 'ACTIVE' ? '이용중' : '정지'}">이용중</td>
+                                <td th:text="${item.server.name}">Basic</td>
+                                <td th:text="${item.server.type}">4vCPU * 16GB</td>
+                                <td th:text="${item.server.ip}">10.0.0.1</td>
+                                <td th:text="${item.server.status == 'ACTIVE' ? '이용중' : '정지'}">이용중</td>
                                 <td>
-                                    <form target="_blank" th:action="@{${item.rdpUrl}}">
-                                    <button type="submit" class="header_util_btn_report">서버접속</button>
+
+                                    <form target="_blank" th:action="@{${item.server.rdpUrl}}" th:if="${item.server.rdpUrl}">
+                                    <button type="submit" class="header_util_btn_report" >서버접속</button>
                                     </form>
+                                    <button type="submit" class="header_util_btn_report test_submit2" th:unless="${item.server.rdpUrl}">서버접속</button>
                                 </td>
-<!--                                <td><button type="button" class="header_util_btn_report">진행률</button></td>-->
+                                <td>
+                                    <button type="button" class="header_util_btn_report" th:if="${item.server.status == 'ACTIVE'}" th:attr="onclick=|action('stop','${item.server.id}')|">정지</button>
+                                    <button type="button" class="header_util_btn_report" th:unless="${item.server.status == 'ACTIVE'}" th:attr="onclick=|action('start','${item.server.id}')|">시작</button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -101,42 +108,75 @@
             </div><!-- //layout_tit -->
         </section><!-- //layout_inner -->
     </main>
-    <div class="pop_wrap" id="test_pop">
+    <div class="pop_wrap" id="test_pop2">
         <div class="pop_box pop_box_set">
-            <form name="form" id="form">
             <div class="pop_header">
-                <h3 class="pop_tit">MAPS-3D 서버 신청</h3>
+                <h3 class="pop_tit">MAPS-3D 알림</h3>
                 <div><button type="button" class="pop_btn_close">Close</button></div>
             </div>
             <div class="pop_cont">
-                <div class="cont_tit st4">
-                    <p>MAPS-3D 서버 신청</p>
-                    <p class="subtxt">이용하실 MAPS-3D서비스 신청 후 관리자 승인 후 사용하실 수 있습니다.</p>
-                </div>
-
-                <div class="pop_cont_option">
-                    <div class="ele_label">Service</div>
-                    <div class="">
-                        <select name="serviceType" id="serviceType">
-                            <option value="Basic">Basic</option>
-                            <option value="Professional">Professional</option>
-                            <option value="Special">Special</option>
-                            <option value="쾌속 금형설계 검증 S/W">쾌속 금형설계 검증 S/W</option>
-                        </select>
-                        <input type="text" id="cause" name="cause" class="input_login" placeholder="신청 이유를 입력해 주세요.">
-                    </div>
-                </div><!-- //pop_cont_option -->
+                <p style="text-align: center"><img th:src="@{/images/notice.jpeg}"></p>
             </div><!-- //pop_cont -->
             <div class="cont_btns pop_btns">
-                <button type="submit" class="btn_btm submit">확인</button>
-                <button type="button" class="btn_btm cancel event_close">취소</button>
+                <button type="submit" class="btn_btm submit event_close">확인</button>
             </div>
+        </div><!-- //pop_box -->
+    </div><!-- //pop_wrap -->
+    <div class="pop_wrap" id="test_pop">
+        <div class="pop_box pop_box_set">
+            <form name="form" id="form">
+                <div class="pop_header">
+                    <h3 class="pop_tit">MAPS-3D 서버 신청</h3>
+                    <div><button type="button" class="pop_btn_close">Close</button></div>
+                </div>
+                <div class="pop_cont">
+                    <div class="cont_tit st4">
+                        <p>MAPS-3D 서버 신청</p>
+                        <p class="subtxt">이용하실 MAPS-3D서비스 신청 후 관리자 승인 후 사용하실 수 있습니다.</p>
+                    </div>
+
+                    <div class="pop_cont_option">
+                        <div class="ele_label">Service</div>
+                        <div class="">
+                            <select name="serviceType" id="serviceType">
+                                <option value="Basic">Basic</option>
+                                <option value="Professional">Professional</option>
+                                <option value="Special">Special</option>
+                                <option value="쾌속 금형설계 검증 S/W">쾌속 금형설계 검증 S/W</option>
+                            </select>
+                            <input type="text" id="cause" name="cause" class="input_login" placeholder="신청 이유를 입력해 주세요.">
+                        </div>
+                    </div><!-- //pop_cont_option -->
+                </div><!-- //pop_cont -->
+                <div class="cont_btns pop_btns">
+                    <button type="submit" class="btn_btm submit">확인</button>
+                    <button type="button" class="btn_btm cancel event_close">취소</button>
+                </div>
             </form>
         </div><!-- //pop_box -->
     </div><!-- //pop_wrap -->
 </th:block>
 <th:block layout:fragment="pageScript">
     <script>
+        function action(type, id) {
+            $.ajax({
+                url: '[[@{/member/server_action}]]',
+                method: 'post',
+                data: {
+                    type: type,
+                    id: id
+                },
+                success: function (res) {
+                    alert(res);
+                }
+            })
+        }
+
+        $(document).ready(function() {
+            $('.test_submit2').on('click', function () {
+                popupOpen('#test_pop2');
+            });
+        })
             $('#test_submit').on('click', function () {
                 popupOpen('#test_pop');
             });

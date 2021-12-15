@@ -1,16 +1,25 @@
 package kr.co.specko.masp3d.member.controller;
 
 import javassist.Loader;
+import kr.co.specko.masp3d.UserService;
+import kr.co.specko.masp3d.common.entity.EmailSend;
+import kr.co.specko.masp3d.common.entity.ServerAction;
+import kr.co.specko.masp3d.common.repository.EmailSendRepository;
+import kr.co.specko.masp3d.common.repository.ServerActionRepository;
+import kr.co.specko.masp3d.common.service.NHNCloudRestService;
 import kr.co.specko.masp3d.common.utils.FileUploadUtil;
+import kr.co.specko.masp3d.common.utils.MailUtil;
+import kr.co.specko.masp3d.common.utils.Utility;
 import kr.co.specko.masp3d.member.entity.*;
-import kr.co.specko.masp3d.member.repository.ServerRepository;
-import kr.co.specko.masp3d.member.repository.ServiceRequestRepository;
-import kr.co.specko.masp3d.member.repository.UserRepository;
+import kr.co.specko.masp3d.member.repository.*;
 import kr.co.specko.masp3d.member.service.MemberService;
 import kr.co.specko.masp3d.member.service.ServiceRequestService;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.utility.RandomString;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +33,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +46,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/member")
@@ -47,6 +61,13 @@ public class MemberController {
     private final ServiceRequestRepository serviceRequestRepository;
     private final ServiceRequestService serviceRequestService;
     private final BillingRepository billingRepository;
+    private final MailUtil mailUtil;
+    private final EmailSendRepository emailSendRepository;
+    private final TemplateEngine htmlTemplateEngine;
+    private final NHNCloudRestService nhnCloudRestService;
+    private final ServerActionRepository serverActionRepository;
+    private final CompanyRepository companyRepository;
+    private final UserServiceRepository userServiceRepository;
 
     @GetMapping("/signup")
     public String signupForm() {
@@ -168,35 +189,50 @@ public class MemberController {
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10,Sort.by("id").descending());
         User user = (User) authentication.getPrincipal();
-        List<Server> serverList = new ArrayList<>();
-        User findUser = userRepository.findById(user.getId()).orElseThrow(IllegalAccessError::new);
-        if(findUser.isBasicEnabled()) {
-            serverList.addAll(serverRepository.findByCompanyAndName(user.getCompany(),"Basic"));
-        }
-        if(findUser.isProfEnabled()) {
-            serverList.addAll(serverRepository.findByCompanyAndName(user.getCompany(), "Professional"));
-        }
-        if(findUser.isDezEnabled()) {
-            serverList.addAll(serverRepository.findByCompanyAndName(user.getCompany(), "쾌속 금형설 검증 S/W"));
-        }
-        if(findUser.isSpecialEnabled()) {
-            serverList.addAll(serverRepository.findByCompanyAndName(user.getCompany(), "Special"));
-        }
-        model.addAttribute("serverList", serverList);
+        List<UserService> userServiceList = userServiceRepository.findByUser(user);
+        model.addAttribute("serverList", userServiceList);
         Page<ServiceRequest> requestList = serviceRequestRepository.findByCompany(user.getCompany(), pageable);
         model.addAttribute("requestList", requestList);
         return "pages/member/servicelist";
     }
 
     @PostMapping("/service_permit")
-    public @ResponseBody String servicePermit(Long id) {
-        serviceRequestService.permit(id);
+    public @ResponseBody String servicePermit(Authentication authentication,Long id) {
+        ServiceRequest request = serviceRequestRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        User user = request.getUser();
+        serviceRequestService.permit(user,id);
         return "OK";
+    }
+
+
+
+    @PostMapping("/server_action")
+    public @ResponseBody String serverAction(@RequestParam(name = "type") String type, @RequestParam(name = "id") Long id) {
+
+        Server server = serverRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        ServerAction serverAction = new ServerAction();
+        serverAction.setAction(type);
+        serverAction.setServerId(server.getServerId());
+        serverActionRepository.save(serverAction);
+        if(type.equals("start")) {
+            return "서버 시작 요청되었습니다.";
+        } else {
+            return  "서버 정지 요청되었습니다.";
+        }
     }
 
     @PostMapping("/service_delete")
     public @ResponseBody String serviceDelete(Long id) {
-        serviceRequestService.delete(id);
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        User user = serviceRequest.getUser();
+        serviceRequestService.delete(user,id);
+        return "OK";
+    }
+
+    @PostMapping("/member_delete")
+    public @ResponseBody String memberDelete(@RequestParam(name = "id") Long id) {
+        User user = userRepository.findById(id).orElseThrow(NullPointerException::new);
+        memberService.deleteUser(user);
         return "OK";
     }
 
@@ -211,8 +247,8 @@ public class MemberController {
             ServiceRequest serviceRequest = ServiceRequest.builder()
                     .serviceType(serviceType)
                     .cause(cause)
-                    .status(RequestStatus.READY)
                     .company(user.getCompany())
+                    .status(RequestStatus.READY)
                     .user(user)
                     .build();
             serviceRequestService.save(serviceRequest);
@@ -241,10 +277,138 @@ public class MemberController {
         return "pages/member/findid";
     }
 
-    @PreAuthorize("!isAnonymous()")
-    @GetMapping("/findpw")
-    public String findpwForm() {
+    @PostMapping("/findid")
+    public String findIdAction(@RequestParam("name") String name,
+                               @RequestParam("mobile") String mobile, Model model, RedirectAttributes attributes) {
+        mobile = convertTelNo(mobile);
+        User findUser = userRepository.findByNameAndMobile(name, mobile);
+            attributes.addFlashAttribute("user", findUser);
+        return "redirect:/member/findid_result";
+    }
+
+    @GetMapping("/findid_result")
+    public String findIdResult(Model model) {
+        return "pages/member/findid_result";
+    }
+
+    public static String convertTelNo(String src) {
+
+        String mobTelNo = src;
+
+        if (mobTelNo != null) {
+            // 일단 기존 - 전부 제거
+            mobTelNo = mobTelNo.replaceAll(Pattern.quote("-"), "");
+
+            if (mobTelNo.length() == 11) {
+                // 010-1234-1234
+                mobTelNo = mobTelNo.substring(0, 3) + "-" + mobTelNo.substring(3, 7) + "-" + mobTelNo.substring(7);
+
+            } else if (mobTelNo.length() == 8) {
+                // 1588-1234
+                mobTelNo = mobTelNo.substring(0, 4) + "-" + mobTelNo.substring(4);
+            } else {
+                if (mobTelNo.startsWith("02")) { // 서울은 02-123-1234
+                    mobTelNo = mobTelNo.substring(0, 2) + "-" + mobTelNo.substring(2, 5) + "-" + mobTelNo.substring(5);
+                } else { // 그외는 012-123-1345
+                    mobTelNo = mobTelNo.substring(0, 3) + "-" + mobTelNo.substring(3, 6) + "-" + mobTelNo.substring(6);
+                }
+            }
+
+        }
+
+        return mobTelNo;
+    }
+
+
+    @GetMapping("/forgot_password")
+    public String forgotPassword() {
+        return "pages/member/findpw";
+    }
+
+    @PostMapping("/forgot_password")
+    public void forgotPasswordAction(@RequestParam(name = "name") String name, @RequestParam(name = "email")String email,HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String token = RandomString.make(30);
+        memberService.updateResetPasswordToken(token,name, email);
+//        String resetPasswordLink = Utility.getSiteURL(request) + "/member/reset_password?token=" + token;
+        String resetPasswordLink = "http://cloud.vmtech.co.kr/member/reset_password?token=" + token;
+        Map<String,Object> map =new HashMap<>();
+        map.put("url", resetPasswordLink);
+
+        Context context = new Context();
+        context.setVariables(map);
+
+        String html = htmlTemplateEngine.process("email/member_password", context);
+
+        EmailSend emailSend = new EmailSend();
+        emailSend.setContents(html);
+        emailSend.setSubject("[vmtech]비밀번호 변경 안내 메일입니다.");
+        emailSend.setSender("(주)브이엠테크");
+        emailSend.setEmail(email);
+
+        emailSendRepository.save(emailSend);
+
+//        mailUtil.sendTemplateMail(email,"비밀번호 변경 안내입니다.","(주)브이엠테크","email/member_password",map);
+//        return "redirect:/member/findpw_email";
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        writer.println("<script>parent.location.href='/member/findpw_email';</script>");
+        writer.flush();
+        writer.close();;
+
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public void handle(IllegalArgumentException e,HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        writer.println("<script>alert('" + e.getMessage() + "');</script>");
+        writer.flush();
+        writer.close();
+    }
+
+    @GetMapping("/findpw_email")
+    public String findpwEmail() {
+        return "pages/member/findpw_email";
+    }
+
+    @GetMapping("/reset_password")
+    public String findpwForm(String token, Model model) {
+        User user = userRepository.findByResetPasswordToken(token);
+        model.addAttribute("token", token);
         return "pages/member/findpw_new";
+    }
+
+    @GetMapping("/change_password")
+    public String changePass() {
+        return "pages/member/changepw";
+    }
+
+    @PostMapping("/change_password")
+    public void changePassAction(@RequestParam(name = "password") String password, Authentication authentication,HttpServletResponse response) throws IOException {
+        String email = authentication.getName();
+        User user = memberService.findByEmail(email);
+        memberService.updatePassword(user, password);
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+
+        writer.println("<script>alert('비밀번호가 변경 되었습니다.');</script>");
+        writer.flush();
+        writer.close();
+    }
+
+    @PostMapping("/reset_password")
+    public void findPwAction(@RequestParam(name = "token") String token, @RequestParam(name = "password") String password, HttpServletResponse response) throws IOException {
+
+        User user = userRepository.findByResetPasswordToken(token);
+        memberService.updatePassword(user, password);
+
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+
+        writer.println("<script>alert('비밀번호가 설정되었습니다.');parent.location.href='/member/login';</script>");
+        writer.flush();
+        writer.close();
+
     }
 
     @GetMapping("/member_info")
@@ -267,6 +431,7 @@ public class MemberController {
         resultCompany.setChargeMobile(company.getChargeMobile1() + "-" + company.getChargeMobile2() + "-" + company.getChargeMobile3());
         resultCompany.setChargeEmail(company.getChargeEmail());
         resultCompany.setTaxEmail(company.getTaxEmail());
+        companyRepository.save(resultCompany);
         memberService.save(user);
 
         response.setContentType("text/html;charset=utf-8");
@@ -298,7 +463,7 @@ public class MemberController {
         model.addAttribute("lastDate", calendar.getTime());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        Page<Billing> list = billingRepository.findByBaseDateAndCompanyId(sdf.format(searchDate), user.getCompany().getId(),pageable);
+        Page<Billing> list = billingRepository.findByBaseDateAndCompanyIdAndPriceGreaterThan(sdf.format(searchDate), user.getCompany().getId(),0,pageable);
         long total = 0;
         for(Billing billing : list) {
             total += billing.getPrice();

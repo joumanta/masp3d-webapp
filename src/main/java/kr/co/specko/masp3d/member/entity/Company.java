@@ -58,6 +58,7 @@ public class Company {
     private String token;
     private LocalDateTime tokenExpireTime;
     private String password;
+    private boolean enable;
 
     @CreatedDate
     private LocalDateTime createAt;

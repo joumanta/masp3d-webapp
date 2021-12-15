@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>아이디 찾기 |  MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a href="/">홈</a>
+                <span class="current">아이디 찾기</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="cont_login">
+                <div class="find_wrap">
+                    <div class="cont_tit st7">
+                        <h2 id="content">아이디 찾기</h2>
+                        <p class="subtxt">회원가입 시 등록했던 휴대폰 번호 정보를 통해 아이디를 찾을 수 있습니다.</p>
+                    </div>
+                    <div class="find_result">
+
+                        <p th:if="${user}">고객님의 아이디는<strong th:text="${user.email}">kuki70**@naver.com</strong>입니다.</p>
+                        <p th:unless="${user}" class="public_sla_notice">아이디를 찾을 수 없습니다. 이름과 연락처를 다시 확인해 주세요.</p>
+                    </div>
+                    <div class="find_btns">
+                        <button type="button" class="btn_btm submit" th:onclick="'location.href=\''+ @{/member/findid} + '\''">다시 조회하기</button>
+                    </div>
+                </div><!-- //find_wrap -->
+            </div><!-- //cont_login -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        $("form").validate({
+            rules: {
+                name: {
+                    required:true
+                },
+                mobile: {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                name: {
+                    required: '이름을 입력해주세요.'
+                },
+                mobile: {
+                    required: '휴대폰번호를 입력해주세요.',
+                    number: '숫자만 입력해주세요.'
+                }
+            }
+        })
+    </script>
+</th:block>
+</body>
+</html>

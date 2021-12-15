@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layouts/defaultLayout">
 <head>
     <title>회원정보 | MAPS-3D</title>
@@ -11,7 +12,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">회원정보</span>
             </div>
         </section><!-- //section_location -->
@@ -28,12 +29,12 @@
                             <td>
                                 <div class="input_wrap_btn">
                                     <span th:text="${member.email}">vmtech@vmtech.co.kr</span>
-                                    <button type="button" class="btn_tb_input" th:onclick="'location.href=\''+ @{/member/findpw} + '\''">비밀번호 변경</button>
+                                    <button type="button" class="btn_tb_input" th:onclick="'location.href=\''+ @{/member/change_password} + '\''">비밀번호 변경</button>
                                 </div>
                             </td>
                         </tr>
                     </table>
-
+                    <th:block sec:authorize="hasRole('ADMIN')">
                     <h3 class="cont_tit_sub2 st2">기업 정보</h3>
                     <table class="tb_row tb_signup">
                         <tr>
@@ -115,13 +116,15 @@
                             </td>
                         </tr>
                     </table>
-
+                    </th:block>
 <!--                    <div class="signup_error" style="display: block"><span class="ico_notice">이름을 입력해 주세요.</span></div>-->
 
+                    <th:block sec:authorize="hasRole('ADMIN')">
                     <div class="cont_btns">
                         <button type="submit" class="btn_btm submit" id="test_submit">확인</button>
                         <button type="button" class="btn_btm" onclick="history.back();">취소</button>
                     </div>
+                    </th:block>
                 </div><!-- //cont_wrap -->
                 </form>
             </div><!-- //layout_tit -->

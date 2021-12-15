@@ -38,13 +38,19 @@ public class ServerInfoScheduler {
                     Server s = serverRepository.findByServerId(server.getServerId());
                     if(s == null) {
                         s = new Server();
+
+
                     }
                     s.setServerId(server.getServerId());
                     s.setStatus(server.getStatus());
                     s.setIp(server.getIp());
                     s.setCompany(company);
                     s.setStartDate(server.getStartDate());
-                    s.setEndDate(server.getEndDate());
+                    if(!server.getStatus().equals("ACTIVE")) {
+                        s.setEndDate(server.getEndDate());
+                    } else {
+                        s.setEndDate(null);
+                    }
                     s.setName(server.getName());
                     s.setType(server.getType());
                     serverRepository.save(s);
@@ -52,7 +58,11 @@ public class ServerInfoScheduler {
                     Billing billing = billingRepository.findByServerId(server.getServerId());
                     if(billing != null) {
                         billing.setStatus(s.getStatus());
-                        billing.setEndDate(s.getEndDate());
+                        if(!s.getStatus().equals("ACTIVE")) {
+                            billing.setEndDate(s.getEndDate());
+                        } else {
+                            billing.setEndDate(null);
+                        }
                         billingRepository.save(billing);
                     }
 

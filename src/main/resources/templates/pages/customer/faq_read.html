@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>FAQ | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a th:href="@{/}" href="/">홈</a>
+                <a th:href="@{/customer/notice}" href="notice.html">고객지원</a>
+                <span class="current">FAQ</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">FAQ</h2>
+
+                <table class="board_list">
+                    <colgroup>
+                        <col>
+                        <col class="board_list_date">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <td class="td_board_tit" th:text="${faq.title}">2021년 11월 MAPS-3D 교육 안내</td>
+                        <td class="td_board_date" th:text="${#temporals.format(faq.createdAt,'yyyy. MM. dd')}"><span th:text="${faq.orgFileName}"></span>2021. 08. 09</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div>
+                    <div class="board_body" th:text="${faq.contents}"></div>
+                    <p style="padding:10px;text-align: right" th:if="${faq.orgFileName}">첨부파일 : <a th:href="@{/customer/download2(id=${faq.id})}" th:text="${faq.orgFileName}"></a> </p>
+                </div>
+
+                <div class="cont_btns">
+                    <form th:action="@{/admin/faq_delete}" method="post">
+                    <button type="button" class="btn_btm submit" id="btn_list" th:onclick="'location.href=\''+ @{/customer/faq} + '\''" onclick="location.href='notice.html'">목록보기</button>
+                        <input type="hidden" name="id" id="id" th:value="${faq.id}"/>
+                        <input type="hidden" name="searchType" id="type" th:value="${type}"/>
+                        <input type="hidden" name="search" id="search" th:value="${search}"/>
+                        <input type="hidden" name="page" id="page" th:value="${page}"/>
+                    <button type="submit" onclick="return confirm('삭제하시겠습니까?')" sec:authorize="hasRole('SUPER')" class="btn_btm">삭제</button>
+                        <button type="button" class="btn_btm" id="btn_list" sec:authorize="hasRole('SUPER')" th:onclick="'location.href=\''+ @{/admin/faq_modify(id=${faq.id},searchType=${type},search=${search},page=${page})} + '\''" onclick="location.href='notice.html'">수정</button>
+                    </form>
+
+                </div>
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $(function(){
+        $('[data-name=customer]').addClass('on');
+        $('[data-name=customer-notice]').addClass('on');
+    });
+    $("#btn_list").on("click", function() {
+        location.href = '/customer/faq?page=[[${page}]]&search=[[${search}]]&searchType=[[${type}]]';
+    });
+</script>
+</th:block>
+</body>
+</html>

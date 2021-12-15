@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 public class Masp3dWebappApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Masp3dWebappApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Masp3dWebappApplication.class, args);
+    }
 
 }

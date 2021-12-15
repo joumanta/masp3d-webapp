@@ -39,10 +39,9 @@ public class ServiceRequestRepositorySupport extends QuerydslRepositorySupport i
     public Page<ServiceRequest> findAllServiceRequest(String type, String search, Pageable pageable) {
 
         JPAQuery<ServiceRequest> query = jpaQueryFactory.select(Projections.fields(ServiceRequest.class,
-                serviceRequest.id,serviceRequest.serviceType, user, server))
+                serviceRequest.id,serviceRequest.serviceType, user))
                 .from(serviceRequest)
-                .join(serviceRequest.user(), user)
-                .join(server).on(server.name.eq(serviceRequest.serviceType));
+                .join(serviceRequest.user(), user);
 
         BooleanBuilder bb = new BooleanBuilder();
 

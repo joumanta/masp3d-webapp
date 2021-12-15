@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/defaultLayout">
+<head>
+    <title>FAQ | 고객지원 | MAPS-3D</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <main class="main_sub">
+        <section class="section_location">
+            <h2 class="layout_screen-out">Site Location</h2>
+            <div class="layout_inner">
+                <a th:href="@{/}" href="/">홈</a>
+                <a th:href="@{/customer/notice}" href="notice.html">고객지원</a>
+                <span class="current">FAQ</span>
+            </div>
+        </section><!-- //section_location -->
+
+        <section class="layout_inner layout_vertical">
+            <div class="layout_tit">
+                <h2 class="sub_tit" id="content">FAQ</h2>
+
+                <form id="form" method="post" th:action="@{/admin/faq_modify}" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="id" th:value="${faq.id}"/>
+                    <input type="hidden" name="searchType" id="type" th:value="${searchType}"/>
+                    <input type="hidden" name="search" id="search" th:value="${search}"/>
+                    <input type="hidden" name="page" id="page" th:value="${page}"/>
+                    <table class="tb_row tb_board_write">
+                        <tr>
+                            <th scope="row">제목</th>
+                            <td><input type="text" name="title" class="input_login" th:value="${faq.title}"></td>
+                        </tr>
+                        <tr>
+                            <th>첨부파일</th>
+                            <td><input type="file" name="file" class="input_file">
+                            <div style="padding:10px;" th:if="${faq.orgFileName}"><a th:href="@{/customer/download(id=${faq.id})}"><span th:text="${faq.orgFileName}"></span></a> </div></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">내용</th>
+                            <td><div class="textarea_wrap"><textarea name="contents" th:text="${faq.contents}"></textarea></div></td>
+                        </tr>
+                    </table>
+<!--                    <div class="signup_error" style="display: block"><span class="ico_notice">내용을 입력해 주세요.</span></div>-->
+
+                    <div class="cont_btns">
+                        <button type="submit" class="btn_btm submit">작성하기</button>
+                        <button type="button" class="btn_btm" onclick="history.back()">취소</button>
+                    </div>
+                </form>
+            </div><!-- //layout_tit -->
+        </section><!-- //layout_inner -->
+    </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+<script>
+    $("#form").validate({
+        rules: {
+            title: {
+                required: true
+            },
+            contents: {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: '제목을 입력해주세요.'
+            },
+            contents: {
+                required: '내용을 입력해주세요.'
+            }
+        }
+    })
+</script>
+</th:block>
+</body>
+</html>

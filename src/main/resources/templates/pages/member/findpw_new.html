@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">비밀번호 변경</span>
             </div>
         </section><!-- //section_location -->
@@ -23,26 +23,52 @@
                         <h2 id="content">비밀번호 변경</h2>
                         <p class="subtxt">변경하실 새로운 비밀번호를 입력해주세요.<br>새 비밀번호는 8자 이상 영문 대·소문자, 숫자, 특수기호가 포함되어야 합니다.</p>
                     </div>
-                    <form method="">
-                        <label class="find_form_label" for="">새 비밀번호</label>
+                    <form method="post" th:action="@{/member/reset_password}" name="form" id="form" target="iframe">
+                        <input type="hidden" name="token" th:value="${token}"/>
+                        <label class="find_form_label" for="password">새 비밀번호</label>
                         <div class="input_wrap"><!-- // 20190626 수정 -->
-                            <input type="password" name="" id="" tabindex="1" placeholder="영문 대소문자, 숫자, 특수기호 포함 8자 이상" class="input_login confirm">
-                            <div class="ele_error" style="display: block"><span class="ico_confirm">적합</span></div>
+                            <input type="password" name="password" id="password" tabindex="1" placeholder="영문 대소문자, 숫자, 특수기호 포함 8자 이상" class="input_login">
+                            <div class="ele_error" style="display: none"><span class="ico_confirm">적합</span></div>
                         </div>
-                        <label class="find_form_label" for="">새 비밀번호 확인</label>
+                        <label class="find_form_label" for="password2">새 비밀번호 확인</label>
                         <div class="input_wrap"><!-- // 20190626 수정 -->
-                            <input type="password" id="" name="" tabindex="2" placeholder="새 비밀번호를 한번 더 입력해 주세요." class="input_login error">
-                            <div class="ele_error" style="display: block"><span class="ico_notice">비밀번호가 일치하지 않습니다.</span></div>
+                            <input type="password" id="password2" name="password2" tabindex="2" placeholder="새 비밀번호를 한번 더 입력해 주세요." class="input_login">
+                            <div class="ele_error" style="display: none"><span class="ico_notice">비밀번호가 일치하지 않습니다.</span></div>
                         </div>
                         <div class="find_btns">
-                            <button type="button" class="btn_btm submit" onclick="location.href='findpw_complete.html'">변경하기</button>
+                            <button type="submit" class="btn_btm submit">변경하기</button>
                         </div>
                     </form>
                 </div><!-- //find_wrap -->
             </div><!-- //cont_login -->
         </section><!-- //layout_inner -->
     </main>
+    <iframe name="iframe" id="iframe" style="display: none"></iframe>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        $("#form").validate({
+            rules: {
+                password: {
+                    required: true,
+                    passRegex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/
+                },
+                password2: {
+                    equalTo: '#password'
+                }
+            },
+            messages: {
+                password: {
+                    required:'비밀번호를 입력해주세요.',
+                    passRegex: '비밀번호는 영문 대소문, 숫자, 특수기호 포 8~15자형식입니다.',
+                },
+                password2: {
+                    equalTo: '비밀번호를 한번더 입력해주세요.'
+                }
+            }
+        });
 
+    </script>
 </th:block>
 </body>
 </html>

@@ -13,4 +13,5 @@ public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, 
 
     Page<ServiceRequest> findByCompany(Company company, Pageable pageable);
     ServiceRequest findByUserAndServiceType(User user, String serviceType);
+    void deleteByUser(User user);
 }

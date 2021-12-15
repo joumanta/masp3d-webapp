@@ -28,6 +28,8 @@ public class User extends BaseEntity implements UserDetails {
 
     private boolean enabled;
 
+    private boolean blocked;
+
     private String status;
 
     private String authority;
@@ -43,7 +45,7 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     private String mobile3;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
     private boolean basicEnabled;
@@ -54,9 +56,10 @@ public class User extends BaseEntity implements UserDetails {
 
     private boolean dezEnabled;
 
+    private String resetPasswordToken;
+
     @Transient
     private List<Server> serverList = new ArrayList<>();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,7 +78,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return enabled;
+        return !blocked;
     }
 
     @Override

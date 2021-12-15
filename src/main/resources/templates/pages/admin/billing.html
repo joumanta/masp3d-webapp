@@ -13,7 +13,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}">홈</a>
                 <span class="current">빌링</span>
             </div>
         </section><!-- //section_location -->
@@ -52,7 +52,6 @@
                                 <th>담당자 명</th>
                                 <th>아이디</th>
                                 <th>세금계산서메일</th>
-                                <th>등록일</th>
                                 <th>월 이용요금</th>
                             </tr>
                             </thead>
@@ -62,7 +61,6 @@
                                 <td th:text="${item.company.chargeName}">홍길동</td>
                                 <td th:text="${item.company.chargeEmail}">hong@hong.co.kr</td>
                                 <td th:text="${item.company.taxEmail}">hong@hong.co.kr</td>
-                                <td th:text="${#temporals.format(item.company.createAt, 'yyyy. MM. dd')}">2021. 08. 15.</td>
                                     <td class="td_charge" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}">0원</td>
                             </tr>
                             <tr th:unless="${list.totalElements > 0}">

@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">아이디 찾기</span>
             </div>
         </section><!-- //section_location -->
@@ -23,17 +23,41 @@
                         <h2 id="content">아이디 찾기</h2>
                         <p class="subtxt">회원가입 시 등록했던 휴대폰 번호 정보를 통해 아이디를 찾을 수 있습니다.</p>
                     </div>
-                    <form method="">
-                        <input type="text" name="" id="" tabindex="1" placeholder="이름을 입력해 주세요." class="input_login">
-                        <input type="text" name="" id="" tabindex="2" placeholder="'-' 없이 휴대폰 번호를 입력해 주세요." class="input_login">
+                    <form method="post" name="form" id="form">
+                        <input type="text" name="name" id="" tabindex="1" placeholder="이름을 입력해 주세요." class="input_login">
+                        <input type="text" name="mobile" id="" tabindex="2" placeholder="'-' 없이 휴대폰 번호를 입력해 주세요." class="input_login">
                         <div class="find_btns">
-                            <button type="button" class="btn_btm submit" onclick="location.href='findid_result.html'">확인</button>
+                            <button type="submit" class="btn_btm submit">확인</button>
                         </div>
                     </form>
                 </div><!-- //find_wrap -->
             </div><!-- //cont_login -->
         </section><!-- //layout_inner -->
     </main>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script>
+        $("form").validate({
+            rules: {
+                name: {
+                    required:true
+                },
+                mobile: {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                name: {
+                    required: '이름을 입력해주세요.'
+                },
+                mobile: {
+                    required: '휴대폰번호를 입력해주세요.',
+                    number: '숫자만 입력해주세요.'
+                }
+            }
+        })
+    </script>
 </th:block>
 </body>
 </html>

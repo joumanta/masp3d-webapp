@@ -12,7 +12,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">이용현황</span>
             </div>
         </section><!-- //section_location -->
@@ -69,7 +69,7 @@
                                 <td th:text="${item.user.company.companyName}">(주)홍길동닷컴</td>
                                 <td th:text="${item.user.name}">홍길동</td>
                                 <td th:text="${item.user.email}">honggil@company.com</td>
-                                <td th:text="${item.serviceType}"></td>
+                                <td th:text="${item.server.name}"></td>
                                 <td th:text="${item.server.type}"></td>
                                 <td th:text="${item.server.ip}"></td>
                                 <td th:text="${#dates.format(item.server.startDate,'yyyy. MM. dd')}"></td>

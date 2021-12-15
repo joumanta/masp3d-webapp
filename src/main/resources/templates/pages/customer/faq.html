@@ -12,8 +12,8 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
-                <a href="notice.html">고객지원</a>
+                <a th:href="@{/}" href="/">홈</a>
+                <a th:href="@{/customer/notice}" href="notice.html">고객지원</a>
                 <span class="current">FAQ</span>
             </div>
         </section><!-- //section_location -->
@@ -22,30 +22,46 @@
             <div class="layout_tit">
                 <h2 class="sub_tit" id="content">FAQ</h2>
 
+                <form method="get" th:action="@{/customer/faq}" id="form">
+                    <input type="hidden" name="page" id="page" value="1"/>
                 <div class="board_search layout_clearfix">
-                    <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">19</strong>개의 게시물이 있습니다.</p>
-                    <!--
+                    <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">43</strong>개의 게시물이 있습니다.</p>
                     <div class="board_search_option">
-                        <div class="board_search_box"><input type="search" name="" placeholder="검색어를 입력해 주세요.">
+                        <div class="select_wrap">
+                            <select name="searchType">
+                                <option value="all" th:selected="${searchType == 'all'}">전체</option>
+                                <option value="title" th:selected="${searchType == 'title'}">제목</option>
+                                <option value="contents" th:selected="${searchType == 'contents'}">내용</option>
+                            </select>
+                        </div>
+                        <div class="board_search_box"><input type="search" name="search" placeholder="검색어를 입력해 주세요." th:value="${search}">
                             <button type="submit" class="btn_board_search"><span>Search</span></button>
                         </div>
-                    </div>
-                    --><!-- //board_search_option -->
+                    </div><!-- //board_search_option -->
                 </div><!-- //board_search -->
-
-                <ul class="faq_list">
-                    <li th:each="item : ${list}" class="faq_item">
-                        <div class="faq_tit"><span class="faq_tit_category" th:text="${item.type}"></span><a href="#this" th:text="${item.question}"></a></div>
-                        <div class="faq_cont" th:text="${item.answer}">
-                        </div>
-                    </li>
-                </ul>
-
+                </form>
+                <table class="board_list">
+                    <colgroup>
+                        <col class="board_list_num">
+                        <col>
+                        <col class="board_list_date">
+                    </colgroup>
+                    <tr th:if="${list.totalElements} == 0">
+                        <td colspan="3" align="center">등록된 게시물이 없습니다.</td>
+                    </tr>
+                    <th:block>
+                    <tr th:each="item,index : ${list}" th:with="number=${list.totalElements}" th:unless="${#lists.isEmpty(list.content)}">
+                        <td class="td_board_num"  th:text="${list.totalElements - (page - 1) * list.size - index.index}"></td>
+                        <td class="td_board_tit"><a th:href="@{/customer/faq_read(id=${item.id},page=${page},searchType=${type},search=${search})}" href="notice_read.html" th:text="${item.title}">2021년 11월 MAPS-3D 교육 안내</a></td>
+                        <td class="td_board_date" th:text="${#temporals.format(item.createdAt,'yyyy. MM .dd')}">2021. 08. 09</td>
+                    </tr>
+                    </th:block>
+                </table>
                 <div class="cont_pagination">
-                    <div class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/customer/faq(page=${list.number})}">Prev</a>
-                        <a href="#1" th:href="@{/customer/faq(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
-                        <a href="#next" th:href="@{/customer/faq(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                    <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                        <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/customer/faq(page=${list.number},searchType=${type},search=${search})}">Prev</a>
+                        <a href="#1" th:href="@{/customer/faq(page=${page},searchType=${type},search=${search})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                        <a href="#next" th:href="@{/customer/faq(page=${list.number+2},searchType=${type},search=${search})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
                     </div>
                     <div class="cont_btns">
                         <button type="button" sec:authorize="hasRole('SUPER')" class="btn_btm submit" th:onclick="'location.href=\''+ @{/admin/faq_write} + '\''" onclick="location.href='/src/admin/faq_write.html'">글쓰기</button>
@@ -59,13 +75,7 @@
 <script>
     $(function(){
         $('[data-name=customer]').addClass('on');
-        $('[data-name=customer-faq]').addClass('on');
-
-        $('.faq_tit a').on('click', function(){
-            $(this).parent().parent().find('.faq_cont').slideToggle(100);
-            $(this).parent().parent('.faq_item').toggleClass('selected');
-            return false;
-        });
+        $('[data-name=customer-notice]').addClass('on');
     });
 </script>
 </th:block>

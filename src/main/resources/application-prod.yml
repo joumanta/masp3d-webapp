@@ -11,13 +11,31 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  task:
+    scheduling:
+      pool:
+        size: 10
+
 
 upload:
   dir: /home/centos/upload/
-logging:
-  level:
-    org.apache.http: debug
-    httpclient.wire: debug
+
+
 nhn:
   username: bgpyo@naver.com
 
+  mail:
+    host: smtp.gmail.com
+    username: codejava.net@gmail.com
+    password: your_email_password
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

@@ -1,5 +1,6 @@
 package kr.co.specko.masp3d.admin.controller;
 
+import kr.co.specko.masp3d.UserService;
 import kr.co.specko.masp3d.common.service.CloudService;
 import kr.co.specko.masp3d.common.utils.FileUploadUtil;
 import kr.co.specko.masp3d.customer.entity.Faq;
@@ -48,6 +49,7 @@ public class AdminController {
     private final ServerRepository serverRepository;
     private final UserRepository userRepository;
     private final BillingRepository billingRepository;
+    private final UserServiceRepository userServiceRepository;
 
     @GetMapping(value = {"","/"})
     public String index() {
@@ -78,7 +80,7 @@ public class AdminController {
             @RequestParam(name="search", required = false) String search
             ,Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10, Sort.by("id").descending());
-        Page<ServiceRequest> list = serviceRequestRepository.findAllServiceRequest(type, search, pageable);
+        Page<UserService> list = userServiceRepository.findAll(pageable);
         model.addAttribute("list", list);
         model.addAttribute("page", pageable.getPageNumber()+1);
         model.addAttribute("maxPage", 5);
@@ -104,8 +106,9 @@ public class AdminController {
     @PostMapping("/service_stop")
     public @ResponseBody String servicePermit(Long id ) {
         User user = memberService.findById(id);
-        user.setEnabled(false);
+        user.setBlocked(true);
         memberService.save(user);
+
         return "OK";
     }
 
@@ -125,7 +128,7 @@ public class AdminController {
     }
 
 
-    @PreAuthorize("hasRole('SUPER')")
+    /*@PreAuthorize("hasRole('SUPER')")
     @GetMapping("/faq_write")
     public String faqWrite() {
         return "pages/admin/faq_write";
@@ -142,7 +145,7 @@ public class AdminController {
         }
         faqRepository.save(faq);
         return "redirect:/customer/faq";
-    }
+    }*/
 
     @PreAuthorize("hasRole('SUPER')")
     @GetMapping("/notice_write")
@@ -185,12 +188,14 @@ public class AdminController {
     @RequestParam(name="searchType", defaultValue = "all") String type,
     @RequestParam(name="search", required = false) String search, HttpServletRequest request,RedirectAttributes redirectAttributes) throws IOException {
         List<Map<String, String>> upload = uploadUtil.upload(request);
-        String file = null;
-        if(upload.size() > 0) {
-            notice.setFileName(upload.get(0).get("saveFileName"));
-            notice.setOrgFileName(upload.get(0).get("orgFileName"));
+        Notice findNotice = noticeRepository.findById(notice.getId()).orElseThrow(NullPointerException::new);
+        if(upload.get(0).size() > 0) {
+            findNotice.setFileName(upload.get(0).get("saveFileName"));
+            findNotice.setOrgFileName(upload.get(0).get("orgFileName"));
         }
-        noticeRepository.save(notice);
+        findNotice.setTitle(notice.getTitle());
+        findNotice.setContents(notice.getContents());
+        noticeRepository.save(findNotice);
         redirectAttributes.addAttribute("page", page);
         redirectAttributes.addAttribute("searchType", type);
         redirectAttributes.addAttribute("search", search);
@@ -327,7 +332,7 @@ public class AdminController {
         model.addAttribute("lastDate", calendar.getTime());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        Page<Billing> groupByCompany = billingRepository.findByBaseDate(sdf.format(searchDate), pageable);
+        Page<Billing> groupByCompany = billingRepository.findByBaseDateAndPriceGreaterThan(sdf.format(searchDate),0, pageable);
 
         model.addAttribute("page", pageable.getPageNumber()+1);
         model.addAttribute("maxPage", 5);
@@ -418,5 +423,74 @@ public class AdminController {
         }
         return "redirect:billing?searchDate=" + searchDate;
     }*/
+
+    @PreAuthorize("hasRole('SUPER')")
+    @GetMapping("/faq_write")
+    public String faqWrite() {
+        return "pages/admin/faq_write";
+    }
+
+    @PreAuthorize("hasRole('SUPER')")
+    @GetMapping("/faq_modify")
+    public String faqModify(@RequestParam(name = "page") Integer page,
+                               @RequestParam(name="searchType", defaultValue = "all") String type,
+                               @RequestParam(name="search", required = false) String search,
+                               @RequestParam(name = "id") Long id, Model model) {
+
+        Faq faq = faqRepository.findById(id).orElseThrow(NullPointerException::new);
+        model.addAttribute("faq", faq);
+        model.addAttribute("page", page);
+        model.addAttribute("searchType", type);
+        model.addAttribute("search", search);
+        return "pages/admin/faq_modify";
+    }
+
+    @PreAuthorize("hasRole('SUPER')")
+    @PostMapping("/faq_write")
+    public String faqWriteAction(Faq faq, HttpServletRequest request) throws IOException {
+        List<Map<String, String>> upload = uploadUtil.upload(request);
+        String file = null;
+        if(upload.size() > 0) {
+            faq.setFileName(upload.get(0).get("saveFileName"));
+            faq.setOrgFileName(upload.get(0).get("orgFileName"));
+        }
+        faqRepository.save(faq);
+        return "redirect:/customer/faq";
+    }
+
+
+    @PreAuthorize("hasRole('SUPER')")
+    @PostMapping("/faq_modify")
+    public String faqModifyAction(Faq faq,@RequestParam(name = "page") Integer page,
+                                     @RequestParam(name="searchType", defaultValue = "all") String type,
+                                     @RequestParam(name="search", required = false) String search, HttpServletRequest request,RedirectAttributes redirectAttributes) throws IOException {
+        List<Map<String, String>> upload = uploadUtil.upload(request);
+        Faq findFaq = faqRepository.findById(faq.getId()).orElseThrow(NullPointerException::new);
+        findFaq.setTitle(faq.getTitle());
+        findFaq.setContents(faq.getContents());
+        if(upload.get(0).size() > 0) {
+            findFaq.setFileName(upload.get(0).get("saveFileName"));
+            findFaq.setOrgFileName(upload.get(0).get("orgFileName"));
+        }
+        faqRepository.save(findFaq);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("searchType", type);
+        redirectAttributes.addAttribute("search", search);
+        return "redirect:/customer/faq";
+    }
+
+    @PreAuthorize("hasRole('SUPER')")
+    @PostMapping("/faq_delete")
+    public String faqDelete(
+            @RequestParam(name = "page") Integer page,
+            @RequestParam(name="searchType", defaultValue = "all") String type,
+            @RequestParam(name="search", required = false) String search,
+            @RequestParam(name = "id") Long id, RedirectAttributes redirectAttributes) {
+        faqRepository.deleteById(id);
+        redirectAttributes.addAttribute("page", page);
+        redirectAttributes.addAttribute("searchType", type);
+        redirectAttributes.addAttribute("search", search);
+        return "redirect:/customer/faq";
+    }
 
 }

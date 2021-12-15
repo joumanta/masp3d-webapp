@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">멤버 관리</span>
             </div>
         </section><!-- //section_location -->
@@ -38,6 +38,7 @@
                                 <th>Professional</th>
                                 <th>Special</th>
                                 <th>MAPS-3Dez</th>
+                                <th>수정</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,6 +53,7 @@
                                 <td th:text="${item.profEnabled ? 'O':'X'}"></td>
                                 <td th:text="${item.specialEnabled ? 'O':'X'}"></td>
                                 <td th:text="${item.dezEnabled ? 'O':'X'}"></td>
+                                <td><button th:if="${item.authority == 'ROLE_USER'}" class="header_util_btn_logout" th:attr="onclick=|deleteUser(${item.id})|">삭제</button></td>
                             </tr>
                             </tbody>
                         </table>
@@ -82,6 +84,22 @@
         }
         function goAdd() {
             location.href='[[@{/member/member_add}]]'
+        }
+        function deleteUser(id) {
+            if(confirm('삭제하시겠습니까?')) {
+                $.ajax({
+                    url: '[[@{/member/member_delete}]]',
+                    method:'post',
+                    data: {
+                        id: id
+                    },
+                    success:function(res) {
+                        if(res == 'OK') {
+                            location.reload();
+                        }
+                    }
+                })
+            }
         }
     </script>
 </th:block>

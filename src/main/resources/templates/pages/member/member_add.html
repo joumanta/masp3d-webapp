@@ -11,7 +11,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">회원정보</span>
             </div>
         </section><!-- //section_location -->
@@ -73,6 +73,24 @@
 <th:block layout:fragment="pageScript">
     <script>
         $("#form").validate({
+            submitHandler: function (form) {
+                $.ajax({
+                    url: '[[@{/member/check_email}]]',
+                    method:'get',
+                    data: {
+                        email: $("#email").val(),
+                    },
+                    success:function(res) {
+                        if(!res) {
+                            alert('이미 존재하는 아이디입니다.');
+                            $("#email").focus();
+                        } else {
+                            form.submit();
+                        }
+                    }
+                })
+
+            },
             rules: {
                 name: {
                   required: true

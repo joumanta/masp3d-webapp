@@ -13,7 +13,7 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
+                <a th:href="@{/}" href="/">홈</a>
                 <span class="current">회원가입</span>
             </div>
         </section><!-- //section_location -->
@@ -260,6 +260,7 @@
                 success:function(res) {
                     if(!res) {
                         alert('이미 존재하는 아이디입니다.');
+                        $("#email").focus();
                     } else {
                         form.submit();
                     }
@@ -426,7 +427,6 @@
             }
         }
     });
-    validator.resetForm();
 </script>
 </th:block>
 </body>

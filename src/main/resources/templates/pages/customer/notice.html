@@ -12,8 +12,8 @@
         <section class="section_location">
             <h2 class="layout_screen-out">Site Location</h2>
             <div class="layout_inner">
-                <a href="/">홈</a>
-                <a href="notice.html">고객지원</a>
+                <a th:href="@{/}" href="/">홈</a>
+                <a th:href="@{/customer/notice}" href="notice.html">고객지원</a>
                 <span class="current">공지 및 뉴스</span>
             </div>
         </section><!-- //section_location -->
@@ -28,10 +28,10 @@
                     <p class="board_search_txt">현재 총 <strong th:text="${list.totalElements}">43</strong>개의 게시물이 있습니다.</p>
                     <div class="board_search_option">
                         <div class="select_wrap">
-                            <select name="type">
-                                <option value="all" th:selected="${type == 'all'}">전체</option>
-                                <option value="notice" th:selected="${type == 'notice'}">공지</option>
-                                <option value="news" th:selected="${type == 'news'}">뉴스</option>
+                            <select name="searchType">
+                                <option value="all" th:selected="${searchType == 'all'}">전체</option>
+                                <option value="notice" th:selected="${searchType == 'notice'}">공지</option>
+                                <option value="news" th:selected="${searchType == 'news'}">뉴스</option>
                             </select>
                         </div>
                         <div class="board_search_box"><input type="search" name="search" placeholder="검색어를 입력해 주세요." th:value="${search}">

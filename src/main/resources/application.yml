@@ -10,19 +10,25 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: false
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
-
+  task:
+    scheduling:
+      pool:
+        size: 10
 upload:
   dir: /Users/gimjinho/Desktop/upload/
 
-
 logging:
   level:
-    org.apache.http: debug
-    httpclient.wire: debug
+    org.hibernate.type.descriptor.sql: trace
 
-
+AbstractUserDetailsAuthenticationProvider.:
+  badCredentials: '아이디 또는 비밀번호를 확인해주세요.'
 nhn:
   username: bgpyo@naver.com
 

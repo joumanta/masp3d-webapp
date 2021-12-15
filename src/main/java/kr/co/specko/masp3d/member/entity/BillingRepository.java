@@ -9,9 +9,9 @@ import java.util.List;
 public interface BillingRepository extends JpaRepository<Billing, Long> {
 
     void deleteByBaseDate(String baseDate);
-    Page<Billing> findByBaseDateAndCompanyId(String  baseDate, Long companyId, Pageable pageable);
+    Page<Billing> findByBaseDateAndCompanyIdAndPriceGreaterThan(String  baseDate, Long companyId,int usageTime, Pageable pageable);
     Billing findByBaseDateAndServerId(String baseDate, String serverId);
     Billing findByServerId(String serverId);
 
-    Page<Billing> findByBaseDate(String baseDate, Pageable pageable);
+    Page<Billing> findByBaseDateAndPriceGreaterThan(String baseDate, int usageTime, Pageable pageable);
 }

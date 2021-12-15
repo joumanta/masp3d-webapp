@@ -20,10 +20,10 @@ public class ServiceRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Company company;
 
     private String serviceType;
@@ -33,6 +33,7 @@ public class ServiceRequest {
     @Transient
     private Server server;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private RequestStatus status;
+
 }
