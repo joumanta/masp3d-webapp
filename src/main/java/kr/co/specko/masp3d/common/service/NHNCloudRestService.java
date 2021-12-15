@@ -11,11 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -286,8 +284,14 @@ public class NHNCloudRestService {
         HttpEntity<String> request = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+        ResponseEntity<String> exchange = null;
+        try {
+            exchange = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+        } catch (HttpClientErrorException e) {
+            return null;
+        }
         JSONObject serverInfo = new JSONObject(exchange.getBody());
+
         JSONObject server1 = serverInfo.getJSONObject("server");
 
         Server server = new Server();

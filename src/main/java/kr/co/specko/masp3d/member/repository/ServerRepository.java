@@ -26,4 +26,7 @@ public interface ServerRepository extends JpaRepository<Server, Long> {
 
     Server findByServerId(String serverId);
 
+    List<Server> findByCompanyAndNameAndDeleted(Company company, String name, boolean deleted);
+    List<Server> findByDeleted(boolean deleted);
+
 }

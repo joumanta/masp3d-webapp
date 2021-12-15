@@ -1,17 +1,20 @@
 package kr.co.specko.masp3d.common.service;
 
+import kr.co.specko.masp3d.UserService;
 import kr.co.specko.masp3d.member.entity.Billing;
 import kr.co.specko.masp3d.member.entity.BillingRepository;
 import kr.co.specko.masp3d.member.entity.Company;
 import kr.co.specko.masp3d.member.entity.Server;
 import kr.co.specko.masp3d.member.repository.CompanyRepository;
 import kr.co.specko.masp3d.member.repository.ServerRepository;
+import kr.co.specko.masp3d.member.repository.UserServiceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Service
@@ -23,6 +26,7 @@ public class ServerInfoScheduler {
     private final CompanyRepository companyRepository;
     private final NHNCloudRestService restService;
     private final BillingRepository billingRepository;
+    private final UserServiceRepository userServiceRepository;
 
     @Transactional
     @Scheduled(fixedDelay = 1000*60*5)
@@ -72,6 +76,21 @@ public class ServerInfoScheduler {
 
             }
         }));
+
+        serverRepository.findAll().forEach((server) -> {
+            try {
+                Server serverInfo = restService.getServerInfo(server.getCompany().getTenantId(), server.getServerId());
+                if(serverInfo == null) {    //삭제됨
+                    server.setDeleted(true);
+                    serverRepository.save(server);
+                    serverRepository.findByDeleted(true).forEach((userServiceRepository::deleteByServer));
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+
         long end = System.currentTimeMillis();
         System.out.println( "실행 시간 : " + ( end - start )/1000.0 +"초");
     }

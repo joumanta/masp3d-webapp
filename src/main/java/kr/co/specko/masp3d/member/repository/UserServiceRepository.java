@@ -13,4 +13,6 @@ public interface UserServiceRepository extends JpaRepository<UserService, Long> 
 
     List<UserService> findByUser(User user);
     void deleteByUserAndServer(User user, Server server);
+    List<UserService> findByServer(Server server);
+    void deleteByServer(Server server);
 }
