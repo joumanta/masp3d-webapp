@@ -1,10 +1,7 @@
 package kr.co.specko.masp3d.common.service;
 
 import kr.co.specko.masp3d.UserService;
-import kr.co.specko.masp3d.member.entity.Billing;
-import kr.co.specko.masp3d.member.entity.BillingRepository;
-import kr.co.specko.masp3d.member.entity.Company;
-import kr.co.specko.masp3d.member.entity.Server;
+import kr.co.specko.masp3d.member.entity.*;
 import kr.co.specko.masp3d.member.repository.CompanyRepository;
 import kr.co.specko.masp3d.member.repository.ServerRepository;
 import kr.co.specko.masp3d.member.repository.UserServiceRepository;
@@ -29,7 +26,7 @@ public class ServerInfoScheduler {
     private final UserServiceRepository userServiceRepository;
 
     @Transactional
-    @Scheduled(fixedDelay = 1000*60*5)
+    @Scheduled(fixedDelay = 1000*60*1)
     public void run() {
         long start = System.currentTimeMillis();
         List<Company> companyList = companyRepository.findAll();
@@ -39,10 +36,9 @@ public class ServerInfoScheduler {
                 for(Server server : serverList) {
 
                     log.info("{}",server);
-                    Server s = serverRepository.findByServerId(server.getServerId());
+                    Server s = serverRepository.findByServerId(server.getServerId());   // 없는 서버이면 서버타입별로
                     if(s == null) {
                         s = new Server();
-
 
                     }
                     s.setServerId(server.getServerId());
@@ -50,46 +46,28 @@ public class ServerInfoScheduler {
                     s.setIp(server.getIp());
                     s.setCompany(company);
                     s.setStartDate(server.getStartDate());
-                    if(!server.getStatus().equals("ACTIVE")) {
-                        s.setEndDate(server.getEndDate());
-                    } else {
-                        s.setEndDate(null);
-                    }
+                    s.setEndDate(server.getEndDate());
                     s.setName(server.getName());
                     s.setType(server.getType());
                     serverRepository.save(s);
 
-                    Billing billing = billingRepository.findByServerId(server.getServerId());
-                    if(billing != null) {
-                        billing.setStatus(s.getStatus());
-                        if(!s.getStatus().equals("ACTIVE")) {
-                            billing.setEndDate(s.getEndDate());
-                        } else {
-                            billing.setEndDate(null);
+                    List<UserService> userServiceList = userServiceRepository.findAll();
+                    for(UserService userService : userServiceList) {
+                        if (userService.getServer().getName().equals(server.getName())) {
+                            if(userServiceRepository.findByServer(s) == null) {
+                                UserService newUserService = new UserService();
+                                newUserService.setUser(userService.getUser());
+                                newUserService.setServer(s);
+                                userServiceRepository.save(newUserService);
+                            }
                         }
-                        billingRepository.save(billing);
                     }
-
                 }
 
             }catch (Exception e){
 
             }
         }));
-
-        serverRepository.findAll().forEach((server) -> {
-            try {
-                Server serverInfo = restService.getServerInfo(server.getCompany().getTenantId(), server.getServerId());
-                if(serverInfo == null) {    //삭제됨
-                    server.setDeleted(true);
-                    serverRepository.save(server);
-                    serverRepository.findByDeleted(true).forEach((userServiceRepository::deleteByServer));
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        });
 
         long end = System.currentTimeMillis();
         System.out.println( "실행 시간 : " + ( end - start )/1000.0 +"초");

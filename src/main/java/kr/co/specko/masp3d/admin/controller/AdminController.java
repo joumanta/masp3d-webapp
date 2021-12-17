@@ -333,6 +333,9 @@ public class AdminController {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         Page<Billing> groupByCompany = billingRepository.findByBaseDateAndPriceGreaterThan(sdf.format(searchDate),0, pageable);
+        for(Billing billing : groupByCompany.getContent()) {
+            billing.setUsageHour((int) Math.ceil(billing.getUsageTime()));
+        }
 
         model.addAttribute("page", pageable.getPageNumber()+1);
         model.addAttribute("maxPage", 5);

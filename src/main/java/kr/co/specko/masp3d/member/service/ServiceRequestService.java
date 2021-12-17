@@ -47,13 +47,12 @@ public class ServiceRequestService {
                 break;
         }
 
-        List<Server> serverList = serverRepository.findByCompanyAndName(user.getCompany(), serviceRequest.getServiceType());
+        List<Server> serverList = serverRepository.findByCompanyAndNameAndDeleted(user.getCompany(), serviceRequest.getServiceType(),false);
         for(Server server : serverList) {
             UserService userService = new UserService();
             userService.setUser(user);
             userService.setServer(server);
             userServiceRepository.save(userService);
-
         }
         serviceRequest.setStatus(RequestStatus.PERMITTED);
         requestRepository.save(serviceRequest);
@@ -79,7 +78,7 @@ public class ServiceRequestService {
         for(Server server : servers) {
             userServiceRepository.deleteByUserAndServer(user, server);
         }
-        serviceRequest.setStatus(RequestStatus.READY);
-        requestRepository.save(serviceRequest);
+        //serviceRequest.setStatus(RequestStatus.READY);
+        requestRepository.delete(serviceRequest);
     }
 }

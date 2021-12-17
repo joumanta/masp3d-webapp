@@ -464,6 +464,9 @@ public class MemberController {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         Page<Billing> list = billingRepository.findByBaseDateAndCompanyIdAndPriceGreaterThan(sdf.format(searchDate), user.getCompany().getId(),0,pageable);
+        for(Billing billing : list.getContent()) {
+            billing.setUsageHour((int) Math.ceil(billing.getUsageTime()));
+        }
         long total = 0;
         for(Billing billing : list) {
             total += billing.getPrice();

@@ -300,11 +300,14 @@ public class NHNCloudRestService {
         String createdDate = convertUTC(server1.getString("created"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String updatedDate = convertUTC(server1.getString("updated"));
+
         if(server1.getString("status").equals("ACTIVE")) {
             server.setStartDate(sdf.parse(updatedDate));
+            server.setEndDate(null);
         }
 
         if(server1.getString("status").equals("SHUTOFF")) {
+            server.setStartDate(sdf.parse(createdDate));
             server.setEndDate(sdf.parse(updatedDate));
         }
         return server;

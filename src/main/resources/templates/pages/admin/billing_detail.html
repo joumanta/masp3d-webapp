@@ -58,7 +58,7 @@
                                 <td th:text="${item.type}">8vCPU * 32GB</td>
                                 <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}">2021. 08. 15.</td>
                                 <td th:text="${#dates.format(item.endDate,'yyyy. MM. dd')}">2021. 09. 10.</td>
-                                <td th:text="${item.usageTime}+'시간'">150시간</td>
+                                <td th:text="${item.usageHour}+'시간'">150시간</td>
                                 <td class="td_charge" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}">3,082,430원</td>
                                 <td th:text="${item.status == 'ACTIVE' ? '이용중' : '정지'}">정지</td>
                             </tr>
@@ -70,9 +70,9 @@
                     </div><!-- //cont_table_wrap -->
                     <div class="cont_pagination">
                         <div th:if="${list.totalElements != 0}" class="pagination_inner" th:with="start=${(list.number/maxPage)*maxPage + 1}, end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-                            <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/admin/billing_detail(page=${list.number})}">Prev</a>
-                            <a href="#1" th:href="@{/admin/billing_detail(page=${page})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
-                            <a href="#next" th:href="@{/admin/billing_detail(page=${list.number+2})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
+                            <a href="#prev" class="page_btn prev" th:classappend="${page eq 1}?'disabled':''" th:href="@{/admin/billing_detail(page=${list.number},searchDate=${#dates.format(searchDate,'yyyyMM')})}">Prev</a>
+                            <a href="#1" th:href="@{/admin/billing_detail(page=${page},searchDate=${#dates.format(searchDate,'yyyyMM')})}" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number eq page-1}?'current':''" class="page_num">[[${page}]]</a>
+                            <a href="#next" th:href="@{/admin/billing_detail(page=${list.number+2},searchDate=${#dates.format(searchDate,'yyyyMM')})}" th:classappend="${page eq list.totalPages}?'disabled':''" class="page_btn next" th:text="${list.number} + ${list.totalPages}">Next</a>
                         </div>
                             <div class="cont_btns">
                                 <form th:action="@{/admin/billing}">

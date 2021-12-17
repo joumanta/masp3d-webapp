@@ -59,7 +59,7 @@
                                 <td th:text="${item.serverName}">Basic</td>
                                 <td th:text="${#dates.format(item.startDate,'yyyy. MM. dd')}">2021. 08. 15.</td>
                                 <td th:text="${#dates.format(item.endDate,'yyyy. MM. dd')}"></td>
-                                <td th:text="${item.usageTime} + '시간'">0시간</td>
+                                <td th:text="${item.usageHour} + '시간'">0시간</td>
                                 <td class="td_charge" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}">0원</td>
                                 <!--<td><button type="button" class="header_util_btn_report">리포트</button></td>-->
                             </tr>

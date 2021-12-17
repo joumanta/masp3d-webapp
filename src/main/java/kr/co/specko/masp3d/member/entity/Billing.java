@@ -35,9 +35,13 @@ public class Billing {
 
     private int price;
 
-    private int usageTime;
+    private float usageTime;
+
+    @Transient
+    private int usageHour;
 
     private String serverId;
+
 
     @ManyToOne
     private Company company;
