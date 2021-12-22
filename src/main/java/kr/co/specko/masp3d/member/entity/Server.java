@@ -39,6 +39,7 @@ public class Server {
     private Date endDate;
     private String rdpUrl;
     private boolean deleted = Boolean.FALSE;
+    private String imageId;
 
 
     @ManyToOne(fetch = FetchType.EAGER)

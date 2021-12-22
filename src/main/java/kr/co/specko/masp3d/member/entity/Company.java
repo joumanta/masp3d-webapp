@@ -55,6 +55,7 @@ public class Company {
     private String file5;
 
     private String tenantId;
+    private String projectId;
     private String token;
     private LocalDateTime tokenExpireTime;
     private String password;

@@ -10,7 +10,7 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+#    show-sql: true
   servlet:
     multipart:
       max-file-size: 50MB
@@ -25,7 +25,8 @@ upload:
 
 logging:
   level:
-    org.hibernate.type.descriptor.sql: trace
+    kr.co.specko.masp3d: warn
+#    org.hibernate.type.descriptor.sql: trace
 
 AbstractUserDetailsAuthenticationProvider.:
   badCredentials: '아이디 또는 비밀번호를 확인해주세요.'

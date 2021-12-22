@@ -80,8 +80,6 @@ public class NHNCloudRestService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
 
-        System.out.println(result.getStatusCode());
-        System.out.println("토큰"+result.getBody());
 
         JSONObject jsonObject = new JSONObject(result.getBody());
 
@@ -93,6 +91,42 @@ public class NHNCloudRestService {
 
         log.info("토큰 {}", token);
         return token;
+    }
+
+    public String getProjectId(String tenantId, String password) throws JSONException {
+
+        log.info("토큰 발급시작");
+        URI uri = UriComponentsBuilder.fromUriString("https://api-identity.infrastructure.cloud.toast.com")
+                .path("/v2.0/tokens").encode().build().toUri();
+
+        JSONObject passwordCredentials = new JSONObject();
+        passwordCredentials.put("username",username);
+        passwordCredentials.put("password", password);
+
+        JSONObject auth = new JSONObject();
+        auth.put("tenantId", tenantId);
+        auth.put("passwordCredentials", passwordCredentials);
+
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("auth", auth);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        HttpEntity<String> request = new HttpEntity<>(requestObject.toString(), headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+
+
+        JSONObject jsonObject = new JSONObject(result.getBody());
+
+        String projectId = jsonObject
+                .getJSONObject("access")
+                .getJSONObject("token")
+                .getJSONObject("tenant")
+                .getString("name").split("_")[1];
+
+        return projectId;
     }
 
     //해당 테넌트의 상품별 인스턴스를 조회한다.
@@ -143,6 +177,7 @@ public class NHNCloudRestService {
             int vcpu = flavor.getInt("vcpus");
             int ram = flavor.getInt("ram");
             String imageName = obj.getJSONObject("metadata").getString("image_name");
+            String imageId = obj.getJSONObject("image").getString("id");
 
             String serviceType = "";
 
@@ -162,6 +197,7 @@ public class NHNCloudRestService {
             }
             if(imageName.equals("CAE-Basic-img") || imageName.equals("CAE-Spe-img") || imageName.equals("CAE-Pro-img") || imageName.equals("CAE-ez-img")) {
                 server.setName(serviceType);
+                server.setImageId(imageId);
                 server.setCompany(company);
                 server.setType(vcpu + "vCPU * " + (ram / 1024) + "GB");
                 server.setStatus(status);
@@ -349,7 +385,6 @@ public class NHNCloudRestService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
 
-        System.out.println(result.getStatusCode());
 
     }
 }

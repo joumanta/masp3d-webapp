@@ -18,4 +18,7 @@ public class UserService {
     private User user;
     @ManyToOne
     private Server server;
+
+    @Transient
+    private boolean isReport;
 }

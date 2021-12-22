@@ -32,6 +32,8 @@ public class ServerInfoScheduler {
         List<Company> companyList = companyRepository.findAll();
         companyList.forEach((company -> {
             try {
+                company.setProjectId(restService.getProjectId(company.getTenantId(), "!$VMtech1!"));
+                companyRepository.save(company);
                 List<Server> serverList = restService.getServerList(company.getTenantId(), company);
                 for(Server server : serverList) {
 
@@ -49,6 +51,7 @@ public class ServerInfoScheduler {
                     s.setEndDate(server.getEndDate());
                     s.setName(server.getName());
                     s.setType(server.getType());
+                    s.setImageId(server.getImageId());
                     serverRepository.save(s);
 
                     List<UserService> userServiceList = userServiceRepository.findAll();
@@ -70,6 +73,5 @@ public class ServerInfoScheduler {
         }));
 
         long end = System.currentTimeMillis();
-        System.out.println( "실행 시간 : " + ( end - start )/1000.0 +"초");
     }
 }

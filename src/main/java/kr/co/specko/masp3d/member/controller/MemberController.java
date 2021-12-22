@@ -190,10 +190,31 @@ public class MemberController {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get()-1 : 0, 10,Sort.by("id").descending());
         User user = (User) authentication.getPrincipal();
         List<UserService> userServiceList = userServiceRepository.findByUser(user);
+        userServiceList.forEach((service) -> {
+        File f = new File("/data/maps3d/Anal_Log/" + service.getServer().getIp() + ".txt");
+            service.setReport(f.exists());
+        });
         model.addAttribute("serverList", userServiceList);
         Page<ServiceRequest> requestList = serviceRequestRepository.findByCompany(user.getCompany(), pageable);
         model.addAttribute("requestList", requestList);
         return "pages/member/servicelist";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PostMapping("/downloadReport")
+    public void downloadReport(@RequestParam(name = "serverId") Long id, HttpServletResponse response) throws IOException {
+
+        Server byServerId = serverRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        String fileName = "/data/maps3d/Anal_Log/" + byServerId.getIp() + ".txt";
+        byte[] fileByte = FileUtils.readFileToByteArray(new File(fileName));
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(byServerId.getIp() + ".txt", "UTF-8")+"\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        response.getOutputStream().write(fileByte);
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
 
     @PostMapping("/service_permit")

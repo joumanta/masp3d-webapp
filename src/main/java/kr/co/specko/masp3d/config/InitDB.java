@@ -28,7 +28,6 @@ public class InitDB {
 
 //        Company byId = companyRepository.findById(12L).orElseThrow(IllegalAccessError::new);
         String encode = passwordEncoder.encode("qwer1234%");
-        System.out.println("");
 
        /* User user = User.builder()
                     .email("joumanta@gmail.com")

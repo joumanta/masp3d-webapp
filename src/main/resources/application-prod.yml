@@ -24,7 +24,9 @@ spring:
 upload:
   dir: /home/centos/upload/
 
-
+logging:
+  level:
+    kr.co.specko.masp3d: warn
 nhn:
   username: bgpyo@naver.com
 
